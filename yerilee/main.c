@@ -6,21 +6,15 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/11 20:58:10 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/12 16:46:14 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_only_whitespace(char *line)
+void	parse(char *s)
 {
-	while (*line)
-	{
-		if (*line != 32 && !(*line >= 9 && *line <= 13))
-			return (0);
-		line++;
-	}
-	return (1);
+
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -32,12 +26,11 @@ int	main(int argc, char *argv[], char *envp[])
 		line = readline("minishell $ ");
 		if (!line)
 			break ;
-		printf("flag : %d\n", is_only_whitespace(line));
 		if (*line != '\0')
-			add_history(line);
-		if (*line != '\0' && !is_whitespace(line))
 		{
-			// 실행 부분
+			add_history(line);
+			// 사용자 입력 처리하기 - parsing
+			parse(line);
 		}
 		free(line);
 	}
