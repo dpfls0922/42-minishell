@@ -21,6 +21,19 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+/* cmdline[0] = "echo", cmdline[1] = "hi", cmdline[2] = NULL */
+typedef struct s_cmd {
+	char	*cmdline;
+	int		pipe_flag;
+	char	quote;
+}	t_cmd;
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+
 char	*readline(const char *prompt);
 
 #endif
