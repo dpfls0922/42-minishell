@@ -3,7 +3,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = minishell.c
+SRCS = main.c
 
 OBJS = $(SRCS:.c=.o)
 
