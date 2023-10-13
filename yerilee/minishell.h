@@ -21,19 +21,49 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-/* cmdline[0] = "echo", cmdline[1] = "hi", cmdline[2] = NULL */
-typedef struct s_cmd {
-	char	*cmdline;
-	int		pipe_flag;
-	char	quote;
+# define WORD 1
+# define PIPE 2
+# define AMPERSAND 3
+# define SEMICOLON 4
+# define REDIRECTION 5
+# define PARENTHESIS 6
+
+typedef struct s_lexer
+{
+	char			*val;
+	int				type;
+	struct s_lexer	*next;
+	struct s_lexer	*prev;
+}	t_lexer;
+
+typedef struct s_cmd
+{
+	char			**cmd;
+	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }	t_cmd;
 
-typedef struct s_list
+typedef struct s_data
 {
-	void			*content;
-	struct s_list	*next;
-}	t_list;
+	int		ac;
+	char	**av;
+	char	**env;
+	char	**paths;
+	char	*cmd;
+	t_lexer	*lexer_list;
+}	t_data;
+
+size_t	ft_strlen(const char *s);
+size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
+char	*ft_strtrim(char *s1, char *set);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 
 char	*readline(const char *prompt);
+
+int		is_space(char c);	
+void	lexer(t_data *data);
+
+int		init_data(t_data *data, int argc, char **env);
+int		minishell(t_data *data);
 
 #endif
