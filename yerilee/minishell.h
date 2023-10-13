@@ -23,7 +23,7 @@
 
 /* cmdline[0] = "echo", cmdline[1] = "hi", cmdline[2] = NULL */
 typedef struct s_cmd {
-	char	*cmdline;
+	char	**cmdline;
 	int		pipe_flag;
 	char	quote;
 }	t_cmd;
