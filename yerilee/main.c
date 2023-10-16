@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/13 21:55:14 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/16 17:25:59 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	add_ampersand(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = ft_add_lexer_back(data->lexer_list, token, AMPERSAND);
+	data->lexer_list = add_token_in_lexer(data->lexer_list, token, AMPERSAND);
 	free(token);
 	token = NULL;
 	return (i);
@@ -190,7 +190,7 @@ int	add_parenthesis(t_data *data, int i)
 int	ft_word_len(char *cmd, int i)
 {
 	int		len;
-	char	*quote;
+	char	quote;
 
 	len = 0;
 	while (cmd[i] && is_word(cmd[i]))
@@ -202,8 +202,8 @@ int	ft_word_len(char *cmd, int i)
 			len++;
 			while (cmd[i] && cmd[i] != quote)
 			{
-					i++;
-					len++;
+				i++;
+				len++;
 			}
 		}
 		i++;
@@ -272,7 +272,8 @@ int	minishell(t_data *data)
 		else if (data->cmd && data->cmd[0] != '\0')
 		{
 			lexer(data);
-			// sysntax analyzer
+			// syntax analyzer
+			// check_syntax(data);
 			// parser
 			// execution
 		}
