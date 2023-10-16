@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 20:14:24 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/13 20:22:42 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/16 16:03:12 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	unsigned int	i;
-	int				end;
+	unsigned int	end;
 	char			*ptr;
 
 	i = 0;
