@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/16 17:25:59 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/16 19:38:59 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,12 +252,100 @@ void	lexer(t_data *data)
 	free(data->cmd);
 }
 
+int	check_closed_quote(int double_flag, int single_flag)
+{
+	if (double_flag)
+	{
+		printf ("Unclosed double quote.\n");
+		return (1);
+	}
+	if (single_flag)
+	{
+		printf ("Unclosed single quote.\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_quotes(t_lexer *lexer)
+{
+	t_lexer	*curr;
+	int		i;
+	int		double_flag;
+	int		single_flag;
+
+	curr = lexer;
+	double_flag = 0;
+	single_flag = 0;
+	while (curr)
+	{
+		if (curr->type == WORD)
+		{
+			i = 0;
+			while (curr->val[i])
+			{
+				if (curr->val[i] == '\"' && (single_flag == 0))
+					double_flag = !double_flag;
+				if (curr->val[i] == '\'' && (single_flag == 0))
+					single_flag = !single_flag;
+				i++;
+			}
+		}
+		curr = curr->next;
+	}
+	return (check_closed_quote(double_flag, single_flag));
+}
+
+int	check_pipe(t_lexer *lexer)
+{
+		t_lexer	*curr;
+	int		i;
+
+	curr = lexer;
+	while (curr)
+	{
+		if (curr->type == PIPE)
+		{
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
+
+int	check_parenthesis(t_lexer *lexer)
+{
+
+}
+
+int	check_syntax(t_lexer *lexer)
+{
+	if (!lexer)
+		return (1);
+	if (check_quotes(lexer) || check_pipe(lexer) || check_parenthesis(lexer))
+		return (1);
+}
+
 int	init_data(t_data *data, int argc, char **env)
 {
 	data->ac = argc;
 	if (env && env[0])
 		data->env = env;
 	return (1);
+}
+
+void	ft_free_lexer(t_lexer *lexer)
+{
+	t_lexer	*curr;
+	t_lexer	*next;
+
+	curr = lexer;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->val);
+		free(curr);
+		curr = next;
+	}
 }
 
 int	minishell(t_data *data)
@@ -272,11 +360,15 @@ int	minishell(t_data *data)
 		else if (data->cmd && data->cmd[0] != '\0')
 		{
 			lexer(data);
-			// syntax analyzer
-			// check_syntax(data);
+			if (check_syntax(data->lexer_list))
+			{
+				ft_free_lexer(data->lexer_list);
+				continue ;
+			}
 			// parser
 			// execution
 		}
+		rl_clear_history();
 	}
 	return (0);
 }
