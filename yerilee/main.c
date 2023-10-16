@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/13 21:55:14 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/16 19:38:59 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	add_ampersand(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = ft_add_lexer_back(data->lexer_list, token, AMPERSAND);
+	data->lexer_list = add_token_in_lexer(data->lexer_list, token, AMPERSAND);
 	free(token);
 	token = NULL;
 	return (i);
@@ -190,7 +190,7 @@ int	add_parenthesis(t_data *data, int i)
 int	ft_word_len(char *cmd, int i)
 {
 	int		len;
-	char	*quote;
+	char	quote;
 
 	len = 0;
 	while (cmd[i] && is_word(cmd[i]))
@@ -202,8 +202,8 @@ int	ft_word_len(char *cmd, int i)
 			len++;
 			while (cmd[i] && cmd[i] != quote)
 			{
-					i++;
-					len++;
+				i++;
+				len++;
 			}
 		}
 		i++;
@@ -252,12 +252,100 @@ void	lexer(t_data *data)
 	free(data->cmd);
 }
 
+int	check_closed_quote(int double_flag, int single_flag)
+{
+	if (double_flag)
+	{
+		printf ("Unclosed double quote.\n");
+		return (1);
+	}
+	if (single_flag)
+	{
+		printf ("Unclosed single quote.\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_quotes(t_lexer *lexer)
+{
+	t_lexer	*curr;
+	int		i;
+	int		double_flag;
+	int		single_flag;
+
+	curr = lexer;
+	double_flag = 0;
+	single_flag = 0;
+	while (curr)
+	{
+		if (curr->type == WORD)
+		{
+			i = 0;
+			while (curr->val[i])
+			{
+				if (curr->val[i] == '\"' && (single_flag == 0))
+					double_flag = !double_flag;
+				if (curr->val[i] == '\'' && (single_flag == 0))
+					single_flag = !single_flag;
+				i++;
+			}
+		}
+		curr = curr->next;
+	}
+	return (check_closed_quote(double_flag, single_flag));
+}
+
+int	check_pipe(t_lexer *lexer)
+{
+		t_lexer	*curr;
+	int		i;
+
+	curr = lexer;
+	while (curr)
+	{
+		if (curr->type == PIPE)
+		{
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
+
+int	check_parenthesis(t_lexer *lexer)
+{
+
+}
+
+int	check_syntax(t_lexer *lexer)
+{
+	if (!lexer)
+		return (1);
+	if (check_quotes(lexer) || check_pipe(lexer) || check_parenthesis(lexer))
+		return (1);
+}
+
 int	init_data(t_data *data, int argc, char **env)
 {
 	data->ac = argc;
 	if (env && env[0])
 		data->env = env;
 	return (1);
+}
+
+void	ft_free_lexer(t_lexer *lexer)
+{
+	t_lexer	*curr;
+	t_lexer	*next;
+
+	curr = lexer;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->val);
+		free(curr);
+		curr = next;
+	}
 }
 
 int	minishell(t_data *data)
@@ -272,10 +360,15 @@ int	minishell(t_data *data)
 		else if (data->cmd && data->cmd[0] != '\0')
 		{
 			lexer(data);
-			// sysntax analyzer
+			if (check_syntax(data->lexer_list))
+			{
+				ft_free_lexer(data->lexer_list);
+				continue ;
+			}
 			// parser
 			// execution
 		}
+		rl_clear_history();
 	}
 	return (0);
 }
