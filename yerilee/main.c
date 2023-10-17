@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/17 21:56:38 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/17 22:05:15 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ int	check_token_start(t_lexer *lexer)
 
 	curr = lexer;
 	if (curr->type == AMPERSAND || curr->type == PARENTHESIS
-		|| curr->type == PIPE || curr->type == SEMICOLON)
+		|| curr->type == SEMICOLON)
 	{
 		c = curr->val[0];
 		printf("Syntax error near unexpected token `%c'\n", c);
