@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/16 19:38:59 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:56:38 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,23 +245,34 @@ void	lexer(t_data *data)
 			i = add_redirection(data, i);
 		if (is_parenthesis(data->cmd[i]))
 			i = add_parenthesis(data, i);
-		if (data->cmd[i] != '|' && data->cmd[i] != '&'
-			&& !is_redirection(data->cmd[i]))
+		if (data->cmd[i] && data->cmd[i] != '|' && data->cmd[i] != '&'
+			&& !is_space(data->cmd[i]) && !is_redirection(data->cmd[i]))
 			i = add_word(data, i);
 	}
 	free(data->cmd);
 }
 
-int	check_closed_quote(int double_flag, int single_flag)
+int	check_token_start(t_lexer *lexer)
 {
-	if (double_flag)
+	char	c;
+	t_lexer	*curr;
+
+	curr = lexer;
+	if (curr->type == AMPERSAND || curr->type == PARENTHESIS
+		|| curr->type == PIPE || curr->type == SEMICOLON)
 	{
-		printf ("Unclosed double quote.\n");
+		c = curr->val[0];
+		printf("Syntax error near unexpected token `%c'\n", c);
 		return (1);
 	}
-	if (single_flag)
+	return (0);
+}
+
+int	check_closed_quote(int double_flag, int single_flag)
+{
+	if (double_flag || single_flag)
 	{
-		printf ("Unclosed single quote.\n");
+		printf ("syntax error: unclosed quotation mark.\n");
 		return (1);
 	}
 	return (0);
@@ -296,41 +307,163 @@ int	check_quotes(t_lexer *lexer)
 	return (check_closed_quote(double_flag, single_flag));
 }
 
-int	check_pipe(t_lexer *lexer)
+int	check_pipe_start_end(t_lexer *lexer)
 {
-		t_lexer	*curr;
-	int		i;
+	int		flag;
+	t_lexer	*curr;
+
+	flag = 0;
+	curr = lexer;
+	if (curr->type == PIPE)
+		flag = 1;
+	while (curr->next)
+		curr = curr->next;
+	if (curr->type == PIPE)
+		flag = 1;
+	if (flag == 1)
+	{
+		printf("syntax error: near unexpected token `|'.\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_pipe_len(t_lexer *lexer)
+{
+	t_lexer	*curr;
 
 	curr = lexer;
 	while (curr)
 	{
-		if (curr->type == PIPE)
+		if (curr->type == PIPE && ft_strlen(curr->val) > 1)
 		{
+			printf("syntax error near unexpected token `|'.\n");
+			return (1);
 		}
 		curr = curr->next;
 	}
 	return (0);
 }
 
-int	check_parenthesis(t_lexer *lexer)
+int	check_command_between_pipes(t_lexer *lexer)
 {
+	t_lexer	*curr;
+	int		cmd_num;
 
+	curr = lexer;
+	while (curr)
+	{
+		cmd_num = 0;
+		if (curr->type == PIPE)
+		{
+			curr = curr->next;
+			while (curr && curr->type != PIPE)
+			{
+				cmd_num++;
+				curr = curr->next;
+			}
+			if (cmd_num == 0 && curr->type == PIPE)
+			{
+				printf("syntax error: near unexpected token `|'.\n");
+				return (1);
+			}
+		}
+		if (curr && curr->type != PIPE)
+			curr = curr->next;
+	}
+	return (0);
+}
+
+int	check_pipe(t_lexer *lexer)
+{
+	if (check_pipe_start_end(lexer) || check_pipe_len(lexer)
+		|| check_command_between_pipes(lexer))
+		return (1);
+	return (0);
+}
+
+int	check_redirection_end(t_lexer *lexer)
+{
+	t_lexer	*curr;
+
+	curr = lexer;
+	while (curr->next)
+		curr = curr->next;
+	if (curr->type == REDIRECTION)
+	{
+		printf("syntax error near unexpected token `newline'\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_redirection_len(t_lexer *lexer)
+{
+	t_lexer	*curr;
+
+	curr = lexer;
+	while (curr)
+	{
+		if (curr->type == REDIRECTION && ft_strlen(curr->val) > 2)
+		{
+			printf("syntax error near unexpected token `%s'\n", curr->val);
+			return (1);
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
+
+int	check_command_after_redirection(t_lexer *lexer)
+{
+	t_lexer	*curr;
+
+	curr = lexer;
+	while (curr)
+	{
+		if (curr->type == REDIRECTION)
+		{
+			curr = curr->next;
+			if (curr->next && (curr->type == PIPE || curr->type == REDIRECTION))
+			{
+				printf("syntax error near unexpected token `%s'\n", curr->val);
+				return (1);
+			}
+		}
+		curr = curr->next;
+	}
+	return (0);
+}
+
+int	check_redirection(t_lexer *lexer)
+{
+	if (check_redirection_end(lexer) || check_redirection_len(lexer)
+		|| check_command_after_redirection(lexer))
+		return (1);
+	return (0);
 }
 
 int	check_syntax(t_lexer *lexer)
 {
 	if (!lexer)
 		return (1);
-	if (check_quotes(lexer) || check_pipe(lexer) || check_parenthesis(lexer))
+	if (check_token_start(lexer) || check_quotes(lexer) || check_pipe(lexer)
+		|| check_redirection(lexer))
 		return (1);
+	return (0);
 }
 
-int	init_data(t_data *data, int argc, char **env)
+int	init_data1(t_data *data, int argc, char **env)
 {
 	data->ac = argc;
 	if (env && env[0])
 		data->env = env;
 	return (1);
+}
+
+void	init_data2(t_data *data)
+{
+	data->lexer_list = NULL;
 }
 
 void	ft_free_lexer(t_lexer *lexer)
@@ -352,6 +485,7 @@ int	minishell(t_data *data)
 {
 	while (1)
 	{
+		init_data2(data);
 		data->cmd = readline("minishell $ ");
 		if (!data->cmd)
 			break ;
@@ -378,7 +512,7 @@ int	main(int argc, char **argv, char **env)
 	t_data	data;
 
 	(void)argv;
-	if (!init_data(&data, argc, env))
+	if (!init_data1(&data, argc, env))
 		exit(1);
 	if (!minishell(&data))
 		return (0);
