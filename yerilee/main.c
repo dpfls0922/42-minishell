@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/18 16:32:08 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/18 16:32:35 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,7 +295,7 @@ int	check_quotes(t_lexer *lexer)
 			{
 				if (curr->val[i] == '\"' && (single_flag == 0))
 					double_flag = !double_flag;
-				if (curr->val[i] == '\'' && (single_flag == 0))
+				if (curr->val[i] == '\'' && (double_flag == 0))
 					single_flag = !single_flag;
 				i++;
 			}
