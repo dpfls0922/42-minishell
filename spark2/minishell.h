@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/11 21:02:18 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/18 18:47:37 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 
 # include "./libft/libft.h"
 
-void	check_builtins(char *line, char **envp);
+void	check_builtins(char **line, char **envp);
 
 #endif
