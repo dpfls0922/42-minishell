@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/18 16:32:35 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:10:30 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,18 +307,17 @@ int	check_quotes(t_lexer *lexer)
 
 int	check_pipe_start_end(t_lexer *lexer)
 {
-	int		flag;
 	t_lexer	*curr;
 
-	flag = 0;
 	curr = lexer;
 	if (curr->type == PIPE)
-		flag = 1;
+	{
+		printf("syntax error: near unexpected token `|'.\n");
+		return (1);
+	}
 	while (curr->next)
 		curr = curr->next;
 	if (curr->type == PIPE)
-		flag = 1;
-	if (flag == 1)
 	{
 		printf("syntax error: near unexpected token `|'.\n");
 		return (1);
