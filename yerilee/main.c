@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/17 22:05:15 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:10:30 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ t_lexer	*new_lexer_node(char *token, int type)
 	t_lexer	*node;
 	int		i;
 
-	if (!token)
-		return (NULL);
 	node = malloc(sizeof(t_lexer));
 	if (!node)
 		exit(1);
@@ -67,7 +65,7 @@ t_lexer	*new_lexer_node(char *token, int type)
 	return (node);
 }
 
-t_lexer	*add_token_in_lexer(t_lexer *lexer, char *token, int type)
+t_lexer	*add_token_to_lexer(t_lexer *lexer, char *token, int type)
 {
 	t_lexer	*node;
 	t_lexer	*curr;
@@ -101,7 +99,7 @@ int	add_pipe(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = add_token_in_lexer(data->lexer_list, token, PIPE);
+	data->lexer_list = add_token_to_lexer(data->lexer_list, token, PIPE);
 	free(token);
 	token = NULL;
 	return (i);
@@ -121,7 +119,7 @@ int	add_ampersand(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = add_token_in_lexer(data->lexer_list, token, AMPERSAND);
+	data->lexer_list = add_token_to_lexer(data->lexer_list, token, AMPERSAND);
 	free(token);
 	token = NULL;
 	return (i);
@@ -141,7 +139,7 @@ int	add_semicolon(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = add_token_in_lexer(data->lexer_list, token, SEMICOLON);
+	data->lexer_list = add_token_to_lexer(data->lexer_list, token, SEMICOLON);
 	free(token);
 	token = NULL;
 	return (i);
@@ -161,7 +159,7 @@ int	add_redirection(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = add_token_in_lexer(data->lexer_list, token, REDIRECTION);
+	data->lexer_list = add_token_to_lexer(data->lexer_list, token, REDIRECTION);
 	free(token);
 	token = NULL;
 	return (i);
@@ -181,7 +179,7 @@ int	add_parenthesis(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
-	data->lexer_list = add_token_in_lexer(data->lexer_list, token, PARENTHESIS);
+	data->lexer_list = add_token_to_lexer(data->lexer_list, token, PARENTHESIS);
 	free(token);
 	token = NULL;
 	return (i);
@@ -218,7 +216,7 @@ int	add_word(t_data *data, int i)
 
 	token = ft_substr(data->cmd, i, ft_word_len(data->cmd, i));
 	i += ft_word_len(data->cmd, i);
-	data->lexer_list = add_token_in_lexer(data->lexer_list, token, WORD);
+	data->lexer_list = add_token_to_lexer(data->lexer_list, token, WORD);
 	free(token);
 	token = NULL;
 	return (i);
@@ -297,7 +295,7 @@ int	check_quotes(t_lexer *lexer)
 			{
 				if (curr->val[i] == '\"' && (single_flag == 0))
 					double_flag = !double_flag;
-				if (curr->val[i] == '\'' && (single_flag == 0))
+				if (curr->val[i] == '\'' && (double_flag == 0))
 					single_flag = !single_flag;
 				i++;
 			}
@@ -309,18 +307,17 @@ int	check_quotes(t_lexer *lexer)
 
 int	check_pipe_start_end(t_lexer *lexer)
 {
-	int		flag;
 	t_lexer	*curr;
 
-	flag = 0;
 	curr = lexer;
 	if (curr->type == PIPE)
-		flag = 1;
+	{
+		printf("syntax error: near unexpected token `|'.\n");
+		return (1);
+	}
 	while (curr->next)
 		curr = curr->next;
 	if (curr->type == PIPE)
-		flag = 1;
-	if (flag == 1)
 	{
 		printf("syntax error: near unexpected token `|'.\n");
 		return (1);
@@ -479,6 +476,8 @@ void	ft_free_lexer(t_lexer *lexer)
 		free(curr);
 		curr = next;
 	}
+	// curr = NULL;
+	// next = NULL;
 }
 
 int	minishell(t_data *data)
