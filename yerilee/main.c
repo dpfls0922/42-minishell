@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/18 17:10:30 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/18 21:34:46 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int	add_word(t_data *data, int i)
 
 void	lexer(t_data *data)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	data->cmd = ft_strtrim(data->cmd, " ");
@@ -450,6 +450,61 @@ int	check_syntax(t_lexer *lexer)
 	return (0);
 }
 
+int	is_alnum(int c)
+{
+	if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		|| ((c >= '0') && (c <= '9')))
+		return (1);
+	else
+		return (0);
+}
+
+int	is_valid_variable_name(char c)
+{
+	if (!(is_alnum(c) || c == '_'))
+		return (0);
+	return (1);
+}
+
+int	has_variable(char *value)
+{
+	int		i;
+	int		double_flag;
+	int		single_flag;
+
+	i = 0;
+	double_flag = 0;
+	single_flag = 0;
+	while (value[i])
+	{
+		if (value[i] == '\"' && single_flag == 0)
+			double_flag = !double_flag;
+		if (value[i] == '\'' && double_flag == 0)
+			single_flag = !single_flag;
+		if (single_flag == 0 && value[i] == '$'
+			&& is_valid_variable_name(value[i + 1]))
+			return (1);
+		// is_valid_variable_name(value[i + 1] 조건문 수정해야함
+		// $문자로 시작하는 하나의 단어를 env로 간주하고 이에 대한 유효성 체크하기
+		i++;
+	}
+	return (0);
+}
+
+void	expanding(t_data *data)
+{
+	t_lexer	*curr;
+
+	curr = data->lexer_list;
+	while (curr)
+	{
+		if (curr->type == WORD && has_variable(curr->val))
+			printf("OK\n");
+			// real_expanding
+		curr = curr->next;
+	}
+}
+
 int	init_data1(t_data *data, int argc, char **env)
 {
 	data->ac = argc;
@@ -476,8 +531,8 @@ void	ft_free_lexer(t_lexer *lexer)
 		free(curr);
 		curr = next;
 	}
-	// curr = NULL;
-	// next = NULL;
+	curr = NULL;
+	next = NULL;
 }
 
 int	minishell(t_data *data)
@@ -498,6 +553,7 @@ int	minishell(t_data *data)
 				ft_free_lexer(data->lexer_list);
 				continue ;
 			}
+			// expanding
 			// parser
 			// execution
 		}
