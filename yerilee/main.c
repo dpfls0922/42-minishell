@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/18 21:34:46 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/19 22:29:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -459,11 +459,27 @@ int	is_alnum(int c)
 		return (0);
 }
 
-int	is_valid_variable_name(char c)
+char		*find_env(char *str, int *i)
 {
-	if (!(is_alnum(c) || c == '_'))
-		return (0);
-	return (1);
+	char	*env;
+	int		start;
+	int		index;
+
+	index = *i + 1;
+	start = *i + 1;
+	while (str[index])
+	{
+		if (ft_isalnum(str[index]) || str[index] == '_')
+			index++;
+		else
+		{
+			index--;
+			break ;
+		}
+	}
+	*i = index;
+	env = ft_substr(str, start, index - start + 1);
+	return (env);
 }
 
 int	has_variable(char *value)
@@ -481,11 +497,8 @@ int	has_variable(char *value)
 			double_flag = !double_flag;
 		if (value[i] == '\'' && double_flag == 0)
 			single_flag = !single_flag;
-		if (single_flag == 0 && value[i] == '$'
-			&& is_valid_variable_name(value[i + 1]))
-			return (1);
-		// is_valid_variable_name(value[i + 1] 조건문 수정해야함
-		// $문자로 시작하는 하나의 단어를 env로 간주하고 이에 대한 유효성 체크하기
+		if (single_flag == 0 && value[i] == '$')
+			find_env(value, &i); // find_env 함수가 반환한 문자열을 env로 간주하여 임시 저장한 뒤, 이에 대해 유효성 체크하기
 		i++;
 	}
 	return (0);
