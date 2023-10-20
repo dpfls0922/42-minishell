@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/20 18:14:04 by spark2           ###   ########.fr       */
+/*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
+/*   Updated: 2023/10/20 18:13:53 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <signal.h>
-
-# include <readline/readline.h>
-# include <readline/history.h>
-
-# include "./libft/libft.h"
-
-void	check_builtins(char **line, char **envp);
-void	ft_error(char *str);
-
-#endif
+void	ft_error(char *str)
+{
+	write(1, str, ft_strlen(str));
+	exit(1);
+}
