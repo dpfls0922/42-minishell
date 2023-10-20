@@ -36,6 +36,14 @@ typedef struct s_lexer
 	struct s_lexer	*prev;
 }	t_lexer;
 
+typedef struct s_env
+{
+	char			*key;
+	char			*val;
+	struct s_env	*next;
+	struct s_env	*prev;
+}					t_env;
+
 typedef struct s_cmd
 {
 	char			**cmd;
@@ -51,12 +59,15 @@ typedef struct s_data
 	char	**paths;
 	char	*cmd;
 	t_lexer	*lexer_list;
+	t_env	*env_list;
 }	t_data;
 
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_strncmp(char *s1, char *s2, size_t n);
 
 char	*readline(const char *prompt);
 
