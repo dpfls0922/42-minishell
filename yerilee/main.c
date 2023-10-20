@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:28:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/19 22:29:53 by marvin           ###   ########.fr       */
+/*   Updated: 2023/10/20 21:17:07 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,6 +450,60 @@ int	check_syntax(t_lexer *lexer)
 	return (0);
 }
 
+t_env	*new_env_node(char *str)
+{
+	t_env	*node;
+	int		i;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		exit(1);
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	node->key = ft_substr(str, 0, i);
+	i++;
+	if (str[i])
+		node->val = ft_substr(str, i, ft_strlen(str) - i);
+	node->next = NULL;
+	node->prev = NULL;
+	return (node);
+}
+
+t_env	*add_env_to_list(t_env *env, char *str)
+{
+	t_env	*node;
+	t_env	*curr;
+
+	if (!str)
+		return (NULL);
+	node = new_env_node(str);
+	if (!node)
+		exit(1);
+	if (!env)
+		return (node);
+	curr = env;
+	while (curr->next != NULL)
+		curr = curr->next;
+	curr->next = node;
+	node->prev = curr;
+	return (env);
+}
+
+char	*get_value(t_data *data, char *key)
+{
+	t_env	*curr;
+
+	curr = data->env_list;
+	while (curr)
+	{
+		if (!ft_strcmp(curr->key, key))
+			return (curr->val);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
 int	is_alnum(int c)
 {
 	if (((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
@@ -459,7 +513,7 @@ int	is_alnum(int c)
 		return (0);
 }
 
-char		*find_env(char *str, int *i)
+char	*find_env(char *str, int *i)
 {
 	char	*env;
 	int		start;
@@ -469,7 +523,7 @@ char		*find_env(char *str, int *i)
 	start = *i + 1;
 	while (str[index])
 	{
-		if (ft_isalnum(str[index]) || str[index] == '_')
+		if (is_alnum(str[index]) || str[index] == '_')
 			index++;
 		else
 		{
@@ -498,7 +552,7 @@ int	has_variable(char *value)
 		if (value[i] == '\'' && double_flag == 0)
 			single_flag = !single_flag;
 		if (single_flag == 0 && value[i] == '$')
-			find_env(value, &i); // find_env 함수가 반환한 문자열을 env로 간주하여 임시 저장한 뒤, 이에 대해 유효성 체크하기
+			find_env(value, &i); // 리턴값이 char *(find_env)여서 조건문으로 해결할 수 없음 -> 생각해볼 것
 		i++;
 	}
 	return (0);
@@ -518,11 +572,27 @@ void	expanding(t_data *data)
 	}
 }
 
+void	setting_env(t_data *data)
+{
+	int	i;
+
+	if (data->env)
+	{
+		i = 0;
+		while (data->env[i])
+		{
+			data->env_list = add_env_to_list(data->env_list, data->env[i]);
+			i++;
+		}
+	}
+}
+
 int	init_data1(t_data *data, int argc, char **env)
 {
 	data->ac = argc;
 	if (env && env[0])
 		data->env = env;
+	setting_env(data);
 	return (1);
 }
 
