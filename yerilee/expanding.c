@@ -65,6 +65,7 @@ void	ft_expanding(t_data *data, t_lexer *lexer)
 	char	*env;
 
 	i = 0;
+	env = NULL;
 	replaced_val = ft_substr(lexer->val, 0, len_before_env(lexer->val, &i));
 	if (lexer->val[i] && lexer->val[i + 1])
 		env = find_env(lexer->val, &i);
@@ -76,7 +77,7 @@ void	ft_expanding(t_data *data, t_lexer *lexer)
 			replaced_val = strjoin_after_env(replaced_val, i, lexer->val);
 		}
 		else
-			replaced_val = str_without_env(data, lexer->val, replaced_val);
+			replaced_val = str_without_env(lexer->val, replaced_val);
 		free(lexer->val);
 		lexer->val = replaced_val;
 		free(env);

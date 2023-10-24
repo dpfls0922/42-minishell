@@ -127,13 +127,13 @@ int		is_alnum(int c);
 char	*find_env(char *str, int *i);
 char	*get_value(t_data *data, char *key);
 
-int		len_before_env(char *value, int *len);
+int		len_before_env(char *value, int *i);
 int		len_after_env(char *value);
 int		location_after_env(int i, char *value);
 
-char	*str_after_env(t_data *data, char *value);
+char	*str_after_env(char *value);
 char	*strjoin_after_env(char *replaced_str, int i, char *lexer);
-char	*str_without_env(t_data *data, char *lexer, char *replaced_val);
+char	*str_without_env(char *lexer, char *replaced_val);
 
 /* init_data */
 void	setting_env(t_data *data);

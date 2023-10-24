@@ -12,16 +12,17 @@
 
 #include "./minishell.h"
 
-char	*str_after_env(t_data *data, char *value)
+char	*str_after_env(char *value)
 {
 	int		i;
-	char	*single_flag;
-	char	*double_flag;
+	int		single_flag;
+	int		double_flag;
 	char	*after;
 
 	i = 0;
 	single_flag = 0;
 	double_flag = 0;
+	after = NULL;
 	while (single_flag == 1 || (value[i] && value[i] != '$'))
 	{
 		if (value[i] == '\"' && single_flag == 0)
@@ -34,7 +35,7 @@ char	*str_after_env(t_data *data, char *value)
 	{
 		i++;
 		i = location_after_env(i, value);
-		if (value[i])
+		if (value && value[i])
 			after = ft_substr(value, i, len_after_env(value));
 	}
 	return (after);
@@ -55,11 +56,11 @@ char	*strjoin_after_env(char *replaced_str, int i, char *lexer)
 	return (replaced_str);
 }
 
-char	*str_without_env(t_data *data, char *lexer, char *replaced_val)
+char	*str_without_env(char *lexer, char *replaced_val)
 {
 	char	*after;
 
-	after = str_after_env(data, lexer);
+	after = str_after_env(lexer);
 	replaced_val = ft_strjoin(replaced_val, after);
 	free(after);
 	return (replaced_val);
