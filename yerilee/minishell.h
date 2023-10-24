@@ -71,9 +71,7 @@ char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
-char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char *s1, char *s2);
-void	ft_free(char **p);
 
 /* lexer */
 void	lexer(t_data *data);
