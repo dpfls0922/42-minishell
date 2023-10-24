@@ -89,6 +89,5 @@ void	ft_expanding(t_data *data, t_lexer *lexer)
 		free(lexer->val);
 		lexer->val = replaced_val;
 		free(env);
-		free(replaced_val);
 	}
 }
