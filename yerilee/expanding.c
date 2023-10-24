@@ -12,7 +12,6 @@
 
 #include "./minishell.h"
 
-// double_flag, single_flag를 변수 선언하지 않고, 구조체 변수로 두고 이를 확인할 것
 int	has_variable(char *value)
 {
 	int		i;
@@ -37,26 +36,35 @@ int	has_variable(char *value)
 	return (0);
 }
 
-// 달러가 있을 동안 expanding 실행할 조건 추가하기
-void	expanding(t_data *data)
+int	has_variable_in_lexer(t_data *data)
 {
 	t_lexer	*curr;
 
 	curr = data->lexer_list;
 	while (curr)
 	{
-		if (curr->type == WORD && has_variable(curr->val))
-			ft_expanding(data, curr);
+		if (has_variable(curr->val))
+			return (1);
 		curr = curr->next;
 	}
+	return (0);
 }
 
-/*
-ft_expanding : 주어진 입력 문자열(lexer->val)에서 환경 변수를 찾아 해당 환경 변수를 실제 값으로 치환하여 새로운 문자열을 생성하는 함수
-1. lexer->val의 처음부터 환경 변수가 시작하는 위치까지(substring)의 문자열로 초기화
-2. 환경 변수의 확장이 필요한 경우(즉, env 변수가 NULL이 아닌 경우), replaced_val 변수에 환경 변수가 확장된 결과를 join함
-3. 이후 문자열도 join하여, 최종적으로 replaced_val 변수에는 환경 변수가 확장된 결과 문자열이 저장됨
-*/
+void	expanding(t_data *data)
+{
+	t_lexer	*curr;
+
+	while (has_variable_in_lexer(data))
+	{
+		curr = data->lexer_list;
+		while (curr)
+		{
+			if (curr->type == WORD && has_variable(curr->val))
+				ft_expanding(data, curr);
+			curr = curr->next;
+		}
+	}
+}
 
 void	ft_expanding(t_data *data, t_lexer *lexer)
 {
