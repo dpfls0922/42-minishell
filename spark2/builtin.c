@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/20 20:25:11 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/24 21:45:47 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	pwd()
 {
 	char	*buf;
 
-	buf = getcwd(0, 4096);
+	buf = getcwd(0, 4096); //buf 사이즈 수정?
 	write(1, buf, ft_strlen(buf));
 	write(1, "\n", 1);
 	free(buf);
@@ -74,16 +74,32 @@ void	echo(char **line)
 		write(1, "\n", 1);
 }
 
-// void	unset(char **envp)
-// {
-
-// }
-
 void	cd(char *path)
 {
 	if (!path)
-		return ;
-	chdir(path);
+		chdir(getenv("HOME"));
+	else if (path[0] == '~')
+	{
+		if (!ft_strncmp(path, "~", 2))
+			chdir(getenv("HOME"));
+		else if (path[1] == '/')
+		{
+			chdir(getenv("HOME"));
+			if (path[2])
+				if (chdir(path) == -1)
+					ft_error("No such file or directory\n");
+		}
+		else
+			ft_error("No such file or directory\n");
+	}
+	else
+		if (chdir(path) == -1)
+			ft_error("No such file or directory\n");
+}
+
+void	unset(char **envp)
+{
+	(void)envp;
 }
 
 void	check_builtins(char **line, char **envp)
@@ -99,6 +115,6 @@ void	check_builtins(char **line, char **envp)
 		echo(line);
 	else if (!ft_strncmp(builtin, "cd", 3))
 		cd(line[1]);
-	// if (!ft_strncmp(line, "unset", 6))
-		// unset(envp);
+	if (!ft_strncmp(builtin, "unset", 6))
+		unset(envp);
 }
