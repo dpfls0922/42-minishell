@@ -57,9 +57,12 @@ typedef struct s_data
 	char	**av;
 	char	**env;
 	char	**paths;
+	char	**end;
 	char	*cmd;
+	int		heredoc_num;
 	t_lexer	*lexer_list;
 	t_env	*env_list;
+	t_cmd	*cmd_list;
 }	t_data;
 
 char	*readline(const char *prompt);
@@ -137,6 +140,11 @@ char	*str_without_env(char *lexer, char *replaced_val);
 void	setting_env(t_data *data);
 int		init_data1(t_data *data, int argc, char **env);
 void	init_data2(t_data *data);
+
+/* parsing */
+void	parsing(t_data *data);
+void	handle_heredoc(t_data *data, t_lexer *lexer);
+void	count_heredoc(t_data *data, t_lexer *lexer);
 
 /* main */
 int		minishell(t_data *data);
