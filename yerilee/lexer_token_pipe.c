@@ -26,6 +26,8 @@ int	add_pipe(t_data *data, int i)
 		len++;
 	}
 	token = ft_substr(data->cmd, start, len);
+	if (!token)
+		exit (1);
 	data->lexer_list = add_token_to_lexer(data->lexer_list, token, PIPE);
 	free(token);
 	token = NULL;

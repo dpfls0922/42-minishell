@@ -59,6 +59,8 @@ int	add_word(t_data *data, int i)
 	char	*token;
 
 	token = ft_substr(data->cmd, i, ft_word_len(data->cmd, i));
+	if (!token)
+		exit (1);
 	i += ft_word_len(data->cmd, i);
 	data->lexer_list = add_token_to_lexer(data->lexer_list, token, WORD);
 	free(token);
