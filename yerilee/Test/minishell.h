@@ -79,6 +79,7 @@ char	*ft_strjoin(char *s1, char *s2);
 /* lexer */
 void	lexer(t_data *data);
 void	ft_free_lexer(t_lexer *lexer);
+void	print_lexer_list(t_lexer *lexer);
 
 t_lexer	*new_lexer_node(char *token, int type);
 t_lexer	*add_token_to_lexer(t_lexer *lexer, char *token, int type);
