@@ -43,6 +43,12 @@ int	has_variable_in_lexer(t_data *data)
 	curr = data->lexer_list;
 	while (curr)
 	{
+		if (!ft_strcmp(curr->val, "<<"))
+		{
+			curr = curr->next;
+			if (curr)
+				curr = curr->next;
+		}
 		if (has_variable(curr->val))
 			return (1);
 		curr = curr->next;
@@ -55,7 +61,7 @@ void	expanding(t_data *data)
 	t_lexer	*curr;
 
 	curr = data->lexer_list;
-	while (curr && has_variable_in_lexer(data))
+	while (has_variable_in_lexer(data))
 	{
 		curr = data->lexer_list;
 		while (curr)
@@ -66,7 +72,7 @@ void	expanding(t_data *data)
 				if (curr)
 					curr = curr->next;
 			}
-			if (curr->type == WORD && has_variable(curr->val))
+			if (curr && curr->type == WORD && has_variable(curr->val))
 				ft_expanding(data, curr);
 			curr = curr->next;
 		}
