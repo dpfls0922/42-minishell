@@ -6,32 +6,32 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/24 21:45:47 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/26 22:11:54 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(char **envp)
+void	env(t_arg arg, char **envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
 	{
-		write(1, envp[i], ft_strlen(envp[i]));
-		write(1, "\n", 1);
+		write(arg.outfile, envp[i], ft_strlen(envp[i]));
+		write(arg.outfile, "\n", 1);
 		i++;
 	}
 }
 
-void	pwd()
+void	pwd(t_arg arg)
 {
 	char	*buf;
 
 	buf = getcwd(0, 4096); //buf 사이즈 수정?
-	write(1, buf, ft_strlen(buf));
-	write(1, "\n", 1);
+	write(arg.outfile, buf, ft_strlen(buf));
+	write(arg.outfile, "\n", 1);
 	free(buf);
 }
 
@@ -102,15 +102,15 @@ void	unset(char **envp)
 	(void)envp;
 }
 
-void	check_builtins(char **line, char **envp)
+void	check_builtins(t_arg *arg, char **line, char **envp)
 {
 	char	*builtin;
 
 	builtin = line[0];
 	if (!ft_strncmp(builtin, "env", 4))
-		env(envp);
+		env(*arg, envp);
 	else if (!ft_strncmp(builtin, "pwd", 4))
-		pwd();
+		pwd(*arg);
 	else if (!ft_strncmp(builtin, "echo", 5))
 		echo(line);
 	else if (!ft_strncmp(builtin, "cd", 3))
