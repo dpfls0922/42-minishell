@@ -34,6 +34,9 @@ SRCS = main.c\
 		lexer_token_semicolon.c \
 		lexer_token_word.c \
 		lexer.c \
+		parsing_get_set.c\
+		parsing_heredoc.c\
+		parsing.c\
 		syntax_pipe.c \
 		syntax_quotes.c \
 		syntax_redirection.c \
