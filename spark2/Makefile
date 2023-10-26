@@ -1,9 +1,21 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/10/26 21:22:21 by spark2            #+#    #+#              #
+#    Updated: 2023/10/26 21:32:00 by spark2           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = minishell
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard *.c) $(wildcard pipex/*.c) $(wildcard pipex/get_next_line/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
