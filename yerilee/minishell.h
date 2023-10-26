@@ -144,8 +144,18 @@ void	init_data2(t_data *data);
 
 /* parsing */
 void	parsing(t_data *data);
+
 void	handle_heredoc(t_data *data, t_lexer *lexer);
 void	count_heredoc(t_data *data, t_lexer *lexer);
+
+void	handle_command(t_data *data);
+void	make_command_list(t_data *data, int red_num, int *red_type);
+void	print_command_list(t_cmd *cmd_list);
+
+int		get_red_num(t_data *data);
+char	*get_file_name(char *value);
+int		*set_red_type(t_data *data, int red_num);
+int		set_fd(char *filename, int red_type);
 
 /* main */
 int		minishell(t_data *data);
