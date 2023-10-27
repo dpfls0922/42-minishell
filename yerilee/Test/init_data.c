@@ -33,6 +33,7 @@ int	init_data1(t_data *data, int argc, char **env)
 	if (env && env[0])
 		data->env = env;
 	setting_env(data);
+	// print_env_list(data->env_list);
 	return (1);
 }
 
