@@ -42,3 +42,15 @@ void	init_data2(t_data *data)
 	data->lexer_list = NULL;
 	data->cmd_list = NULL;
 }
+
+void	init_split(t_split *split, char *s, char c)
+{
+	split->len = 0;
+	split->d_flag = 0;
+	split->s_flag = 0;
+	if (!s)
+		return ;
+	split->p = (char **)malloc(sizeof(char *) * (word_count(s, c) + 1));
+	if (!split->p)
+		return ;
+}
