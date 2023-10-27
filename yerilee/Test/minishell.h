@@ -48,9 +48,20 @@ typedef struct s_env
 typedef struct s_cmd
 {
 	char			**cmd;
+	int				fd_in;
+	int				fd_out;
+	int				heredoc_num;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
+
+typedef struct s_split
+{
+	char	**p;
+	int		len;
+	int		d_flag;
+	int		s_flag;
+}	t_split;
 
 typedef struct s_data
 {
@@ -85,12 +96,10 @@ void	print_lexer_list(t_lexer *lexer);
 t_lexer	*new_lexer_node(char *token, int type);
 t_lexer	*add_token_to_lexer(t_lexer *lexer, char *token, int type);
 
-/* lexer - token_utils */
 int		is_space(char c);
 int		is_word(char c);
 int		is_redirection(char c);
 int		is_parenthesis(char c);
-
 int		ft_word_len(char *cmd, int i);
 int		add_word(t_data *data, int i);
 int		add_pipe(t_data *data, int i);
@@ -142,6 +151,7 @@ char	*str_without_env(char *lexer, char *replaced_val);
 void	setting_env(t_data *data);
 int		init_data1(t_data *data, int argc, char **env);
 void	init_data2(t_data *data);
+void	init_split(t_split *split, char *s, char c);
 
 /* parsing */
 void	parsing(t_data *data);
@@ -151,12 +161,22 @@ void	count_heredoc(t_data *data, t_lexer *lexer);
 
 void	handle_command(t_data *data);
 void	make_command_list(t_data *data, int red_num, int *red_type);
+t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num);
+t_cmd	*new_command_node(char *command, int fd_in, int fd_out);
 void	print_command_list(t_cmd *cmd_list);
 
 int		get_red_num(t_data *data);
 char	*get_file_name(char *value);
+int		get_fd_in(int *fd, int *red_type, int red_num);
+int		get_fd_out(int *fd, int *red_type, int red_num);
 int		*set_red_type(t_data *data, int red_num);
 int		set_fd(char *filename, int red_type);
+char	*set_command(t_data *data);
+
+size_t	word_count(char *s, char c);
+void	word_len(t_split *split, char c, int flag);
+char	**ft_free_word(char	**p, int i);
+char	**split_command(char *s, char c);
 
 /* main */
 int		minishell(t_data *data);
