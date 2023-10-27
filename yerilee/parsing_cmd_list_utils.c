@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:57:07 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 17:10:38 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/27 21:39:37 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 		}
 		curr = curr->next;
 	}
-	// redirection 지우기
-	// delete_redirection(data);
+	delete_redirection(data);
 	data->cmd_list = add_command_to_list(data, fd, red_type, red_num);
 }
 
