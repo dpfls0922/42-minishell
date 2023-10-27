@@ -36,6 +36,7 @@ SRCS = main.c\
 		lexer.c \
 		parsing_cmd_list_utils.c\
 		parsing_cmd_split.c\
+		parsing_del_redirection.c\
 		parsing_get.c\
 		parsing_set.c\
 		parsing_heredoc.c\

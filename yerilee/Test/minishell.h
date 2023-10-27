@@ -128,6 +128,7 @@ int		check_command_after_redirection(t_lexer *lexer);
 /* env */
 t_env	*new_env_node(char *str);
 t_env	*add_env_to_list(t_env *env, char *str);
+void	print_env_list(t_env *env);
 
 /* expanding */
 int		has_variable(char *value);
@@ -177,6 +178,11 @@ size_t	word_count(char *s, char c);
 void	word_len(t_split *split, char c, int flag);
 char	**ft_free_word(char	**p, int i);
 char	**split_command(char *s, char c);
+
+int		has_redirection_in_lexer(t_data *data);
+void	delete_node(t_data *data, int position);
+void	delete_redirection_and_filename(t_data *data, int position, int flag);
+void	delete_redirection(t_data *data);
 
 /* main */
 int		minishell(t_data *data);
