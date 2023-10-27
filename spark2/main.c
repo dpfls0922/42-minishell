@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/26 21:50:17 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/27 21:44:23 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,38 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_arg	arg;
-	t_cmd	cmd;
-	char	*line;
+	t_data	data;
+	// t_arg	arg;
 	char	**temp;
 
-	(void)argc;
 	(void)argv;
-	ft_memset(&arg, 0, sizeof(t_arg));
-	set_file(&arg, argc, argv);
-	if (arg.here_flag)
-		run_heredoc(&arg, argv[2]);
-	get_path_envp(&arg, envp);
-	set_cmd(&arg, &cmd, argc, argv);
-	run_fork(&arg, &cmd, argc, envp);
-	run_free(&arg, &cmd, argc);
-	unlink("/tmp/.infile");
+	if (!init_data1(&data, argc, envp))
+		exit(1);
+	// ft_memset(&arg, 0, sizeof(t_arg));
+	if (argc > 3)
+		set_file(&data, argc, argv);
+	init_data_tmp(&data);
 
-	dup2(0, STDIN_FILENO);
-	dup2(1, STDOUT_FILENO);
-	(void)envp;
+	// if (arg.here_flag)
+	// run_heredoc(&arg, argv[2]);
+	// get_path_envp(&arg, envp);
+	// set_cmd(&arg, &cmd, argc, argv);
+	// run_fork(&arg, &cmd, argc, envp);
+	// run_free(&arg, &cmd, argc);
+	// unlink("/tmp/.infile");
 	while (1)
 	{
-		line = readline("minishell $ ");
-		if (!line)
+		data.cmd = readline("minishell $ ");
+		if (!data.cmd)
 			break ;
-		printf("here\n");
-		if (*line)
-			add_history(line);
-		temp = ft_split(line, ' ');
-		check_builtins(&arg, temp, envp);
-		free(line);
+		else if (!*data.cmd)
+			free(data.cmd);
+		if (data.cmd)
+			add_history(data.cmd);
+		temp = ft_split(data.cmd, ' ');
+		check_builtins(temp, &data);
+		free(data.cmd);
 		free(temp);
 	}
+	return (0);
 }
