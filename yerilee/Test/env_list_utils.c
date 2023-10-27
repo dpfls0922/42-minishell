@@ -51,3 +51,15 @@ t_env	*add_env_to_list(t_env *env, char *str)
 	node->prev = curr;
 	return (env);
 }
+
+void	print_env_list(t_env *env)
+{
+	t_env	*curr;
+
+	curr = env;
+	while (curr)
+	{
+		printf("env_key : %s, env_value : %s\n", curr->key, curr->val);
+		curr = curr->next;
+	}
+}

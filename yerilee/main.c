@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/24 16:34:28 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/27 21:52:25 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	minishell(t_data *data)
 				continue ;
 			}
 			expanding(data);
-			// parser
+			parsing(data);
 			// execution
 		}
 		rl_clear_history();

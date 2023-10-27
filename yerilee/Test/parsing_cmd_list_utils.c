@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:42:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 16:59:32 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/27 21:33:03 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,12 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 	// printf("fd : %d\n", fd[0]);
 	// printf("filename : %s\n", filename);
 
-	// redirection 지우기
-	// delete_redirection(data);
+	delete_redirection(data);
+	// printf("====delete_redirection====\n");
+	// print_lexer_list(data->lexer_list);
 	data->cmd_list = add_command_to_list(data, fd, red_type, red_num);
-	print_command_list(data->cmd_list);
+	// printf("====add_command_to_list====\n");
+	// print_command_list(data->cmd_list);
 }
 
 void	print_command_list(t_cmd *cmd_list)
