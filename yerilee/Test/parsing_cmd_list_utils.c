@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:42:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 21:33:03 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 18:15:38 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num)
 
 	fd_in = get_fd_in(fd, red_type, red_num);
 	fd_out = get_fd_out(fd, red_type, red_num);
-	free(fd);
-	free(red_type);
 	command = set_command(data);
 	printf("fd_in : %d, fd_out : %d, command : %s\n", fd_in, fd_out, command);
 	node = new_command_node(command, fd_in, fd_out);
@@ -119,6 +117,35 @@ void	print_command_list(t_cmd *cmd_list)
 	}
 }
 
+void	delete_command(t_data *data)
+{
+	t_lexer	*curr;
+
+	curr = data->lexer_list;
+	while (curr && curr->type != PIPE)
+	{
+		if (curr->next)
+			curr->next->prev = curr->prev;
+		if (curr->prev)
+			curr->prev->next = curr->next;
+		data->lexer_list = curr->next;
+		free(curr->val);
+		free(curr);
+		curr = data->lexer_list;
+	}
+	if (curr && curr->type == PIPE)
+	{
+		if (curr->next)
+			curr->next->prev = curr->prev;
+		if (curr->prev)
+			curr->prev->next = curr->next;
+		data->lexer_list = curr->next;
+		free(curr->val);
+		free(curr);
+		curr = data->lexer_list;
+	}
+}
+
 void	handle_command(t_data *data)
 {
 	int	red_num;
@@ -126,5 +153,13 @@ void	handle_command(t_data *data)
 
 	red_num = get_red_num(data);
 	red_type = set_red_type(data, red_num);
-	make_command_list(data, red_num, red_type);
+	while (data->lexer_list)
+	{
+		make_command_list(data, red_num, red_type);
+		delete_command(data);
+		printf("====delete_command====\n");
+		print_lexer_list(data->lexer_list);
+		printf("======================\n");
+		print_command_list(data->cmd_list);
+	}
 }
