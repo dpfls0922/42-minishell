@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:57:07 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 21:39:37 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 17:26:17 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 	int		i;
 	t_lexer	*curr;
 
+	filename = NULL;
 	fd = malloc(sizeof(int) * red_num);
 	if (!fd)
 		exit (1);
