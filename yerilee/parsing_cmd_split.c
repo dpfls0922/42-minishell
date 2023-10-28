@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:02:12 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 17:02:39 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 20:51:40 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,19 @@ char	**ft_free_word(char	**p, int i)
 	}
 	free(p);
 	return (p);
+}
+
+void	ft_free_list(char **p)
+{
+	int	i;
+
+	i = 0;
+	while (p[i])
+	{
+		free(p[i]);
+		i++;
+	}
+	free(p);
 }
 
 char	**split_command(char *s, char c)

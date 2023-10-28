@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:57:07 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 19:08:33 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 20:51:22 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num)
 	if (!command)
 		return (node);
 	node = new_command_node(command, fd_in, fd_out);
+	delete_heredoc(node);
 	free(command);
 	if (!data->cmd_list)
 		return (node);

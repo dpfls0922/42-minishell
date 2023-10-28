@@ -158,6 +158,9 @@ void	parsing(t_data *data);
 
 void	handle_heredoc(t_data *data, t_lexer *lexer);
 void	count_heredoc(t_data *data, t_lexer *lexer);
+char	**get_new_command(t_cmd *cmd);
+char	**replace_with_new_command(char **new, char **cmd);
+void	delete_heredoc(t_cmd *node);
 
 void	handle_command(t_data *data);
 void	make_command_list(t_data *data, int red_num, int *red_type);
@@ -175,6 +178,7 @@ char	*set_command(t_data *data);
 size_t	word_count(char *s, char c);
 void	word_len(t_split *split, char c, int flag);
 char	**ft_free_word(char	**p, int i);
+void	ft_free_list(char **p);
 char	**split_command(char *s, char c);
 
 int		has_redirection_in_lexer(t_data *data);
