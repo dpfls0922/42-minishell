@@ -6,22 +6,23 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/26 22:11:54 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/27 22:21:07 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(t_arg arg, char **envp)
+void	env(t_data *data)
 {
-	int	i;
+	t_env	*curr;
 
-	i = 0;
-	while (envp[i])
+	curr = data->env_list;
+	while (curr)
 	{
-		write(arg.outfile, envp[i], ft_strlen(envp[i]));
-		write(arg.outfile, "\n", 1);
-		i++;
+		write(data->cmd_list->fd_out, curr->key, ft_strlen(curr->key));
+		write(data->cmd_list->fd_out, curr->val, ft_strlen(curr->val));
+		write(data->cmd_list->fd_out, "\n", 1);
+		curr = curr->next;
 	}
 }
 
@@ -97,24 +98,64 @@ void	cd(char *path)
 			ft_error("No such file or directory\n");
 }
 
+// char	**export(t_arg arg, char **envp, char **line)
+// {
+// 	int		i;
+// 	char	**tmp;
+
+// 	i = 0;
+// 	if (!line[1]) //export 뒤 인자가 없다면 env 그냥 출력
+// 	{
+// 		while (envp[i])
+// 		{
+// 			write(arg.outfile, envp[i], ft_strlen(envp[i]));
+// 			write(arg.outfile, "\n", 1);
+// 			i++;
+// 		}
+// 	}
+// 	else //export 뒤 인자 존재한다면 envp에 삽입
+// 	{
+// 		if ((line[1][0] >= '0' && line[1][0] <= '9') || line[1][0] == '=')//유효하지 않은 인자일 시 에러
+// 		{
+// 			write(arg.outfile, "export: ", 8);
+// 			write(arg.outfile, "'", 1);
+// 			write(arg.outfile, line[1], ft_strlen(line[1]));
+// 			write(arg.outfile, "': ", 3);
+// 			write(arg.outfile, "not a valid identifier\n", 23);
+// 			return (envp);
+// 		}
+// 		tmp = envp;
+// 		envp = ft_strjoin_2d(tmp, line[1]); //envp free?
+// 		printf("debug !\n");
+// 	}
+// 	return (envp);
+// }
+
 void	unset(char **envp)
 {
 	(void)envp;
 }
 
-void	check_builtins(t_arg *arg, char **line, char **envp)
+void	check_builtins(char **line, t_data *data)
 {
 	char	*builtin;
 
 	builtin = line[0];
 	if (!ft_strncmp(builtin, "env", 4))
-		env(*arg, envp);
+		env(data);
 	else if (!ft_strncmp(builtin, "pwd", 4))
 		pwd(*arg);
-	else if (!ft_strncmp(builtin, "echo", 5))
-		echo(line);
-	else if (!ft_strncmp(builtin, "cd", 3))
-		cd(line[1]);
-	if (!ft_strncmp(builtin, "unset", 6))
-		unset(envp);
+	// else if (!ft_strncmp(builtin, "echo", 5))
+	// 	echo(line);
+	// else if (!ft_strncmp(builtin, "cd", 3))
+	// 	cd(line[1]);
+	// else if (!ft_strncmp(builtin, "export", 7))
+	// 	export(*arg, envp, line);
+
+
+	// if (!ft_strncmp(builtin, "unset", 6))
+	// 	unset(envp);
+	// int i = -1;
+	// while (envp[++i])
+	// 	printf("envp: %s\n", envp[i]);
 }
