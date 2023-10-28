@@ -148,25 +148,21 @@ char	*str_after_env(char *value);
 char	*strjoin_after_env(char *replaced_str, int i, char *lexer);
 char	*str_without_env(char *lexer, char *replaced_val);
 
-/* init_data */
-void	setting_env(t_data *data);
-int		init_data1(t_data *data, int argc, char **env);
-void	init_data2(t_data *data);
-void	init_split(t_split *split, char *s, char c);
+/* cmd_list */
+t_cmd	*new_command_node(char *command, int fd_in, int fd_out);
+t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num);
 
 /* parsing */
 void	parsing(t_data *data);
 
 void	handle_heredoc(t_data *data, t_lexer *lexer);
 void	count_heredoc(t_data *data, t_lexer *lexer);
+void	delete_heredoc(t_cmd *node);
 char	**get_new_command(t_cmd *cmd);
 char	**replace_with_new_command(char **new, char **cmd);
-void	delete_heredoc(t_cmd *node);
 
 void	handle_command(t_data *data);
 void	make_command_list(t_data *data, int red_num, int *red_type);
-t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num);
-t_cmd	*new_command_node(char *command, int fd_in, int fd_out);
 void	print_command_list(t_cmd *cmd_list);
 
 int		get_red_num(t_data *data);
@@ -187,6 +183,12 @@ int		has_redirection_in_lexer(t_data *data);
 void	delete_node(t_data *data, int position);
 void	delete_redirection_and_filename(t_data *data, int position, int flag);
 void	delete_redirection(t_data *data);
+
+/* init_data */
+void	setting_env(t_data *data);
+int		init_data1(t_data *data, int argc, char **env);
+void	init_data2(t_data *data);
+void	init_split(t_split *split, char *s, char c);
 
 /* main */
 int		minishell(t_data *data);
