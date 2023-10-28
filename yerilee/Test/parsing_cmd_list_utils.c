@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:42:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 18:15:38 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 19:06:55 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ t_cmd	*new_command_node(char *command, int fd_in, int fd_out)
 	while (cmd->cmd && cmd->cmd[i])
 	{
 		if (ft_strcmp(cmd->cmd[i], "<<") == 0)
+		{
 			cmd->heredoc_num++;
+			printf("cmd[%d]->heredoc_num : %d\n", i, cmd->heredoc_num);
+		}
 		i++;
 	}
-	printf("cmd->heredoc_num : %d\n", cmd->heredoc_num);
 	return (cmd);
 }
 
@@ -49,6 +51,9 @@ t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num)
 	fd_out = get_fd_out(fd, red_type, red_num);
 	command = set_command(data);
 	printf("fd_in : %d, fd_out : %d, command : %s\n", fd_in, fd_out, command);
+	node = NULL;
+	if (!command)
+		return (node);
 	node = new_command_node(command, fd_in, fd_out);
 	free(command);
 	if (!data->cmd_list)
