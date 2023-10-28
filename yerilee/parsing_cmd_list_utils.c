@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:57:07 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 18:12:42 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 18:14:00 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,35 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 	data->cmd_list = add_command_to_list(data, fd, red_type, red_num);
 }
 
+void	delete_command(t_data *data)
+{
+	t_lexer	*curr;
+
+	curr = data->lexer_list;
+	while (curr && curr->type != PIPE)
+	{
+		if (curr->next)
+			curr->next->prev = curr->prev;
+		if (curr->prev)
+			curr->prev->next = curr->next;
+		data->lexer_list = curr->next;
+		free(curr->val);
+		free(curr);
+		curr = data->lexer_list;
+	}
+	if (curr && curr->type == PIPE)
+	{
+		if (curr->next)
+			curr->next->prev = curr->prev;
+		if (curr->prev)
+			curr->prev->next = curr->next;
+		data->lexer_list = curr->next;
+		free(curr->val);
+		free(curr);
+		curr = data->lexer_list;
+	}
+}
+
 void	handle_command(t_data *data)
 {
 	int	red_num;
@@ -95,5 +124,9 @@ void	handle_command(t_data *data)
 
 	red_num = get_red_num(data);
 	red_type = set_red_type(data, red_num);
-	make_command_list(data, red_num, red_type);
+	while (data->lexer_list)
+	{
+		make_command_list(data, red_num, red_type);
+		delete_command(data);
+	}
 }
