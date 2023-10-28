@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:57:07 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 18:14:00 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/28 19:08:33 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num)
 	fd_in = get_fd_in(fd, red_type, red_num);
 	fd_out = get_fd_out(fd, red_type, red_num);
 	command = set_command(data);
+	node = NULL;
+	if (!command)
+		return (node);
 	node = new_command_node(command, fd_in, fd_out);
 	free(command);
 	if (!data->cmd_list)
