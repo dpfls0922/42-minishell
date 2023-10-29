@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:02:01 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 20:52:10 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/29 19:08:13 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_heredoc(t_data *data, t_lexer *lexer)
 			{
 				lexer = lexer->next;
 				data->end[i] = ft_substr(lexer->val, 0, ft_strlen(lexer->val));
-				// quotes 지우기
+				delete_quotes_in_str(data->end[i]);
 				i++;
 			}
 			lexer = lexer->next;
