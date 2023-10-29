@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:06:48 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 21:07:14 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/29 19:19:05 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	handle_command(t_data *data)
 		delete_command(data);
 		printf("====delete_command====\n");
 		print_lexer_list(data->lexer_list);
-		printf("======================\n");
+		printf("=====command_list=====\n");
 		print_command_list(data->cmd_list);
 	}
 }
