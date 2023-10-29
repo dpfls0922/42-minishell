@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:04:04 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/29 19:20:07 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,14 +116,4 @@ void	delete_quotes_in_list(t_cmd *cmd_list)
 		}
 		curr = curr->next;
 	}
-}
-
-void	print_str(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s && s[i])
-		printf("%c", s[i]);
-	printf("\n");
 }
