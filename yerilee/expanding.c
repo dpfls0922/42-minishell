@@ -46,7 +46,7 @@ int	has_variable_in_lexer(t_data *data)
 		if (!ft_strcmp(curr->val, "<<"))
 		{
 			curr = curr->next;
-			if (curr)
+			if (curr->next)
 				curr = curr->next;
 		}
 		if (has_variable(curr->val))
@@ -69,7 +69,7 @@ void	expanding(t_data *data)
 			if (!ft_strcmp(curr->val, "<<"))
 			{
 				curr = curr->next;
-				if (curr)
+				if (curr->next)
 					curr = curr->next;
 			}
 			if (curr && curr->type == WORD && has_variable(curr->val))
