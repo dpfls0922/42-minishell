@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:27:26 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 16:47:56 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/29 18:46:14 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@ void	parsing(t_data *data)
 	// $? 처리
 	handle_heredoc(data, lexer);
 	handle_command(data);
-	// quotes 제거
+	delete_quotes_in_list(data->cmd_list);
+	printf("======================\n");
+	print_command_list(data->cmd_list);
 }

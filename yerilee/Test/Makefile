@@ -21,6 +21,7 @@ SRCS = main.c\
 		Libft/ft_substr.c \
 		Libft/ft_trim.c \
 		cmd_list_utils.c \
+		delete_quotes.c \
 		env_list_utils.c \
 		expanding_env.c \
 		expanding_len_loc.c \

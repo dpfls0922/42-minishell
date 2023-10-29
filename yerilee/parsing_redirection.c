@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:01:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 21:01:11 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/29 19:13:46 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	delete_node(t_data *data, int position)
 		if (curr && curr->prev)
 			curr->prev->next = curr->next;
 		temp = curr->next;
-		free(curr->val);
 		free(curr);
 		curr = temp;
 	}
