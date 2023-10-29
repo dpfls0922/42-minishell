@@ -184,6 +184,14 @@ void	delete_node(t_data *data, int position);
 void	delete_redirection_and_filename(t_data *data, int position, int flag);
 void	delete_redirection(t_data *data);
 
+/* delete_quotes */
+int		has_quotes(char *value);
+char	*get_new_string(char *s, int position);
+char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag);
+char	*delete_quotes_in_str(char *str);
+void	delete_quotes_in_list(t_cmd *cmd_list);
+void	print_str(char *s);
+
 /* init_data */
 void	setting_env(t_data *data);
 int		init_data1(t_data *data, int argc, char **env);
