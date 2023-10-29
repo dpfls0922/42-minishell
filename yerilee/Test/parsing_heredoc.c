@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 17:02:01 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:02:37 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/10/29 19:18:31 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ void	handle_heredoc(t_data *data, t_lexer *lexer)
 			if (ft_strcmp(lexer->val, "<<") == 0)
 			{
 				lexer = lexer->next;
+				printf("lexer->val : %s\n", lexer->val);
 				data->end[i] = ft_substr(lexer->val, 0, ft_strlen(lexer->val));
-				// print_str(data->end[i]);
+				printf("data->end[i] : %s\n", data->end[i]);
 				delete_quotes_in_str(data->end[i]);
-				// print_str(data->end[i]);
+				printf("data->end[i] : %s\n", data->end[i]);
 				i++;
 			}
 			lexer = lexer->next;
