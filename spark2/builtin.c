@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/27 22:21:07 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/30 22:16:58 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	env(t_data *data)
 	}
 }
 
-void	pwd(t_arg arg)
+void	pwd(t_data *data)
 {
 	char	*buf;
 
 	buf = getcwd(0, 4096); //buf 사이즈 수정?
-	write(arg.outfile, buf, ft_strlen(buf));
-	write(arg.outfile, "\n", 1);
+	write(data->cmd_list->fd_out, buf, ft_strlen(buf));
+	write(data->cmd_list->fd_out, "\n", 1);
 	free(buf);
 }
 
@@ -136,7 +136,7 @@ void	unset(char **envp)
 	(void)envp;
 }
 
-void	check_builtins(char **line, t_data *data)
+int	check_builtins(char **line, t_data *data)
 {
 	char	*builtin;
 
@@ -144,18 +144,20 @@ void	check_builtins(char **line, t_data *data)
 	if (!ft_strncmp(builtin, "env", 4))
 		env(data);
 	else if (!ft_strncmp(builtin, "pwd", 4))
-		pwd(*arg);
+		pwd(data);
 	// else if (!ft_strncmp(builtin, "echo", 5))
 	// 	echo(line);
 	// else if (!ft_strncmp(builtin, "cd", 3))
 	// 	cd(line[1]);
 	// else if (!ft_strncmp(builtin, "export", 7))
 	// 	export(*arg, envp, line);
-
+	else
+		return (0);
 
 	// if (!ft_strncmp(builtin, "unset", 6))
 	// 	unset(envp);
 	// int i = -1;
 	// while (envp[++i])
 	// 	printf("envp: %s\n", envp[i]);
+	return (1);
 }
