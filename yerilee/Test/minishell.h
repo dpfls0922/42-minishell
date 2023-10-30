@@ -29,6 +29,11 @@
 # define REDIRECTION 5
 # define PARENTHESIS 6
 
+typedef struct s_gvar
+{
+	int	g_exit_stat;
+}	t_gvar;
+
 typedef struct s_lexer
 {
 	char			*val;
