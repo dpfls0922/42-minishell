@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/27 21:44:23 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/30 22:24:55 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 		if (data.cmd)
 			add_history(data.cmd);
 		temp = ft_split(data.cmd, ' ');
-		check_builtins(temp, &data);
+		exec_start(temp, &data);
 		free(data.cmd);
 		free(temp);
 	}
