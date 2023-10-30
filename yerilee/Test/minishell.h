@@ -31,7 +31,7 @@
 
 typedef struct s_gvar
 {
-	int	g_exit_stat;
+	int	g_exit_status;
 }	t_gvar;
 
 typedef struct s_lexer
