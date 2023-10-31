@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/30 22:16:58 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/31 22:23:11 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,43 +98,84 @@ void	cd(char *path)
 			ft_error("No such file or directory\n");
 }
 
-// char	**export(t_arg arg, char **envp, char **line)
-// {
-// 	int		i;
-// 	char	**tmp;
-
-// 	i = 0;
-// 	if (!line[1]) //export 뒤 인자가 없다면 env 그냥 출력
-// 	{
-// 		while (envp[i])
-// 		{
-// 			write(arg.outfile, envp[i], ft_strlen(envp[i]));
-// 			write(arg.outfile, "\n", 1);
-// 			i++;
-// 		}
-// 	}
-// 	else //export 뒤 인자 존재한다면 envp에 삽입
-// 	{
-// 		if ((line[1][0] >= '0' && line[1][0] <= '9') || line[1][0] == '=')//유효하지 않은 인자일 시 에러
-// 		{
-// 			write(arg.outfile, "export: ", 8);
-// 			write(arg.outfile, "'", 1);
-// 			write(arg.outfile, line[1], ft_strlen(line[1]));
-// 			write(arg.outfile, "': ", 3);
-// 			write(arg.outfile, "not a valid identifier\n", 23);
-// 			return (envp);
-// 		}
-// 		tmp = envp;
-// 		envp = ft_strjoin_2d(tmp, line[1]); //envp free?
-// 		printf("debug !\n");
-// 	}
-// 	return (envp);
-// }
-
-void	unset(char **envp)
+void	modify_env_value(t_data *data, char *str, int equal_idx)
 {
-	(void)envp;
+	t_env	*curr_env;
+	char	*new_key;
+	char	*new_val;
+
+	new_key = ft_strndup(str, equal_idx + 1);
+	new_val = ft_strdup(str + equal_idx + 1);
+	curr_env = data->env_list;
+	while (curr_env)
+	{
+		if (ft_strncmp(curr_env->key, str, equal_idx))
+			break ;
+		curr_env = curr_env->next;
+	}
+	curr_env->key = new_key;
+	curr_env->val = new_val;
 }
+
+int	check_env_exist(t_env *env, char *str)
+{
+	int		i;
+	int		equal_idx;
+	t_env	*curr;
+
+	i = 0;
+	equal_idx = -1;
+	curr = env;
+	if (ft_strchr(str, '=')) //str(key + value)에 '=' 존재
+		equal_idx = i;
+	while (curr)
+	{
+		if (!ft_strncmp(curr->key, str, equal_idx + 1)) //env에 key 존재 (export abcde abcd 처리 해야 함 !!!!!!!!)
+			return (equal_idx);
+		else if (equal_idx == -1 && ft_strncmp(curr->key, str, ft_strlen(str)) == 0) //key 있음, '=' 없음, value 없음 (ex: export abc)
+			return (0);
+		curr = curr->next;
+	}
+	return (-1);
+}
+
+void	export(t_data *data, char **line)
+{
+	int		i;
+	int		equal_idx;
+
+	i = 0;
+	if (!line[1]) //export 뒤 인자가 없다면 env 그냥 출력
+		env(data);
+	else //export 뒤 인자 존재한다면 envp에 삽입
+	{
+		while (line[++i])
+		{
+			equal_idx = check_env_exist(data->env_list, line[i]);
+			if ((line[i][0] >= '0' && line[i][0] <= '9') || line[i][0] == '='
+				|| line[i][0] == '?' || line[i][0] == '/')//유효하지 않은 인자일 시 에러
+			{
+				write(data->cmd_list->fd_out, "export: ", 8);
+				write(data->cmd_list->fd_out, "'", 1);
+				write(data->cmd_list->fd_out, line[i], ft_strlen(line[i]));
+				write(data->cmd_list->fd_out, "': ", 3);
+				write(data->cmd_list->fd_out, "not a valid identifier\n", 23);
+			}
+			else if (equal_idx != -1) //이미 존재하는 key라면 -> value 수정
+				modify_env_value(data, line[i], equal_idx);
+			// else //존재하지 않는 key라면 -> export에 새로 key, value 추가
+			// {
+
+			// }
+
+		}
+	}
+}
+
+// void	unset(t_env *env);
+// {
+// 	(void)env;
+// }
 
 int	check_builtins(char **line, t_data *data)
 {
@@ -145,17 +186,17 @@ int	check_builtins(char **line, t_data *data)
 		env(data);
 	else if (!ft_strncmp(builtin, "pwd", 4))
 		pwd(data);
-	// else if (!ft_strncmp(builtin, "echo", 5))
-	// 	echo(line);
-	// else if (!ft_strncmp(builtin, "cd", 3))
-	// 	cd(line[1]);
-	// else if (!ft_strncmp(builtin, "export", 7))
-	// 	export(*arg, envp, line);
+	else if (!ft_strncmp(builtin, "echo", 5))
+		echo(line);
+	else if (!ft_strncmp(builtin, "cd", 3))
+		cd(line[1]);
+	else if (!ft_strncmp(builtin, "export", 7))
+		export(data, line);
+	// else if (!ft_strncmp(builtin, "unset", 6))
+	// 	unset(data->env_list);
 	else
 		return (0);
 
-	// if (!ft_strncmp(builtin, "unset", 6))
-	// 	unset(envp);
 	// int i = -1;
 	// while (envp[++i])
 	// 	printf("envp: %s\n", envp[i]);

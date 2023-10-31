@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/30 22:24:55 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/31 20:45:35 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	// t_arg	arg;
-	char	**temp;
 
 	(void)argv;
 	if (!init_data1(&data, argc, envp))
@@ -25,7 +24,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 3)
 		set_file(&data, argc, argv);
 	init_data_tmp(&data);
-
 	// if (arg.here_flag)
 	// run_heredoc(&arg, argv[2]);
 	// get_path_envp(&arg, envp);
@@ -42,10 +40,10 @@ int	main(int argc, char **argv, char **envp)
 			free(data.cmd);
 		if (data.cmd)
 			add_history(data.cmd);
-		temp = ft_split(data.cmd, ' ');
-		exec_start(temp, &data);
+		data.cmd_list->cmd = ft_split(data.cmd, ' '); //temp는 cmd_list가 될 것
+		exec_start(data.cmd_list->cmd, &data);
 		free(data.cmd);
-		free(temp);
+		free(data.cmd_list->cmd);
 	}
 	return (0);
 }

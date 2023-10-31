@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/30 22:19:54 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/31 22:16:39 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_data
 	char	**end;
 	char	*cmd;
 	int		heredoc_num;
+	int		pipe_flag;
 	t_lexer	*lexer_list;
 	t_env	*env_list;
 	t_cmd	*cmd_list;
@@ -107,6 +108,11 @@ void	exec_start(char **temp, t_data *data);
 //builtin
 void	env(t_data *data);
 void	pwd(t_data *data);
+void	export(t_data *data, char **line);
+void	unset(t_env env);
+
+//utils
+char	*ft_strndup(const char *src, int n);
 
 //yerin
 t_env	*add_env_to_list(t_env *env, char *str);
