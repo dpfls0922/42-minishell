@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/27 21:37:38 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/30 22:19:54 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,16 @@ typedef struct s_data
 }	t_data;
 
 //mine
-void	check_builtins(char **line, t_data *data);
+int		check_builtins(char **line, t_data *data);
 void	ft_error(char *str);
 // void	run_heredoc(t_arg *arg, char *limiter);
 char	**ft_strjoin_2d(char **s1, char *s2);
 void	init_data_tmp(t_data *data);
+void	exec_start(char **temp, t_data *data);
 
 //builtin
 void	env(t_data *data);
+void	pwd(t_data *data);
 
 //yerin
 t_env	*add_env_to_list(t_env *env, char *str);
@@ -117,7 +119,7 @@ void	set_file(t_data *data, int argc, char **argv);
 // void	run_heredoc(t_arg *arg, char *limiter);
 
 // void	get_path_envp(t_arg *arg, char **envp);
-// char	*get_cmd_path(char **path, char *cmd);
+char	*get_cmd_path(char **path, char *cmd);
 
 // void	set_cmd(t_arg *arg, t_cmd *cmd, int argc, char **argv);
 
@@ -125,13 +127,13 @@ void	set_file(t_data *data, int argc, char **argv);
 
 // void	run_free(t_arg *arg, t_cmd *cmd, int argc);
 // void	free_2d_array(char **str);
-// void	print_error(char *err_msg);
+void	print_error(char *err_msg);
 
 // void	infile_to_pipe(t_arg *arg);
 // void	pipe_to_pipe(t_arg *arg);
 // void	pipe_to_outfile(t_arg *arg);
 // void	parent_work(t_arg *arg);
 
-// void	wait_process(void);
+void	wait_process(void);
 
 #endif
