@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 20:16:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/27 21:37:24 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/31 20:23:12 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	init_data1(t_data *data, int argc, char **envp)
 	return (1);
 }
 
+/* cmd_list 임의로 초기화 */
 void	init_data_tmp(t_data *data)
 {
 	data->cmd_list = malloc(sizeof(t_cmd));

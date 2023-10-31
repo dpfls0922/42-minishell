@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 20:28:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/30 22:21:05 by spark2           ###   ########.fr       */
+/*   Updated: 2023/10/31 22:31:57 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,20 @@ void	exec_child(t_cmd *cmd, t_data *data)
 	wait_process();
 }
 
-void	exec_start(char **temp, t_data *data)
+void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
 	t_cmd	*curr;
 
 	curr = data->cmd_list;
-	while (curr->cmd)
+	while (curr)
 	{
-		// if (check_builtins(temp, data)) // && 파이프 없음
-		// 	;
-		// else
-		// {
+		if (data->pipe_flag == 0 && check_builtins(temp, data)) //pipe 없음 && builtin 함수임
+			;
+		else
+		{
 			exec_child(curr, data);
 			check_builtins(temp, data);
-		// }
+		}
 		curr = curr->next;
 	}
 }
