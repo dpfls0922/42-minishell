@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/31 22:16:39 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/01 19:38:09 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_data
 	char	*cmd;
 	int		heredoc_num;
 	int		pipe_flag;
+	int		exit_status;
 	t_lexer	*lexer_list;
 	t_env	*env_list;
 	t_cmd	*cmd_list;
@@ -124,7 +125,7 @@ void	set_file(t_data *data, int argc, char **argv);
 
 // void	run_heredoc(t_arg *arg, char *limiter);
 
-// void	get_path_envp(t_arg *arg, char **envp);
+void	get_path_envp(t_cmd *cmd, char **envp);
 char	*get_cmd_path(char **path, char *cmd);
 
 // void	set_cmd(t_arg *arg, t_cmd *cmd, int argc, char **argv);
@@ -139,7 +140,5 @@ void	print_error(char *err_msg);
 // void	pipe_to_pipe(t_arg *arg);
 // void	pipe_to_outfile(t_arg *arg);
 // void	parent_work(t_arg *arg);
-
-void	wait_process(void);
 
 #endif

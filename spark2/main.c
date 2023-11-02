@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/31 20:45:35 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/01 19:51:07 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 			free(data.cmd);
 		if (data.cmd)
 			add_history(data.cmd);
-		data.cmd_list->cmd = ft_split(data.cmd, ' '); //temp는 cmd_list가 될 것
+		data.cmd_list->cmd = ft_split(data.cmd, ' ');
 		exec_start(data.cmd_list->cmd, &data);
 		free(data.cmd);
 		free(data.cmd_list->cmd);

@@ -6,13 +6,13 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/31 22:23:11 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/01 20:36:27 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env(t_data *data)
+void	builtin_env(t_data *data)
 {
 	t_env	*curr;
 
@@ -26,11 +26,12 @@ void	env(t_data *data)
 	}
 }
 
-void	pwd(t_data *data)
+void	builtin_pwd(t_data *data)
 {
 	char	*buf;
 
 	buf = getcwd(0, 4096); //buf 사이즈 수정?
+	// printf("buf: %s\n", buf);
 	write(data->cmd_list->fd_out, buf, ft_strlen(buf));
 	write(data->cmd_list->fd_out, "\n", 1);
 	free(buf);
@@ -52,7 +53,7 @@ int	check_option_n(char *token)
 	return (1);
 }
 
-void	echo(char **line)
+void	builtin_echo(char **line)
 {
 	int	i;
 	int	new_line;
@@ -75,7 +76,7 @@ void	echo(char **line)
 		write(1, "\n", 1);
 }
 
-void	cd(char *path)
+void	builtin_cd(char *path)
 {
 	if (!path)
 		chdir(getenv("HOME"));
@@ -139,14 +140,14 @@ int	check_env_exist(t_env *env, char *str)
 	return (-1);
 }
 
-void	export(t_data *data, char **line)
+void	builtin_export(t_data *data, char **line)
 {
 	int		i;
 	int		equal_idx;
 
 	i = 0;
 	if (!line[1]) //export 뒤 인자가 없다면 env 그냥 출력
-		env(data);
+		builtin_env(data);
 	else //export 뒤 인자 존재한다면 envp에 삽입
 	{
 		while (line[++i])
@@ -167,15 +168,39 @@ void	export(t_data *data, char **line)
 			// {
 
 			// }
-
 		}
 	}
 }
 
-// void	unset(t_env *env);
+// void	builtin_unset(t_env *env);
 // {
 // 	(void)env;
 // }
+
+void	builtin_exit(char **line)
+{
+	int	val;
+	if (!line[1]) //ex: exit
+		exit(0);
+	else if (line[2]) //ex: exit 1 2
+		ft_error("exit: too many arguments");
+	else if (!line[2])
+	{
+		int	i = 0;
+		while (line[1][i])
+		{
+			val = ft_atoi(&line[1][i]); //val이 문자인지 숫자인지 확인하는 atoi 필요!!!!!!
+			printf("val: %d\n", val);
+			if (val < 0 || val > 9) //종료 코드가 숫자가 아니라면
+			{
+				ft_error("exit: nnumeric argument required\n");
+				break ;
+			}
+			i++;
+		}
+		exit(ft_atoi(line[1]));
+	}
+}
 
 int	check_builtins(char **line, t_data *data)
 {
@@ -183,17 +208,19 @@ int	check_builtins(char **line, t_data *data)
 
 	builtin = line[0];
 	if (!ft_strncmp(builtin, "env", 4))
-		env(data);
+		builtin_env(data);
 	else if (!ft_strncmp(builtin, "pwd", 4))
-		pwd(data);
+		builtin_pwd(data);
 	else if (!ft_strncmp(builtin, "echo", 5))
-		echo(line);
+		builtin_echo(line);
 	else if (!ft_strncmp(builtin, "cd", 3))
-		cd(line[1]);
+		builtin_cd(line[1]);
 	else if (!ft_strncmp(builtin, "export", 7))
-		export(data, line);
+		builtin_export(data, line);
 	// else if (!ft_strncmp(builtin, "unset", 6))
 	// 	unset(data->env_list);
+	else if (!ft_strncmp(builtin, "exit", 5))
+		builtin_exit(line);
 	else
 		return (0);
 

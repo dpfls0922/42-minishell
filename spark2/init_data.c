@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 20:16:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/31 20:23:12 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/01 19:48:22 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,6 @@ void	init_data_tmp(t_data *data)
 	data->cmd_list->fd_out = 1;
 	data->cmd_list->fd_in = 0;
 	data->heredoc_num = 0;
+	data->cmd_list->cmd = NULL; // cmd를 초기화
+	get_path_envp(data->cmd_list, data->env);
 }

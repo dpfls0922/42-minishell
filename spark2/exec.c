@@ -6,13 +6,13 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 20:28:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/31 22:31:57 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/01 19:51:33 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_child(t_cmd *cmd, t_data *data)
+int	exec_child(t_cmd *cmd, t_data *data)
 {
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
@@ -24,13 +24,13 @@ void	exec_child(t_cmd *cmd, t_data *data)
 		execve(get_cmd_path(cmd->path, cmd->cmd[0]),
 			cmd->cmd, data->env);
 	}
-	// else
-	// 	parent_work(arg);
-	wait_process();
+	return (cmd->pid);
 }
 
 void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
+	int		cur_pid;
+	int		status;
 	t_cmd	*curr;
 
 	curr = data->cmd_list;
@@ -40,9 +40,13 @@ void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 			;
 		else
 		{
-			exec_child(curr, data);
 			check_builtins(temp, data);
+			cur_pid = exec_child(curr, data);
 		}
 		curr = curr->next;
 	}
+	waitpid(cur_pid, &status, 0);
+	while (wait(0) != -1)
+		;
+	data->exit_status = WEXITSTATUS(status);
 }
