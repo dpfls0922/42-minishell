@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 20:28:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/01 19:51:33 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/03 17:59:44 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	curr = data->cmd_list;
 	while (curr)
 	{
-		if (data->pipe_flag == 0 && check_builtins(temp, data)) //pipe 없음 && builtin 함수임
+		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
 			;
 		else
 		{
-			check_builtins(temp, data);
-			cur_pid = exec_child(curr, data);
+			if (!is_builtin(temp, data))
+				cur_pid = exec_child(curr, data);
 		}
 		curr = curr->next;
 	}
@@ -49,4 +49,5 @@ void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	while (wait(0) != -1)
 		;
 	data->exit_status = WEXITSTATUS(status);
+	printf("exit_status: %d\n", data->exit_status);
 }
