@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/01 20:36:27 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/03 17:59:13 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	builtin_echo(char **line)
 		write(1, "\n", 1);
 }
 
-void	builtin_cd(char *path)
+void	builtin_cd(char *path) //홈 디렉토리가 env에서 제거되었을 경우 처리 필요
 {
 	if (!path)
 		chdir(getenv("HOME"));
@@ -179,30 +179,29 @@ void	builtin_export(t_data *data, char **line)
 
 void	builtin_exit(char **line)
 {
-	int	val;
-	if (!line[1]) //ex: exit
+	int	i;
+	int	exit_code;
+
+	printf("exit\n");
+	i = 0;
+	if (!line[1])
 		exit(0);
-	else if (line[2]) //ex: exit 1 2
-		ft_error("exit: too many arguments");
-	else if (!line[2])
+	else
 	{
-		int	i = 0;
-		while (line[1][i])
+		exit_code = ft_atoi(line[1]);
+		if (exit_code == -1)
 		{
-			val = ft_atoi(&line[1][i]); //val이 문자인지 숫자인지 확인하는 atoi 필요!!!!!!
-			printf("val: %d\n", val);
-			if (val < 0 || val > 9) //종료 코드가 숫자가 아니라면
-			{
-				ft_error("exit: nnumeric argument required\n");
-				break ;
-			}
-			i++;
+			printf("exit: %s: numeric argument required\n", line[1]);
+			exit (255);
 		}
-		exit(ft_atoi(line[1]));
+		if (line[2])
+			ft_error("exit: too many arguments\n");
+		else
+			exit(exit_code);
 	}
 }
 
-int	check_builtins(char **line, t_data *data)
+int	is_builtin(char **line, t_data *data)
 {
 	char	*builtin;
 
@@ -217,15 +216,11 @@ int	check_builtins(char **line, t_data *data)
 		builtin_cd(line[1]);
 	else if (!ft_strncmp(builtin, "export", 7))
 		builtin_export(data, line);
-	// else if (!ft_strncmp(builtin, "unset", 6))
-	// 	unset(data->env_list);
 	else if (!ft_strncmp(builtin, "exit", 5))
 		builtin_exit(line);
+	// else if (!ft_strncmp(builtin, "unset", 6))
+	// 	unset(data->env_list);
 	else
 		return (0);
-
-	// int i = -1;
-	// while (envp[++i])
-	// 	printf("envp: %s\n", envp[i]);
 	return (1);
 }

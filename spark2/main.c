@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/01 19:51:07 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/03 18:11:20 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!init_data1(&data, argc, envp))
 		exit(1);
-	// ft_memset(&arg, 0, sizeof(t_arg));
-	if (argc > 3)
-		set_file(&data, argc, argv);
 	init_data_tmp(&data);
 	// if (arg.here_flag)
 	// run_heredoc(&arg, argv[2]);
-	// get_path_envp(&arg, envp);
 	// set_cmd(&arg, &cmd, argc, argv);
 	// run_fork(&arg, &cmd, argc, envp);
 	// run_free(&arg, &cmd, argc);
