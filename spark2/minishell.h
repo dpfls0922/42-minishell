@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/01 19:38:09 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/03 16:57:09 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,6 @@
 # include "./libft/libft.h"
 # include "./pipex/get_next_line/get_next_line.h"
 
-typedef struct s_list_ms
-{
-	void			*content;
-	struct s_list	*next;
-}	t_list_ms;
-
-// typedef struct s_cmd_arg
-// {
-// 	char	**arr;
-// }	t_cmd_arg;
-
-// typedef struct s_cmd
-// {
-// 	t_cmd_arg	*arg;
-// }	t_cmd;
-
-// typedef struct s_arg
-// {
-// 	int		infile;
-// 	int		outfile;
-// 	char	**path;
-// 	int		pipe_fd[2];
-// 	int		here_flag;
-// 	pid_t	pid;
-// }	t_arg;
-
-//yerin
 typedef struct s_lexer
 {
 	char			*val;
@@ -63,11 +36,11 @@ typedef struct s_lexer
 
 typedef struct s_cmd
 {
-	char			**cmd;
-	int				fd_in;
-	int				fd_out;
-	int				heredoc_num;
-	char			**path;
+	char			**cmd; //
+	int				fd_in; //
+	int				fd_out; //
+	int				heredoc_num; //
+	char			**path; //
 	int				pipe_fd[2];
 	pid_t			pid;
 	struct s_cmd	*next;
@@ -84,22 +57,22 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	int		ac;
+	int		ac; //
 	char	**av;
-	char	**env;
+	char	**env; //
 	char	**paths;
 	char	**end;
 	char	*cmd;
 	int		heredoc_num;
-	int		pipe_flag;
-	int		exit_status;
+	int		pipe_flag; //
+	int		exit_status; //
 	t_lexer	*lexer_list;
-	t_env	*env_list;
-	t_cmd	*cmd_list;
+	t_env	*env_list; //
+	t_cmd	*cmd_list; //
 }	t_data;
 
 //mine
-int		check_builtins(char **line, t_data *data);
+int		is_builtin(char **line, t_data *data);
 void	ft_error(char *str);
 // void	run_heredoc(t_arg *arg, char *limiter);
 char	**ft_strjoin_2d(char **s1, char *s2);
@@ -120,7 +93,6 @@ t_env	*add_env_to_list(t_env *env, char *str);
 int		init_data1(t_data *data, int argc, char **env);
 
 //pipex
-// void	check_argc(int argc);
 void	set_file(t_data *data, int argc, char **argv);
 
 // void	run_heredoc(t_arg *arg, char *limiter);
