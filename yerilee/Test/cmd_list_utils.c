@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:04:36 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 21:05:33 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/06 21:30:45 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,22 @@ t_cmd	* add_command_to_list(t_data *data, int *fd, int *red_type, int red_num)
 	curr->next = node;
 	node->prev = curr;
 	return (data->cmd_list);
+}
+
+void	ft_free_cmd(t_cmd *cmd)
+{
+	t_cmd	*curr;
+	t_cmd	*next;
+
+	curr = cmd;
+	while (curr)
+	{
+		next = curr->next;
+		if (curr->cmd)
+			ft_free_list(curr->cmd);
+		free(curr);
+		curr = next;
+	}
+	curr = NULL;
+	next = NULL;
 }
