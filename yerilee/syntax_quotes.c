@@ -17,7 +17,8 @@ int	check_closed_quote(int double_flag, int single_flag)
 	if (double_flag || single_flag)
 	{
 		printf ("syntax error: unclosed quotation mark.\n");
-		return (1);
+		g_vars.exit_status = 258;
+		return (g_vars.exit_status);
 	}
 	return (0);
 }
