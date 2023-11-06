@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   B_here_doc_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 19:34:50 by spark2            #+#    #+#             */
-/*   Updated: 2023/10/27 21:21:40 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:58:52 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+// #include "../minishell.h"
 
 // void	run_heredoc(t_arg *arg, char *limiter)
 // {

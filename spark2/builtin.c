@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/03 17:59:13 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/04 20:27:12 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,11 +179,9 @@ void	builtin_export(t_data *data, char **line)
 
 void	builtin_exit(char **line)
 {
-	int	i;
 	int	exit_code;
 
 	printf("exit\n");
-	i = 0;
 	if (!line[1])
 		exit(0);
 	else
