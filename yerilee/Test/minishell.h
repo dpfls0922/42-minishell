@@ -172,6 +172,7 @@ char	*str_without_env(char *lexer, char *replaced_val);
 /* cmd_list */
 t_cmd	*new_command_node(char *command, int fd_in, int fd_out);
 t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num);
+void	ft_free_cmd(t_cmd *cmd);
 
 /* parsing */
 void	parsing(t_data *data);
