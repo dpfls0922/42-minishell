@@ -149,6 +149,7 @@ int		check_command_after_redirection(t_lexer *lexer);
 /* env */
 t_env	*new_env_node(char *str);
 t_env	*add_env_to_list(t_env *env, char *str);
+void	ft_free_env(t_env *env);
 void	print_env_list(t_env *env);
 
 /* expanding */
