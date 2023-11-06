@@ -41,6 +41,7 @@ void	init_data2(t_data *data)
 	data->heredoc_num = 0;
 	data->lexer_list = NULL;
 	data->cmd_list = NULL;
+	g_vars.exit_status = 0;
 }
 
 void	init_split(t_split *split, char *s, char c)
@@ -53,4 +54,15 @@ void	init_split(t_split *split, char *s, char c)
 	split->p = (char **)malloc(sizeof(char *) * (word_count(s, c) + 1));
 	if (!split->p)
 		return ;
+}
+
+void	init_exit(t_data *data, t_exit *exit, char *value)
+{
+	exit->i = 0;
+	exit->j = 0;
+	exit->d_flag = 0;
+	exit->s_flag = 0;
+	exit->value = value;
+	exit->prev_exit = ft_itoa(data->prev_exit_status, 0);
+	exit->new_val = allocate_new_val(exit->prev_exit, value);
 }
