@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/04 22:03:48 by sujin            ###   ########.fr       */
+/*   Updated: 2023/11/06 21:40:25 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	exec_start(char **temp, t_data *data);
 void	run_heredoc(t_data *data, char *limiter);
 
 //signal
-void 	interruptHandler();
+void	interruptHandler(int sig);
+void	check_signal(void);
 
 //builtin
 void	env(t_data *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 20:28:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/04 20:16:05 by sujin            ###   ########.fr       */
+/*   Created: 2023/11/06 20:21:59 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/06 21:09:59 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	exec_child(t_cmd *cmd, t_data *data)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
+		dup2(data->cmd_list->fd_in, STDIN_FILENO);
+		dup2(data->cmd_list->fd_out, STDOUT_FILENO);
 		execve(get_cmd_path(cmd->path, cmd->cmd[0]),
 			cmd->cmd, data->env);
 	}

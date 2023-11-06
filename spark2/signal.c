@@ -3,36 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/04 22:05:10 by sujin            ###   ########.fr       */
+/*   Updated: 2023/11/06 21:36:44 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#include <signal.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-void interruptHandler()
+void	interruptHandler(int sig)
 {
-	printf("this program will be exited in 3 seconds...\n");
-	sleep(3);
-	exit(0);
+	if (sig == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	else
+	{
+		printf("exit\n");
+	}
 }
 
-void    check_signal()
+void	check_signal(void)
 {
-	signal(SIGINT, interruptHandler);
+	signal(SIGINT, interruptHandler); //ctrl + C
+	signal(SIGTERM, interruptHandler); //ctrl + D
+	signal(SIGQUIT, interruptHandler); //ctrl + /
 }
-
-// int main()
-// {
-// 	signal(SIGINT, interruptHandler);
-// 	printf("input ctrl+c\n");
-// 	while (1);
-// }
