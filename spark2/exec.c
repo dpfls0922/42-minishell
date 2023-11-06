@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 20:28:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/03 17:59:44 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/06 20:19:51 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 			;
 		else
 		{
-			if (!is_builtin(temp, data))
+			if (!is_builtin(temp, data)) //builtin 함수가 아니라면 자식 프로세스 실행
 				cur_pid = exec_child(curr, data);
 		}
 		curr = curr->next;
@@ -49,5 +49,4 @@ void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	while (wait(0) != -1)
 		;
 	data->exit_status = WEXITSTATUS(status);
-	printf("exit_status: %d\n", data->exit_status);
 }
