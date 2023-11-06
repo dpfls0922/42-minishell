@@ -138,7 +138,7 @@ int		check_token_start(t_lexer *lexer);
 int		check_pipe(t_lexer *lexer);
 int		check_pipe_start_end(t_lexer *lexer);
 int		check_pipe_len(t_lexer *lexer);
-int		check_command_between_pipes(t_lexer *lexer);
+int		check_command_between_pipes(t_lexer *lexer, int cmd_num);
 
 int		check_quotes(t_lexer *lexer);
 int		check_closed_quote(int double_flag, int single_flag);
