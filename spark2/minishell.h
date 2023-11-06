@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/03 16:57:09 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/04 22:03:48 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ typedef struct s_data
 	char	**av;
 	char	**env; //
 	char	**paths;
-	char	**end;
+	char	**end; //heredoc limiter
 	char	*cmd;
-	int		heredoc_num;
+	int		heredoc_num; //
 	int		pipe_flag; //
 	int		exit_status; //
 	t_lexer	*lexer_list;
@@ -74,10 +74,13 @@ typedef struct s_data
 //mine
 int		is_builtin(char **line, t_data *data);
 void	ft_error(char *str);
-// void	run_heredoc(t_arg *arg, char *limiter);
 char	**ft_strjoin_2d(char **s1, char *s2);
 void	init_data_tmp(t_data *data);
 void	exec_start(char **temp, t_data *data);
+void	run_heredoc(t_data *data, char *limiter);
+
+//signal
+void 	interruptHandler();
 
 //builtin
 void	env(t_data *data);
