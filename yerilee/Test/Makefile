@@ -16,6 +16,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c\
+		Libft/ft_itoa.c \
 		Libft/ft_strcmp.c \
 		Libft/ft_strjoin.c \
 		Libft/ft_substr.c \
@@ -23,6 +24,7 @@ SRCS = main.c\
 		cmd_list_utils.c \
 		delete_quotes.c \
 		env_list_utils.c \
+		exit_status.c \
 		expanding_env.c \
 		expanding_len_loc.c \
 		expanding_str.c \

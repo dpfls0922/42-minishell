@@ -31,8 +31,10 @@
 
 typedef struct s_gvar
 {
-	int	g_exit_status;
+	int	exit_status;
 }	t_gvar;
+
+t_gvar	g_vars;
 
 typedef struct s_lexer
 {
@@ -68,6 +70,17 @@ typedef struct s_split
 	int		s_flag;
 }	t_split;
 
+typedef struct s_exit
+{
+	int		i;
+	int		j;
+	int		d_flag;
+	int		s_flag;
+	char	*value;
+	char	*prev_exit;
+	char	*new_val;
+}	t_exit;
+
 typedef struct s_data
 {
 	int		ac;
@@ -77,6 +90,7 @@ typedef struct s_data
 	char	**end;
 	char	*cmd;
 	int		heredoc_num;
+	int		prev_exit_status;
 	t_lexer	*lexer_list;
 	t_env	*env_list;
 	t_cmd	*cmd_list;
@@ -85,6 +99,8 @@ typedef struct s_data
 char	*readline(const char *prompt);
 
 /* Libft */
+char	*ft_itoa(int nbr, int len);
+int		count_len(int nbr);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 char	*ft_strtrim(char *s1, char *set);
@@ -120,7 +136,7 @@ int		check_token_start(t_lexer *lexer);
 int		check_pipe(t_lexer *lexer);
 int		check_pipe_start_end(t_lexer *lexer);
 int		check_pipe_len(t_lexer *lexer);
-int		check_command_between_pipes(t_lexer *lexer);
+int		check_command_between_pipes(t_lexer *lexer, int cmd_num);
 
 int		check_quotes(t_lexer *lexer);
 int		check_closed_quote(int double_flag, int single_flag);
@@ -133,6 +149,7 @@ int		check_command_after_redirection(t_lexer *lexer);
 /* env */
 t_env	*new_env_node(char *str);
 t_env	*add_env_to_list(t_env *env, char *str);
+void	ft_free_env(t_env *env);
 void	print_env_list(t_env *env);
 
 /* expanding */
@@ -156,6 +173,7 @@ char	*str_without_env(char *lexer, char *replaced_val);
 /* cmd_list */
 t_cmd	*new_command_node(char *command, int fd_in, int fd_out);
 t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num);
+void	ft_free_cmd(t_cmd *cmd);
 
 /* parsing */
 void	parsing(t_data *data);
@@ -196,11 +214,17 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag);
 char	*delete_quotes_in_str(char *str);
 void	delete_quotes_in_list(t_cmd *cmd_list);
 
+/* exit_status */
+void	handle_exit_status(t_data *data);
+char	*change_exit_status(t_data *data, char *value);
+char	*allocate_new_val(char *prev_exit, char *value);
+
 /* init_data */
 void	setting_env(t_data *data);
 int		init_data1(t_data *data, int argc, char **env);
 void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
+void	init_exit(t_data *data, t_exit *exit, char *value);
 
 /* main */
 int		minishell(t_data *data);
