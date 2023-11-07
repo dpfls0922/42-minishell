@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/06 21:40:25 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/07 16:52:11 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,13 @@ void	unset(t_env env);
 //utils
 char	*ft_strndup(const char *src, int n);
 
-//yerin
-t_env	*add_env_to_list(t_env *env, char *str);
-int		init_data1(t_data *data, int argc, char **env);
-
 //pipex
 void	set_file(t_data *data, int argc, char **argv);
+
+void	infile_to_pipe(t_cmd *cmd);
+void	pipe_to_pipe(t_cmd *cmd);
+void	pipe_to_outfile(t_cmd *cmd);
+void	parent_work(t_cmd *cmd);
 
 // void	run_heredoc(t_arg *arg, char *limiter);
 
@@ -112,9 +113,8 @@ char	*get_cmd_path(char **path, char *cmd);
 // void	free_2d_array(char **str);
 void	print_error(char *err_msg);
 
-// void	infile_to_pipe(t_arg *arg);
-// void	pipe_to_pipe(t_arg *arg);
-// void	pipe_to_outfile(t_arg *arg);
-// void	parent_work(t_arg *arg);
+//yerin
+t_env	*add_env_to_list(t_env *env, char *str);
+int		init_data1(t_data *data, int argc, char **env);
 
 #endif
