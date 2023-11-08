@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:06:48 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:33:04 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/08 17:58:57 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 	}
 	// printf("red_num : %d\n", red_num);
 	// printf("red_type : %d\n", red_type[0]);
-	// printf("fd : %d\n", fd[0]);
 	// printf("filename : %s\n", filename);
 
 	printf("=before_delete_redirection=\n");
