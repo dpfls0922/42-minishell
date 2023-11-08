@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:33:05 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/08 18:56:36 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	*delete_quotes_in_str(char *str)
 	if (has_quotes(str))
 	{
 		old = ft_substr(str, 0, ft_strlen(str));
+		free(str);
 		// printf("old : %s\n", old);
 		new = ft_delete_quotes(old, 0, 0, 0);
 		// printf("new : %s\n", new);
