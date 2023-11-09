@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strchr_idx.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 15:31:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/09 20:25:05 by spark2           ###   ########.fr       */
+/*   Created: 2023/11/09 21:03:55 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/09 21:35:31 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strchr_idx(char *s, int c)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (i < n && (s1[i] || s2[i]))
+	while (s[i])
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (s[i] == (char)c)
+			return (i);
 		i++;
 	}
-	return (0);
+	if ((char)c == '\0')
+		return (i);
+	return (-1); //c 문자가 s 문자열에 없음
 }

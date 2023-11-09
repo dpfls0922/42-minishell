@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp_equal.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/16 15:31:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/09 20:25:05 by spark2           ###   ########.fr       */
+/*   Created: 2023/11/09 21:33:06 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/09 21:41:29 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp_equal(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
@@ -23,5 +23,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	return (0);
+	if (s1[i]) //ex) key: abcd, str: abc
+		return (1);
+	return (0); //s1 == s2
 }
