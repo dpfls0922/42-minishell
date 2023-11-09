@@ -101,8 +101,6 @@ char	*readline(const char *prompt);
 /* Libft */
 char	*ft_itoa(int nbr, int len);
 int		count_len(int nbr);
-char	*ft_itoa(int nbr, int len);
-int		count_len(int nbr);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 char	*ft_strtrim(char *s1, char *set);
