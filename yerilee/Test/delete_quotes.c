@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/08 18:56:36 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/09 13:54:01 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 
 	new_str = NULL;
 	temp = ft_substr(s, 0, ft_strlen(s));
+	free(s);
 	while (temp && temp[i])
 	{
 		if (temp[i] == '\"' && single_flag == 0)
