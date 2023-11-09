@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:52:16 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:33:18 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/09 15:04:31 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 
 	new_str = NULL;
 	temp = ft_substr(s, 0, ft_strlen(s));
+	free(s);
 	while (temp && temp[i])
 	{
 		if (temp[i] == '\"' && single_flag == 0)
@@ -70,7 +71,8 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 			free(temp);
 			temp = ft_substr(new_str, 0, ft_strlen(new_str));
 		}
-		i++;
+		if (ft_strlen(temp) != 1)
+			i++;
 	}
 	free(temp);
 	return (new_str);
@@ -85,6 +87,7 @@ char	*delete_quotes_in_str(char *str)
 	if (has_quotes(str))
 	{
 		old = ft_substr(str, 0, ft_strlen(str));
+		free(str);
 		new = ft_delete_quotes(old, 0, 0, 0);
 		str = ft_substr(new, 0, ft_strlen(new));
 		free(old);

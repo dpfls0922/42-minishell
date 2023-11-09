@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:33:05 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/09 15:03:22 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 
 	new_str = NULL;
 	temp = ft_substr(s, 0, ft_strlen(s));
+	free(s);
 	while (temp && temp[i])
 	{
 		if (temp[i] == '\"' && single_flag == 0)
@@ -74,7 +75,10 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 			temp = ft_substr(new_str, 0, ft_strlen(new_str));
 			printf("i : %d, new_str : %s\n", i, new_str);
 		}
-		i++;
+		// printf("temp[%d] : %c\n", i, temp[i]);
+		if (ft_strlen(temp) != 1)
+			i++;
+		// printf("temp[%d] : %c\n", i, temp[i]);
 	}
 	free(temp);
 	return (new_str);
@@ -89,6 +93,7 @@ char	*delete_quotes_in_str(char *str)
 	if (has_quotes(str))
 	{
 		old = ft_substr(str, 0, ft_strlen(str));
+		free(str);
 		// printf("old : %s\n", old);
 		new = ft_delete_quotes(old, 0, 0, 0);
 		// printf("new : %s\n", new);

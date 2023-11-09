@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:01:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 19:13:46 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/09 14:30:50 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	delete_redirection_and_filename(t_data *data, int position, int flag)
 				position--;
 				curr = curr->prev;
 			}
+			free(curr->val);
 			delete_node(data, position);
 		}
 		if (flag == 0)

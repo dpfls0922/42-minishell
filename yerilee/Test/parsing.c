@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 15:27:26 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/06 16:51:13 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/08 17:48:36 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	parsing(t_data *data)
 	handle_heredoc(data, lexer);
 	handle_command(data);
 	delete_quotes_in_list(data->cmd_list);
-	printf("======================\n");
+	printf("=====delete_quotes====\n");
 	print_command_list(data->cmd_list);
 }

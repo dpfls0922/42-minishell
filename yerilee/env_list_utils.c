@@ -51,3 +51,21 @@ t_env	*add_env_to_list(t_env *env, char *str)
 	node->prev = curr;
 	return (env);
 }
+
+void	ft_free_env(t_env *env)
+{
+	t_env	*curr;
+	t_env	*next;
+
+	curr = env;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->key);
+		free(curr->val);
+		free(curr);
+		curr = next;
+	}
+	curr = NULL;
+	next = NULL;
+}
