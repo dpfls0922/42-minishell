@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/07 16:25:23 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/09 19:55:06 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	// set_cmd(&arg, &cmd, argc, argv);
 	// run_free(&arg, &cmd, argc);
 	// unlink("/tmp/.infile");
+	
 	while (1)
 	{
 		data.cmd = readline("minishell $ ");
