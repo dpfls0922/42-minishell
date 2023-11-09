@@ -101,8 +101,6 @@ char	*readline(const char *prompt);
 /* Libft */
 char	*ft_itoa(int nbr, int len);
 int		count_len(int nbr);
-char	*ft_itoa(int nbr, int len);
-int		count_len(int nbr);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 char	*ft_strtrim(char *s1, char *set);
@@ -151,6 +149,7 @@ int		check_command_after_redirection(t_lexer *lexer);
 /* env */
 t_env	*new_env_node(char *str);
 t_env	*add_env_to_list(t_env *env, char *str);
+void	ft_free_env(t_env *env);
 
 /* expanding */
 int		has_variable(char *value);
@@ -173,6 +172,7 @@ char	*str_without_env(char *lexer, char *replaced_val);
 /* cmd_list */
 t_cmd	*new_command_node(char *command, int fd_in, int fd_out);
 t_cmd	*add_command_to_list(t_data *data, int *fd, int *red_type, int red_num);
+void	ft_free_cmd(t_cmd *cmd);
 
 /* parsing */
 void	parsing(t_data *data);
