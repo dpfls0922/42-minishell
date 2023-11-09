@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:52:16 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/09 13:57:55 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/09 15:04:31 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 			free(temp);
 			temp = ft_substr(new_str, 0, ft_strlen(new_str));
 		}
-		i++;
+		if (ft_strlen(temp) != 1)
+			i++;
 	}
 	free(temp);
 	return (new_str);
