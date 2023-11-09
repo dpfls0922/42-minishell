@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/07 16:52:11 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/09 22:14:49 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void	check_signal(void);
 void	env(t_data *data);
 void	pwd(t_data *data);
 void	export(t_data *data, char **line);
-void	unset(t_env env);
+void	builtin_unset(t_env *env);
+void	builtin_export(t_data *data, char **line);
+void	builtin_env(t_data *data);
+t_env	*new_env_node_no_value(char *str);
 
 //utils
 char	*ft_strndup(const char *src, int n);
@@ -115,6 +118,7 @@ void	print_error(char *err_msg);
 
 //yerin
 t_env	*add_env_to_list(t_env *env, char *str);
+t_env	*new_env_node(char *str);
 int		init_data1(t_data *data, int argc, char **env);
 
 #endif
