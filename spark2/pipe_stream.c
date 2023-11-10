@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/07 17:23:49 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/10 23:27:21 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	pipe_to_pipe(t_cmd *cmd)
 void	pipe_to_outfile(t_cmd *cmd)
 {
 	close(cmd->pipe_fd[1]);
+	// dup2(cmd->pipe_fd[0], STDIN_FILENO);
+	// close(cmd->pipe_fd[0]);
 	dup2(cmd->fd_out, STDOUT_FILENO);
 	close(cmd->fd_out);
 }
