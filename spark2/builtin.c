@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/09 21:47:11 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/10 21:48:05 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,10 @@ void	builtin_env(t_data *data)
 	curr = data->env_list;
 	while (curr)
 	{
-		write(data->cmd_list->fd_out, curr->key, ft_strlen(curr->key));
-		if (curr->val != NULL)
-		{
-			write(data->cmd_list->fd_out, "=", 1);
-			write(data->cmd_list->fd_out, curr->val, ft_strlen(curr->val));
-		}
-		write(data->cmd_list->fd_out, "\n", 1);
+		if (!curr->val)
+			break ;
+		else
+			printf("%s=%s\n", curr->key, curr->val);
 		curr = curr->next;
 	}
 }
@@ -142,8 +139,8 @@ int	is_builtin(char **line, t_data *data)
 		builtin_export(data, line);
 	else if (!ft_strncmp(builtin, "exit", 5))
 		builtin_exit(line);
-	// else if (!ft_strncmp(builtin, "unset", 6))
-	// 	builtin_unset(data->env_list);
+	else if (!ft_strncmp(builtin, "unset", 6))
+		builtin_unset(data->env_list, line);
 	else
 		return (0);
 	return (1);
