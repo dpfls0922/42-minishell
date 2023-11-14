@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:33:30 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/27 16:34:39 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/14 16:22:50 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,14 @@ char	*set_command(t_data *data)
 		curr = curr->next;
 	}
 	return (command);
+}
+
+void	set_pipe_flag(t_data *data, t_lexer *lexer)
+{
+	while (lexer)
+	{
+		if (!ft_strcmp(lexer->val, "|"))
+			data->pipe_flag++;
+		lexer = lexer->next;
+	}
 }

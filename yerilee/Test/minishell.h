@@ -90,6 +90,7 @@ typedef struct s_data
 	char	**end;
 	char	*cmd;
 	int		heredoc_num;
+	int		pipe_flag;
 	int		prev_exit_status;
 	t_lexer	*lexer_list;
 	t_env	*env_list;
@@ -195,6 +196,7 @@ int		get_fd_out(int *fd, int *red_type, int red_num);
 int		*set_red_type(t_data *data, int red_num);
 int		set_fd(char *filename, int red_type);
 char	*set_command(t_data *data);
+void	set_pipe_flag(t_data *data, t_lexer *lexer);
 
 size_t	word_count(char *s, char c);
 void	word_len(t_split *split, char c, int flag);

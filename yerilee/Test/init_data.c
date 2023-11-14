@@ -40,6 +40,7 @@ int	init_data1(t_data *data, int argc, char **env)
 void	init_data2(t_data *data)
 {
 	data->heredoc_num = 0;
+	data->pipe_flag = 0;
 	data->lexer_list = NULL;
 	data->cmd_list = NULL;
 	g_vars.exit_status = 0;
