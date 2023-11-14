@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/09 15:03:22 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/14 17:18:03 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 
 	new_str = NULL;
 	temp = ft_substr(s, 0, ft_strlen(s));
-	free(s);
 	while (temp && temp[i])
 	{
 		if (temp[i] == '\"' && single_flag == 0)
@@ -90,18 +89,15 @@ char	*delete_quotes_in_str(char *str)
 	char	*new;
 
 	old = NULL;
+	new = NULL;
 	if (has_quotes(str))
 	{
 		old = ft_substr(str, 0, ft_strlen(str));
 		free(str);
-		// printf("old : %s\n", old);
 		new = ft_delete_quotes(old, 0, 0, 0);
-		// printf("new : %s\n", new);
-		str = ft_substr(new, 0, ft_strlen(new));
 		free(old);
-		free(new);
 	}
-	return (str);
+	return (new);
 }
 
 void	delete_quotes_in_list(t_cmd *cmd_list)
@@ -115,7 +111,7 @@ void	delete_quotes_in_list(t_cmd *cmd_list)
 		i = 0;
 		while (curr->cmd[i])
 		{
-			delete_quotes_in_str(curr->cmd[i]);
+			curr->cmd[i] = delete_quotes_in_str(curr->cmd[i]);
 			i++;
 		}
 		curr = curr->next;
