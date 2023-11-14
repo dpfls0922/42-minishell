@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 16:32:24 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 19:15:54 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int		is_builtin(char **line, t_data *data);
 void	ft_error(char *str);
 char	**ft_strjoin_2d(char **s1, char *s2);
 void	init_data_tmp(t_data *data);
-void	exec_start(char **temp, t_data *data);
+void	run_exec(char **temp, t_data *data);
 void	run_heredoc(t_data *data, char *limiter);
 
 //signal

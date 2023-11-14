@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/06 19:32:37 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/01 19:17:32 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 20:22:23 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	*get_cmd_path(char **path, char *cmd)
 	while (*path)
 	{
 		tmp = ft_strjoin(*path, path_cmd);
-
 		if (!access(tmp, X_OK))
 		{
 			free(path_cmd);

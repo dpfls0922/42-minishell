@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:21:59 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 17:08:44 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 19:15:28 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 	return (cmd->pid);
 }
 
-void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
+void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
 	int		cur_pid;
 	int		status;

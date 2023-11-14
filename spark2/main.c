@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 18:54:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 17:24:22 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 19:16:08 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		data.cmd_list->cmd = ft_split(data.cmd, ' ');
 		if (data.heredoc_num) //합칠 때 if (cmd.heredoc_num) 으로 수정
 			run_heredoc(&data, data.end[0]); //합칠 때 limiter 매개변수 수정
-		exec_start(data.cmd_list->cmd, &data);
+		run_exec(data.cmd_list->cmd, &data);
 		free(data.cmd);
 		data.cmd = 0;
 		free(data.cmd_list->cmd);
