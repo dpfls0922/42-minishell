@@ -55,7 +55,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -g $(OBJS) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) -fsanitize=address $(OBJS) -o $(NAME) -lreadline
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
