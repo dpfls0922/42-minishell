@@ -6,15 +6,14 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:21:59 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/10 23:27:02 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 17:08:44 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_child(t_cmd *cmd, t_data *data, char **temp, int cnt)
+int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 {
-	printf("exec child:%s\n", cmd->cmd[0]);
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
@@ -24,7 +23,6 @@ int	exec_child(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
-		write(2, cmd->cmd[0], ft_strlen(cmd->cmd[0]));
 		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
 			;
 		else if (cnt == 0)
@@ -36,13 +34,15 @@ int	exec_child(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		if (!is_builtin(temp, data))
 		{
 			if (execve(get_cmd_path(cmd->path, cmd->cmd[0]),
-				cmd->cmd, data->env) == -1)
-				{write(2, "command not found\n", 5);
-				exit(42);}
+					cmd->cmd, data->env) == -1)
+			{
+				write(2, "command not found\n", 5);
+				exit(42);
+			}
 		}
 	}
-	// else
-	// 	parent_work(data->cmd_list);
+	else
+		parent_work(data->cmd_list);
 	return (cmd->pid);
 }
 
@@ -62,7 +62,7 @@ void	exec_start(char **temp, t_data *data) //temp == data.cmd_list.cmd
 		else
 		{
 			// if (!is_builtin(temp, data)) //builtin 함수가 아니라면 자식 프로세스 실행
-			cur_pid = exec_child(curr, data, temp, cnt);
+			cur_pid = run_fork(curr, data, temp, cnt);
 		}
 		curr = curr->next;
 		cnt++;
