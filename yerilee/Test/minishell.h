@@ -113,6 +113,7 @@ char	*ft_strjoin(char *s1, char *s2);
 /* lexer */
 void	lexer(t_data *data);
 void	ft_free_lexer(t_lexer *lexer);
+void	print_lexer_list(t_lexer *lexer);
 
 t_lexer	*new_lexer_node(char *token, int type);
 t_lexer	*add_token_to_lexer(t_lexer *lexer, char *token, int type);
@@ -121,7 +122,6 @@ int		is_space(char c);
 int		is_word(char c);
 int		is_redirection(char c);
 int		is_parenthesis(char c);
-
 int		ft_word_len(char *cmd, int i);
 int		add_word(t_data *data, int i);
 int		add_pipe(t_data *data, int i);
@@ -151,6 +151,7 @@ int		check_command_after_redirection(t_lexer *lexer);
 t_env	*new_env_node(char *str);
 t_env	*add_env_to_list(t_env *env, char *str);
 void	ft_free_env(t_env *env);
+void	print_env_list(t_env *env);
 
 /* expanding */
 int		has_variable(char *value);
@@ -186,6 +187,7 @@ char	**replace_with_new_command(char **new, char **cmd);
 
 void	handle_command(t_data *data);
 void	make_command_list(t_data *data, int red_num, int *red_type);
+void	print_command_list(t_cmd *cmd_list);
 
 int		get_red_num(t_data *data);
 char	*get_file_name(char *value);
