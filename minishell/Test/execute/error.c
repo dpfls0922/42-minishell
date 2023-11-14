@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 14:01:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/03/23 16:43:27 by spark2           ###   ########.fr       */
+/*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/14 20:24:10 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+void	ft_error(char *str)
 {
-	char	*dstaddr;
-	char	*srcaddr;
-	size_t	i;
+	write(1, str, ft_strlen(str));
+}
 
-	dstaddr = (char *)dst;
-	srcaddr = (char *)src;
-	i = -1;
-	if (!dst && !src)
-		return (dstaddr);
-	while (++i < n)
-		dstaddr[i] = srcaddr[i];
-	return (dstaddr);
+void	print_error(char *err_msg)
+{
+	write(2, err_msg, ft_strlen(err_msg));
+	unlink("/tmp/.infile");
+	exit(1);
 }

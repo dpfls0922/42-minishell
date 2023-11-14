@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   B_path_bonus.c                                     :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/06 19:32:37 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 20:22:23 by spark2           ###   ########.fr       */
+/*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/14 20:48:54 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 void	get_path_envp(t_cmd *cmd, char **envp)
 {
-	while (ft_strncmp("PATH", *envp, 4))
+	while (ft_strncmp_exec("PATH", *envp, 4))
 		envp++;
 	cmd->path = ft_split(*envp + 5, ':');
 }
@@ -26,10 +26,10 @@ char	*get_cmd_path(char **path, char *cmd)
 
 	if (!access(cmd, X_OK))
 		return (ft_strdup(cmd));
-	path_cmd = ft_strjoin("/", cmd);
+	path_cmd = ft_strjoin_exec("/", cmd);
 	while (*path)
 	{
-		tmp = ft_strjoin(*path, path_cmd);
+		tmp = ft_strjoin_exec(*path, path_cmd);
 		if (!access(tmp, X_OK))
 		{
 			free(path_cmd);

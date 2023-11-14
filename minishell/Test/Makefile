@@ -16,6 +16,9 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c\
+		$(wildcard execute/*.c) \
+		$(wildcard execute/libft/*.c) \
+		$(wildcard execute/get_next_line/*.c) \
 		Libft/ft_itoa.c \
 		Libft/ft_strcmp.c \
 		Libft/ft_strjoin.c \

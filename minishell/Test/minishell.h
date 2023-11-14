@@ -21,6 +21,8 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "execute/get_next_line/get_next_line.h"
+# include "execute/minishell.h"
 
 # define WORD 1
 # define PIPE 2
@@ -58,6 +60,9 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				heredoc_num;
+	char			**path;
+	int				pipe_fd[2];
+	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
@@ -91,6 +96,7 @@ typedef struct s_data
 	char	*cmd;
 	int		heredoc_num;
 	int		pipe_flag;
+	int		exit_status;
 	int		prev_exit_status;
 	t_lexer	*lexer_list;
 	t_env	*env_list;
@@ -227,6 +233,13 @@ int		init_data1(t_data *data, int argc, char **env);
 void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
+
+/* executing */
+void	executing(t_data *data);
+
+/* signal */
+void	interruptHandler(int sig);
+void	set_signal(void);
 
 /* main */
 void	ft_free_data(t_data *data);

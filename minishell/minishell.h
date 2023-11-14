@@ -226,6 +226,9 @@ void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
 
+/* executing */
+void	executing(t_data *data);
+
 /* main */
 void	ft_free_data(t_data *data);
 int		minishell(t_data *data);

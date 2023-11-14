@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 19:15:54 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 20:16:38 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "./libft/libft.h"
-# include "./pipex/get_next_line/get_next_line.h"
+# include "libft/libft.h"
+# include "get_next_line/get_next_line.h"
 
 typedef struct s_gvar
 {
@@ -106,24 +106,15 @@ char	*ft_strndup(const char *src, int n);
 
 //pipex
 void	set_file(t_data *data, int argc, char **argv);
+void	get_path_envp(t_cmd *cmd, char **envp);
+char	*get_cmd_path(char **path, char *cmd);
+void	print_error(char *err_msg);
 
+//pipe_stream
 void	infile_to_pipe(t_cmd *cmd);
 void	pipe_to_pipe(t_cmd *cmd);
 void	pipe_to_outfile(t_cmd *cmd);
 void	parent_work(t_cmd *cmd);
-
-// void	run_heredoc(t_arg *arg, char *limiter);
-
-void	get_path_envp(t_cmd *cmd, char **envp);
-char	*get_cmd_path(char **path, char *cmd);
-
-// void	set_cmd(t_arg *arg, t_cmd *cmd, int argc, char **argv);
-
-// void	run_fork(t_arg *arg, t_cmd *cmd, int argc, char **envp);
-
-// void	run_free(t_arg *arg, t_cmd *cmd, int argc);
-// void	free_2d_array(char **str);
-void	print_error(char *err_msg);
 
 //yerin
 t_env	*add_env_to_list(t_env *env, char *str);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/06 20:21:59 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 19:15:28 by spark2           ###   ########.fr       */
+/*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/14 20:32:03 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,11 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	while (wait(0) != -1)
 		;
 	data->exit_status = WEXITSTATUS(status);
+}
+
+void	executing(t_data *data)
+{
+	if (data->heredoc_num) //합칠 때 if (cmd->heredoc_num) 으로 수정
+			run_heredoc(data, data->end[0]); //합칠 때 limiter 매개변수 수정
+		run_exec(data->cmd_list->cmd, data);
 }
