@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/10 21:32:13 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/14 16:32:24 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@
 
 # include "./libft/libft.h"
 # include "./pipex/get_next_line/get_next_line.h"
+
+typedef struct s_gvar
+{
+	int	exit_status;
+}	t_gvar;
+
+t_gvar	g_vars;
 
 typedef struct s_lexer
 {
@@ -81,7 +88,7 @@ void	run_heredoc(t_data *data, char *limiter);
 
 //signal
 void	interruptHandler(int sig);
-void	check_signal(void);
+void	set_signal(void);
 
 //builtin
 void	env(t_data *data);
