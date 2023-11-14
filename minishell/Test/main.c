@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/14 17:13:23 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/14 19:12:41 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	minishell(t_data *data)
 			}
 			expanding(data);
 			parsing(data);
-			// execution
+			executing(data);
 			ft_free_data(data);
 		}
 		data->prev_exit_status = g_vars.exit_status;
