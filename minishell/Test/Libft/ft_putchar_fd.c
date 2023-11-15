@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:41 by yerilee          ###   ########.fr       */
+/*   Created: 2023/03/18 22:42:59 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/15 16:25:20 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error(char *str)
+void	ft_putchar_fd(char c, int fd)
 {
-	write(1, str, ft_strlen(str));
-}
-
-void	print_error(char *err_msg)
-{
-	write(2, err_msg, ft_strlen(err_msg));
-	unlink("/tmp/.infile");
-	exit(1);
+	write(fd, &c, 1);
 }

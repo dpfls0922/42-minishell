@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/06 20:41:47 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:26:54 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	run_heredoc(t_data *data, char *limiter)
 {

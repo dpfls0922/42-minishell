@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 20:32:03 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/15 17:06:40 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 {
@@ -75,6 +75,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 
 void	executing(t_data *data)
 {
+	get_path_envp(data->cmd_list, data->env);
 	if (data->heredoc_num) //합칠 때 if (cmd->heredoc_num) 으로 수정
 			run_heredoc(data, data->end[0]); //합칠 때 limiter 매개변수 수정
 		run_exec(data->cmd_list->cmd, data);

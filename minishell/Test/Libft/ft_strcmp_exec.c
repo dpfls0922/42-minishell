@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strcmp_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:41 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/14 20:38:58 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/14 20:39:52 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error(char *str)
+int	ft_strcmp_exec(const char *s1, const char *s2)
 {
-	write(1, str, ft_strlen(str));
-}
+	int	i;
 
-void	print_error(char *err_msg)
-{
-	write(2, err_msg, ft_strlen(err_msg));
-	unlink("/tmp/.infile");
-	exit(1);
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
+	}
+	return (0);
 }

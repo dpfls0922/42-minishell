@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 20:42:00 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:27:06 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_node(t_env *node)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 20:46:04 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:51:26 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	builtin_env(t_data *data)
 {
