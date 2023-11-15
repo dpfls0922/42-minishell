@@ -17,12 +17,13 @@
 # include <unistd.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
 # include "execute/get_next_line/get_next_line.h"
-# include "execute/minishell.h"
 
 # define WORD 1
 # define PIPE 2
@@ -106,6 +107,21 @@ typedef struct s_data
 char	*readline(const char *prompt);
 
 /* Libft */
+int		check_numeric(const char *str, int i);
+
+int		ft_atoi(const char *str);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	*ft_free(char **ptr, int i);
+int		cnt_word(const char *s, char c);
+char	*ft_word_dup(const char *src, char c);
+char	**ft_split(char const *s, char c);
+int		ft_strchr_idx(char *s, int c);
+char	*ft_strchr(const char *s, int c);
+int		ft_strcmp_exec(const char *s1, const char *s2);
+char	*ft_strjoin_exec(char const *s1, char const *s2);
+int		ft_strncmp_equal(const char *s1, const char *s2, size_t n);
+int		ft_strncmp_exec(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int nbr, int len);
 int		count_len(int nbr);
 size_t	ft_strlen(const char *s);
@@ -234,12 +250,59 @@ void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
 
-/* executing */
+/* builtin */
+void	builtin_env(t_data *data);
+void	builtin_pwd(t_data *data);
+int		check_option_n(char *token);
+void	builtin_echo(char **line);
+void	builtin_cd(char *path);
+void	builtin_exit(char **line);
+int		is_builtin(char **line, t_data *data);
+
+/* error */
+void	ft_error(char *str);
+void	print_error(char *err_msg);
+
+/* exec_start */
 void	executing(t_data *data);
+int		run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt);
+void	run_exec(char **temp, t_data *data);
+
+/* export */
+void	print_export(t_data *data);
+int		check_env_exist(t_env *env, char *str);
+void	modify_env_value(t_data *data, char *str);
+t_env	*new_env_node_no_value(char *str);
+void	add_env(t_data *data, char *str);
+int		check_valid_arg(char *str);
+void	builtin_export(t_data *data, char **line);
+
+/* heredoc */
+void	run_heredoc(t_data *data, char *limiter);
+
+/* get_path_envp */
+void	get_path_envp(t_cmd *cmd, char **envp);
+char	*get_cmd_path(char **path, char *cmd);
+
+/* pipe_stream */
+void	infile_to_pipe(t_cmd *cmd);
+void	pipe_to_pipe(t_cmd *cmd);
+void	pipe_to_outfile(t_cmd *cmd);
+void	parent_work(t_cmd *cmd);
 
 /* signal */
-void	interruptHandler(int sig);
+void	show_prompt(void);
+void	handle_signal(int signo);
 void	set_signal(void);
+
+/* unset */
+void	free_node(t_env *node);
+void	remove_env(t_env *env, char *remove_str);
+void	builtin_unset(t_env *env, char **str);
+
+/* utils */
+char	**ft_strjoin_2d(char **s1, char *s2);
+char	*ft_strndup(const char *src, int n);
 
 /* main */
 void	ft_free_data(t_data *data);

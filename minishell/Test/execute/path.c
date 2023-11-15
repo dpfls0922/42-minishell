@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 20:48:54 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:26:57 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	get_path_envp(t_cmd *cmd, char **envp)
 {

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   ft_strchr_idx.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:41 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/09 21:03:55 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/15 16:25:29 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_error(char *str)
+int	ft_strchr_idx(char *s, int c)
 {
-	write(1, str, ft_strlen(str));
-}
+	int	i;
 
-void	print_error(char *err_msg)
-{
-	write(2, err_msg, ft_strlen(err_msg));
-	unlink("/tmp/.infile");
-	exit(1);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return (i);
+		i++;
+	}
+	if ((char)c == '\0')
+		return (i);
+	return (-1); //c 문자가 s 문자열에 없음
 }

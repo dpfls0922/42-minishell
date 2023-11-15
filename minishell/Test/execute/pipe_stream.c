@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_stream.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 16:57:47 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:27:00 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	infile_to_pipe(t_cmd *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/14 17:18:03 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/15 16:45:46 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ char	*delete_quotes_in_str(char *str)
 		new = ft_delete_quotes(old, 0, 0, 0);
 		free(old);
 	}
+	else
+		return (str);
 	return (new);
 }
 
