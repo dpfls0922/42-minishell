@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/17 20:25:10 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 20:32:23 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	run_exec(char **temp, t_data *data)
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
-	data->prev_exit_status = WEXITSTATUS(status);
+	g_vars.exit_status = WEXITSTATUS(status);
 	dup2(tmp_fd, STDIN_FILENO);
 }
 
