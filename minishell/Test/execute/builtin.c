@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:51:26 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 22:44:48 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,8 @@ int	is_builtin(char **line, t_data *data)
 	char	*builtin;
 
 	builtin = line[0];
+	if (!data->cmd_list->cmd[0])
+		return (2);
 	if (!ft_strncmp_exec(builtin, "env", 4))
 		builtin_env(data);
 	else if (!ft_strncmp_exec(builtin, "pwd", 4))
