@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/17 19:52:23 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 20:25:10 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
-		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
+		if (data->pipe_flag == 0)
 		{
 			if (cmd->fd_in != 0)
 				dup2(cmd->fd_in, STDIN_FILENO);
