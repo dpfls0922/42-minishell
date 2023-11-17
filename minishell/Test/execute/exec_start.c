@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 20:46:05 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 17:14:15 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 			}
 		}
 	}
-	// else
-	// 	parent_work(data->cmd_list);
+	else
+		parent_work(data->cmd_list);
 	return (cmd->pid);
 }
 
 void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
+	int		tmp_fd;
 	int		cur_pid;
 	int		status;
 	int		cnt;
@@ -55,6 +56,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 
 	cnt = 0;
 	curr = data->cmd_list;
+	tmp_fd = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
 		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
@@ -71,6 +73,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	while (wait(0) != -1)
 		;
 	data->exit_status = WEXITSTATUS(status);
+	dup2(tmp_fd, STDIN_FILENO);
 }
 
 void	executing(t_data *data)
