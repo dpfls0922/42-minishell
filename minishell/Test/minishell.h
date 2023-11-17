@@ -97,7 +97,6 @@ typedef struct s_data
 	char	*cmd;
 	int		heredoc_num;
 	int		pipe_flag;
-	int		exit_status;
 	int		prev_exit_status;
 	t_lexer	*lexer_list;
 	t_env	*env_list;

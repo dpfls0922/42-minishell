@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/17 17:32:54 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 18:04:33 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
-	data->exit_status = WEXITSTATUS(status);
+	data->prev_exit_status = WEXITSTATUS(status);
 	dup2(tmp_fd, STDIN_FILENO);
 }
 
@@ -91,7 +91,7 @@ void	executing(t_data *data)
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-	if (data->heredoc_num) //합칠 때 if (cmd->heredoc_num) 으로 수정
+	if (data->cmd_list->heredoc_num) //합칠 때 if (cmd->heredoc_num) 으로 수정
 			run_heredoc(data, data->end[0]); //합칠 때 limiter 매개변수 수정
 		run_exec(data->cmd_list->cmd, data);
 }
