@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/15 16:27:03 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 20:12:25 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		show_prompt(void)
 {
-
 	rl_on_new_line(); //minishell $ 출력
 	rl_replace_line("", 0); //버퍼 초기화
 	rl_redisplay(); //없어도 일단 실행 됨
@@ -50,5 +49,6 @@ void	handle_signal(int signo)
 void	set_signal(void)
 {
 	signal(SIGINT, handle_signal); //ctrl + C
+	signal(SIGTERM, handle_signal); //ctrl + D
 	signal(SIGQUIT, handle_signal); //ctrl + /
 }
