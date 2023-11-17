@@ -99,6 +99,20 @@ typedef struct s_data
 char	*readline(const char *prompt);
 
 /* Libft */
+int		check_numeric(const char *str, int i);
+int		ft_atoi(const char *str);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	*ft_free(char **ptr, int i);
+int		cnt_word(const char *s, char c);
+char	*ft_word_dup(const char *src, char c);
+char	**ft_split(char const *s, char c);
+int		ft_strchr_idx(char *s, int c);
+char	*ft_strchr(const char *s, int c);
+int		ft_strcmp_exec(const char *s1, const char *s2);
+char	*ft_strjoin_exec(char const *s1, char const *s2);
+int		ft_strncmp_equal(const char *s1, const char *s2, size_t n);
+int		ft_strncmp_exec(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int nbr, int len);
 int		count_len(int nbr);
 size_t	ft_strlen(const char *s);
