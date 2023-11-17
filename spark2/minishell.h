@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 21:01:32 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 19:15:54 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:44:31 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,14 @@ typedef struct s_data
 	char	*cmd;
 	int		heredoc_num; //
 	int		pipe_flag; //
-	int		exit_status; //
+	int		prev_exit_status; //
 	t_lexer	*lexer_list;
 	t_env	*env_list; //
 	t_cmd	*cmd_list; //
 }	t_data;
 
-//mine
+//main func
 int		is_builtin(char **line, t_data *data);
-void	ft_error(char *str);
-char	**ft_strjoin_2d(char **s1, char *s2);
-void	init_data_tmp(t_data *data);
 void	run_exec(char **temp, t_data *data);
 void	run_heredoc(t_data *data, char *limiter);
 
@@ -101,28 +98,22 @@ int		check_env_exist(t_env *env, char *str);
 void	builtin_env(t_data *data);
 t_env	*new_env_node_no_value(char *str);
 
-//utils
-char	*ft_strndup(const char *src, int n);
-
 //pipex
 void	set_file(t_data *data, int argc, char **argv);
+void	get_path_envp(t_cmd *cmd, char **envp);
+char	*get_cmd_path(char **path, char *cmd);
 
+//pipe stream
 void	infile_to_pipe(t_cmd *cmd);
 void	pipe_to_pipe(t_cmd *cmd);
 void	pipe_to_outfile(t_cmd *cmd);
 void	parent_work(t_cmd *cmd);
 
-// void	run_heredoc(t_arg *arg, char *limiter);
-
-void	get_path_envp(t_cmd *cmd, char **envp);
-char	*get_cmd_path(char **path, char *cmd);
-
-// void	set_cmd(t_arg *arg, t_cmd *cmd, int argc, char **argv);
-
-// void	run_fork(t_arg *arg, t_cmd *cmd, int argc, char **envp);
-
-// void	run_free(t_arg *arg, t_cmd *cmd, int argc);
-// void	free_2d_array(char **str);
+//utils
+void	init_data_tmp(t_data *data);
+char	**ft_strjoin_2d(char **s1, char *s2);
+char	*ft_strndup(const char *src, int n);
+void	ft_error(char *str);
 void	print_error(char *err_msg);
 
 //yerin
