@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/17 20:22:52 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/17 21:36:07 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/17 21:36:18 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	init_minishell(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	set_signal(SHELL, IGNORE);
+}
 
 void	ft_free_data(t_data *data)
 {
@@ -55,12 +65,15 @@ int	minishell(t_data *data)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_data	data;
+	t_data			data;
+	struct termios	term;
 
 	(void)argv;
+	tcgetattr(STDIN_FILENO, &term);
+	init_minishell();
 	if (!init_data1(&data, argc, env))
 		exit(1);
-	set_signal();
 	if (!minishell(&data))
 		return (0);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

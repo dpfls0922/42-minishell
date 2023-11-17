@@ -18,6 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c\
 		$(wildcard execute/*.c) \
 		$(wildcard execute/get_next_line/*.c) \
+		$(wildcard execute/ft_printf/*.c) \
 		Libft/ft_atoi.c \
 		Libft/ft_itoa.c \
 		Libft/ft_putchar_fd.c \
