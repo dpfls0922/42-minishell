@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:06:48 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/14 17:14:27 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 19:18:27 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ void	handle_command(t_data *data)
 
 	set_pipe_flag(data, data->lexer_list);
 	printf("pipe_flag : %d\n", data->pipe_flag);
-	red_num = get_red_num(data);
-	red_type = set_red_type(data, red_num);
 	while (data->lexer_list)
 	{
+		red_num = get_red_num(data);
+		red_type = set_red_type(data, red_num);
 		make_command_list(data, red_num, red_type);
 		delete_command(data);
 		printf("====delete_command====\n");
