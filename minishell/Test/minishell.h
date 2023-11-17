@@ -92,7 +92,6 @@ typedef struct s_data
 	int		ac;
 	char	**av;
 	char	**env;
-	char	**paths;
 	char	**end;
 	char	*cmd;
 	int		heredoc_num;

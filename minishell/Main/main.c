@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/14 19:00:30 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/17 20:22:52 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	ft_free_data(t_data *data)
 
 int	minishell(t_data *data)
 {
-	set_signal();
 	while (1)
 	{
 		init_data2(data);
@@ -44,7 +43,7 @@ int	minishell(t_data *data)
 			}
 			expanding(data);
 			parsing(data);
-			// executing(data);
+			executing(data);
 			ft_free_data(data);
 		}
 		data->prev_exit_status = g_vars.exit_status;
@@ -61,6 +60,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	if (!init_data1(&data, argc, env))
 		exit(1);
+	set_signal();
 	if (!minishell(&data))
 		return (0);
 }
