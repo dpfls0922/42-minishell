@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:38:55 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/15 16:45:46 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 21:06:50 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
 			printf("i : %d, new_str : %s\n", i, new_str);
 		}
 		// printf("temp[%d] : %c\n", i, temp[i]);
-		if (ft_strlen(temp) != 1)
+		// if (temp[i] && temp[i] == '"')
+		// 	printf("here, temp[%d] : %c\n", i, temp[i]);
+		if (ft_strlen(temp) != 1 && !(temp[i] && temp[i] == '"'))
 			i++;
 		// printf("temp[%d] : %c\n", i, temp[i]);
 	}
