@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/10 21:48:05 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:41:03 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	builtin_pwd(t_data *data)
 	char	*buf;
 
 	buf = getcwd(0, 4096); //buf 사이즈 수정?
-	// printf("buf: %s\n", buf);
 	write(data->cmd_list->fd_out, buf, ft_strlen(buf));
 	write(data->cmd_list->fd_out, "\n", 1);
 	free(buf);

@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/14 16:45:01 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:48:14 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void		show_prompt(void)
 {
-
 	rl_on_new_line(); //minishell $ 출력
 	rl_replace_line("", 0); //버퍼 초기화
 	rl_redisplay(); //없어도 일단 실행 됨

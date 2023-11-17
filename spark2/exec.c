@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:21:59 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/14 19:15:28 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/17 19:40:08 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 
 void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
+	int		tmp_fd;
 	int		cur_pid;
 	int		status;
 	int		cnt;
@@ -55,6 +56,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 
 	cnt = 0;
 	curr = data->cmd_list;
+	tmp_fd = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
 		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
@@ -70,5 +72,6 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
-	data->exit_status = WEXITSTATUS(status);
+	data->prev_exit_status = WEXITSTATUS(status);
+	dup2(tmp_fd, STDIN_FILENO);
 }
