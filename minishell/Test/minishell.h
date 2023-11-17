@@ -18,12 +18,14 @@
 # include <signal.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <termios.h>
 
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
 # include "execute/get_next_line/get_next_line.h"
+# include "execute/ft_printf/ft_printf.h"
 
 # define WORD 1
 # define PIPE 2
@@ -31,6 +33,12 @@
 # define SEMICOLON 4
 # define REDIRECTION 5
 # define PARENTHESIS 6
+
+// Signals
+# define SHELL 100
+# define DEFAULT 101
+# define IGNORE 102
+# define HEREDOC 103
 
 typedef struct s_gvar
 {
@@ -291,7 +299,7 @@ void	parent_work(t_cmd *cmd);
 /* signal */
 void	show_prompt(void);
 void	handle_signal(int signo);
-void	set_signal(void);
+void	set_signal(int sig_int, int sig_quit);
 
 /* unset */
 void	free_node(t_env *node);
