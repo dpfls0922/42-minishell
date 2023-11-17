@@ -58,6 +58,9 @@ typedef struct s_cmd
 	int				fd_in;
 	int				fd_out;
 	int				heredoc_num;
+	char			**path;
+	int				pipe_fd[2];
+	pid_t			pid;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
 }	t_cmd;
@@ -239,8 +242,59 @@ void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
 
-/* executing */
+/* builtin */
+void	builtin_env(t_data *data);
+void	builtin_pwd(t_data *data);
+int		check_option_n(char *token);
+void	builtin_echo(char **line);
+void	builtin_cd(char *path);
+void	builtin_exit(char **line);
+int		is_builtin(char **line, t_data *data);
+
+/* error */
+void	ft_error(char *str);
+void	print_error(char *err_msg);
+
+/* exec_start */
 void	executing(t_data *data);
+int		run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt);
+void	run_exec(char **temp, t_data *data);
+
+/* export */
+void	print_export(t_data *data);
+int		check_env_exist(t_env *env, char *str);
+void	modify_env_value(t_data *data, char *str);
+t_env	*new_env_node_no_value(char *str);
+void	add_env(t_data *data, char *str);
+int		check_valid_arg(char *str);
+void	builtin_export(t_data *data, char **line);
+
+/* heredoc */
+void	run_heredoc(t_data *data, char *limiter);
+
+/* get_path_envp */
+void	get_path_envp(t_cmd *cmd, char **envp);
+char	*get_cmd_path(char **path, char *cmd);
+
+/* pipe_stream */
+void	infile_to_pipe(t_cmd *cmd);
+void	pipe_to_pipe(t_cmd *cmd);
+void	pipe_to_outfile(t_cmd *cmd);
+void	parent_work(t_cmd *cmd);
+
+/* signal */
+void	show_prompt(void);
+void	handle_signal(int signo);
+void	set_signal(void);
+
+/* unset */
+void	free_node(t_env *node);
+void	remove_env(t_env *env, char *remove_str);
+void	builtin_unset(t_env *env, char **str);
+
+/* utils */
+char	**ft_strjoin_2d(char **s1, char *s2);
+char	*ft_strndup(const char *src, int n);
 
 /* main */
 void	ft_free_data(t_data *data);
