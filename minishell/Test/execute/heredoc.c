@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:54 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/17 23:27:38 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,22 @@ void	run_heredoc(t_data *data, char *limiter)
 	{
 		write(1, "> ", 2);
 		gnl = get_next_line(0);
+		// printf("limiter : %s, gnl : %s\n", limiter, gnl);
 		if (!ft_strncmp_gnl(limiter, gnl, ft_strlen(limiter)))
+		{
+			data->cmd_list->heredoc_num--;
+			printf("heredoc_nom : %d\n", data->cmd_list->heredoc_num);
 			break ;
+		}
 		write(data->cmd_list->fd_in, gnl, ft_strlen(gnl));
 		free(gnl);
+		gnl = 0;
 	}
 	if (gnl)
+	{
 		free(gnl);
+		gnl = 0;
+	}
 	close(data->cmd_list->fd_in);
 	data->cmd_list->fd_in = open("/tmp/.infile", O_RDONLY, 0644);
 }
