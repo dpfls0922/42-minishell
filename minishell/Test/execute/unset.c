@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:27:06 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/20 16:44:17 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ void	builtin_unset(t_env *env, char **str)
 		if (!check_valid_arg(str[i]))
 			continue ;
 		env_idx = check_env_exist(env, str[i]);
+		if (env_idx == -2)
+		{
+			printf("env: No such file or directory\n");
+			g_vars.exit_status = 127;
+			break ;
+		}
 		if (env_idx != -1)
 			remove_env(env, str[i]);
 	}

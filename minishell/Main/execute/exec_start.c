@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/11/20 16:50:07 by spark2           ###   ########.fr       */
+=======
 /*   Updated: 2023/11/17 23:26:25 by yerilee          ###   ########.fr       */
+>>>>>>> 1b0d5b55baf06b985b3414aede37a72c4e4ef99e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +43,9 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 			if (execve(get_cmd_path(cmd->path, cmd->cmd[0]),
 					cmd->cmd, data->env) == -1)
 			{
-				write(2, "command not found\n", 5);
-				exit(42);
+				printf("%s: No such file or directory\n", cmd->cmd[0]);
+				g_vars.exit_status = 127;
+				exit(127);
 			}
 		}
 	}
