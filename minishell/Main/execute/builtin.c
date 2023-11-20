@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/17 19:51:33 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/20 16:52:24 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	builtin_env(t_data *data)
 	t_env	*curr;
 
 	curr = data->env_list;
+	if (!curr || !curr->val)
+	{
+		printf("env: No such file or directory\n");
+		g_vars.exit_status = 127;
+		return ;
+	}
 	while (curr)
 	{
 		if (!curr->val)

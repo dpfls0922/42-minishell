@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 21:46:41 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/17 19:53:16 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/20 16:53:12 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	check_env_exist(t_env *env, char *str)
 	curr = env;
 	while (curr)
 	{
+		if (!env || !env->val)
+			return (-2);
 		if (equal_idx == -1
 			&& !ft_strncmp_equal(curr->key, str, ft_strlen(str)))
 			return (0);
