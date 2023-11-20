@@ -70,7 +70,7 @@ int	check_command_after_redirection(t_lexer *lexer)
 
 int	check_redirection(t_lexer *lexer)
 {
-	if (check_redirection_end(lexer) || check_redirection_len(lexer)
+	if (check_redirection_len(lexer) || check_redirection_end(lexer)
 		|| check_command_after_redirection(lexer))
 		return (g_vars.exit_status);
 	return (0);
