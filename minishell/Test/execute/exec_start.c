@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 17:38:06 by spark2            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/11/20 16:50:26 by spark2           ###   ########.fr       */
+=======
+/*   Updated: 2023/11/17 23:26:08 by yerilee          ###   ########.fr       */
+>>>>>>> 1b0d5b55baf06b985b3414aede37a72c4e4ef99e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +40,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 			pipe_to_outfile(cmd);
 		else
 			pipe_to_pipe(cmd);
-		if (!is_builtin(temp, data))
+		if (is_builtin(temp, data) == 0)
 		{
 			if (execve(get_cmd_path(cmd->path, cmd->cmd[0]),
 					cmd->cmd, data->env) == -1)
@@ -65,6 +69,9 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	tmp_fd = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
+		tmp_fd = dup(0);
+		if (curr->heredoc_num)
+			run_heredoc(data, data->end[cnt]);
 		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
 			;
 		else
@@ -74,6 +81,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 		}
 		curr = curr->next;
 		cnt++;
+		dup2(tmp_fd, STDIN_FILENO);
 	}
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
@@ -84,6 +92,7 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 
 void	executing(t_data *data)
 {
+	int		i;
 	t_cmd	*curr;
 
 	curr = data->cmd_list;
@@ -92,7 +101,17 @@ void	executing(t_data *data)
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-	if (data->cmd_list->heredoc_num) //합칠 때 if (cmd->heredoc_num) 으로 수정
-			run_heredoc(data, data->end[0]); //합칠 때 limiter 매개변수 수정
+	if (!data->cmd_list->cmd[0] && !data->pipe_flag)
+	{
+		i = -1;
+		curr = data->cmd_list;
+		while (curr->heredoc_num)
+		{
+			run_heredoc(data, data->end[++i]);
+			if (curr->next)
+				curr = curr->next;
+		}
+	}
+	else
 		run_exec(data->cmd_list->cmd, data);
 }

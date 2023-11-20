@@ -6,7 +6,11 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 20:27:17 by spark2            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/11/20 16:47:40 by spark2           ###   ########.fr       */
+=======
+/*   Updated: 2023/11/17 22:44:48 by yerilee          ###   ########.fr       */
+>>>>>>> 1b0d5b55baf06b985b3414aede37a72c4e4ef99e
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +137,8 @@ int	is_builtin(char **line, t_data *data)
 	char	*builtin;
 
 	builtin = line[0];
+	if (!data->cmd_list->cmd[0])
+		return (2);
 	if (!ft_strncmp_exec(builtin, "env", 4))
 		builtin_env(data);
 	else if (!ft_strncmp_exec(builtin, "pwd", 4))
