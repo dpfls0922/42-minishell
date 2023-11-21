@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:00:28 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/14 16:27:59 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 17:43:09 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	set_fd(char *filename, int red_type)
 	if (fd == -1)
 	{
 		printf("%s: No such file or directory\n", filename);
+		g_vars.exit_status = 1;
 		fd = -4242;
 	}
 	return (fd);
