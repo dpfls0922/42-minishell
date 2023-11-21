@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <termios.h>
 
+# include "execute/ft_printf/ft_printf.h"
 # include "execute/get_next_line/get_next_line.h"
 
 # include <stdio.h>
