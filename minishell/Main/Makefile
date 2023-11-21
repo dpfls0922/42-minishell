@@ -18,6 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = main.c\
 		$(wildcard execute/*.c) \
 		$(wildcard execute/get_next_line/*.c) \
+		$(wildcard execute/ft_printf/*.c) \
 		Libft/ft_atoi.c \
 		Libft/ft_itoa.c \
 		Libft/ft_putchar_fd.c \
@@ -67,10 +68,10 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline $(LDFLAGS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
