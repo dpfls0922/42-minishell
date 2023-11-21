@@ -68,10 +68,10 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline $(LDFLAGS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline
 
 %.o : %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
