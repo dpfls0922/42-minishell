@@ -6,47 +6,52 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/17 19:54:39 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 17:22:12 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	show_prompt(void)
-{
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
 void	handle_signal(int signo)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		if (pid == -1)
-		{
-			ft_putstr_fd("\n", 1);
-			show_prompt();
-			g_vars.exit_status = 1;
-		}
-		else
-			ft_putchar_fd('\n', 1);
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_vars.exit_status = 1;
 	}
-	else if (signo == SIGQUIT)
+	if (signo == SIGQUIT)
 	{
-		if (pid == -1)
-			;
-		else
-			ft_putstr_fd("Quit: 3\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
 	}
 }
 
-void	set_signal(void)
+void	handle_heredoc_signal(int sig)
 {
-	signal(SIGINT, handle_signal);
-	signal(SIGQUIT, handle_signal);
+	if (sig == SIGINT)
+	{
+		ft_printf("\n");
+		exit(1);
+	}
+}
+
+void	set_signal(int sig_int, int sig_quit)
+{
+	if (sig_int == HEREDOC)
+		signal(SIGINT, handle_heredoc_signal);
+	if (sig_int == IGNORE)
+		signal(SIGINT, SIG_IGN);
+	if (sig_int == DEFAULT)
+		signal(SIGINT, SIG_DFL);
+	if (sig_int == SHELL)
+		signal(SIGINT, handle_signal);
+	if (sig_quit == IGNORE)
+		signal(SIGQUIT, SIG_IGN);
+	if (sig_quit == DEFAULT)
+		signal(SIGQUIT, SIG_DFL);
+	if (sig_quit == SHELL)
+		signal(SIGQUIT, handle_signal);
 }
