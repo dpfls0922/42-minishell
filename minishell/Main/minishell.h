@@ -264,6 +264,7 @@ int		is_builtin(char **line, t_data *data);
 /* error */
 void	ft_error(char *str);
 void	print_error(char *err_msg);
+void	cmd_not_found_error(char *cmd);
 
 /* exec_start */
 void	executing(t_data *data);
