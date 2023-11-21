@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/20 20:22:32 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 17:58:50 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,6 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 	{
 		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
 		{
-			if (cmd->fd_in < 0)
-			{
-				// printf("%s: No such file or directory\n", 파일이름);
-				g_vars.exit_status = 1;
-				exit(g_vars.exit_status);
-			}
 			if (cmd->fd_in != 0)
 				dup2(cmd->fd_in, STDIN_FILENO);
 			if (cmd->fd_out != 1)
