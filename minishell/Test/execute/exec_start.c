@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/21 18:06:52 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 18:49:27 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 	cmd->pid = fork();
 	// printf("pid: %d\n", cmd->pid);
 	// sleep(30);
-	if (cmd->pid == -1)
-		print_error("fork error\n");
 	if (cmd->fd_in < 0)
 	{
 		g_vars.exit_status = 1;
 		return (g_vars.exit_status);
 	}
+	if (cmd->pid == -1)
+		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
 		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
