@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/21 18:49:27 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 00:13:03 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 	cmd->pid = fork();
 	// printf("pid: %d\n", cmd->pid);
 	// sleep(30);
-	if (cmd->fd_in < 0)
+	if (cmd->fd_in < 0 && data->pipe_flag == 0)
 	{
 		g_vars.exit_status = 1;
 		return (g_vars.exit_status);
