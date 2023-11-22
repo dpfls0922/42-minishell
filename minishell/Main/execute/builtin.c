@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/21 17:17:00 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 21:35:36 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_env(t_data *data)
+void	builtin_env(t_data *data, char **line)
 {
 	t_env	*curr;
 
 	curr = data->env_list;
+	if (line[1])
+		no_such_file_error(line[1], 0);
 	if (!curr || !curr->val)
 	{
 		printf("env: No such file or directory\n");
@@ -135,7 +137,7 @@ int	is_builtin(char **line, t_data *data)
 	if (!data->cmd_list->cmd[0])
 		return (2);
 	if (!ft_strncmp_exec(builtin, "env", 4))
-		builtin_env(data);
+		builtin_env(data, line);
 	else if (!ft_strncmp_exec(builtin, "pwd", 4))
 		builtin_pwd(data);
 	else if (!ft_strncmp_exec(builtin, "echo", 5))
