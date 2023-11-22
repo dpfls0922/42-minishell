@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/21 17:17:11 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 10:02:55 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
+	if (cmd->fd_in < 0 && data->pipe_flag == 0)
+	{
+		g_vars.exit_status = 1;
+		return (g_vars.exit_status);
+	}
 	if (cmd->pid == -1)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
@@ -52,20 +57,27 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 
 void	run_exec(char **temp, t_data *data)
 {
-	int		tmp_fd;
+	int		tmp_fd1;
+	int		tmp_fd2;
 	int		cur_pid;
 	int		status;
 	int		cnt;
+	int		heredoc_flag;
 	t_cmd	*curr;
 
 	cnt = 0;
 	curr = data->cmd_list;
-	tmp_fd = dup(0);
+	tmp_fd1 = dup(0);
 	while (curr)
 	{
-		tmp_fd = dup(0);
+		tmp_fd2 = dup(0);
+		heredoc_flag = 0;
 		if (curr->heredoc_num)
+		{
 			run_heredoc(data, data->end[cnt]);
+			tmp_fd2 = dup(0);
+			heredoc_flag = 1;
+		}
 		if (data->pipe_flag == 0 && is_builtin(temp, data))
 			;
 		else
@@ -74,13 +86,14 @@ void	run_exec(char **temp, t_data *data)
 		}
 		curr = curr->next;
 		cnt++;
-		dup2(tmp_fd, STDIN_FILENO);
+		if (heredoc_flag)
+			dup2(tmp_fd2, STDIN_FILENO);
 	}
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
 	g_vars.exit_status = WEXITSTATUS(status);
-	dup2(tmp_fd, STDIN_FILENO);
+	dup2(tmp_fd1, STDIN_FILENO);
 }
 
 void	executing(t_data *data)
