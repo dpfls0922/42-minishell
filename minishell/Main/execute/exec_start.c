@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/22 10:02:55 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 21:04:29 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
+		if (!ft_strcmp(cmd->cmd[0], "/bin")
+			|| !ft_strcmp(cmd->cmd[0], "/usr/bin"))
+			is_a_dir_error(cmd->cmd[0]);
 		if (data->pipe_flag == 0)
 		{
 			if (cmd->fd_in != 0)
@@ -43,11 +46,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		{
 			if (execve(get_cmd_path(cmd->path, cmd->cmd[0]),
 					cmd->cmd, data->env) == -1)
-			{
-				printf("%s: No such file or directory\n", cmd->cmd[0]);
-				g_vars.exit_status = 127;
-				exit(127);
-			}
+				cmd_not_found_error(cmd->cmd[0]);
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/21 22:00:54 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/22 21:37:09 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ char	*get_cmd_path(char **path, char *cmd)
 	free(path_cmd);
 	if (!access(cmd, F_OK))
 		print_error("permission denied\n");
-	cmd_not_found_error(cmd);
+	if (ft_strchr(cmd, '/'))
+		no_such_file_error(cmd, 1);
+	else
+		cmd_not_found_error(cmd);
 	return (NULL);
 }
