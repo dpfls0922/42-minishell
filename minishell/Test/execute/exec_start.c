@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/22 00:13:03 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 09:49:31 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,28 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 
 void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
-	int		tmp_fd;
+	int		tmp_fd1;
+	int		tmp_fd2;
 	int		cur_pid;
 	int		status;
 	int		cnt;
+	int		heredoc_flag;
 	t_cmd	*curr;
 
 	cnt = 0;
 	curr = data->cmd_list;
-	tmp_fd = dup(0);
+	tmp_fd1 = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
-		tmp_fd = dup(0);
+		tmp_fd2 = dup(0);
+		heredoc_flag = 0;
 		if (curr->heredoc_num)
+		{
 			run_heredoc(data, data->end[cnt]);
+			tmp_fd2 = dup(0);
+			heredoc_flag = 1;
+		}
+		printf("[heredoc_flag] : %d]\n", heredoc_flag);
 		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
 			;
 		else
@@ -82,13 +90,14 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 		}
 		curr = curr->next;
 		cnt++;
-		dup2(tmp_fd, STDIN_FILENO);
+		if (heredoc_flag)
+			dup2(tmp_fd2, STDIN_FILENO);
 	}
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
 	g_vars.exit_status = WEXITSTATUS(status);
-	dup2(tmp_fd, STDIN_FILENO);
+	dup2(tmp_fd1, STDIN_FILENO);
 }
 
 void	executing(t_data *data)
