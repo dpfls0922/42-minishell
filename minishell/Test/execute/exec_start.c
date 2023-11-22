@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/22 09:49:31 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 22:04:30 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
+		if (!cmd->cmd[0]) // "" (빈 문자열) 입력 시 에러 처리
+		{
+			// printf("cmd.cmd: 1%s2\n", cmd->cmd[0]);
+			cmd_not_found_error("");
+		}
+		if (!ft_strcmp(cmd->cmd[0], "/bin")) // /bin 입력 시 에러 처리
+		{
+			printf("/bin: is a directory\n");
+			return (cmd->pid);
+		}
 		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
 		{
 			if (cmd->fd_in != 0)
@@ -72,6 +82,9 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	tmp_fd1 = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
+		printf("cmd.fd_in: %d\n", curr->fd_in);
+		printf("cmd.fd_out: %d\n", curr->fd_out);
+		tmp_fd = dup(0);
 		tmp_fd2 = dup(0);
 		heredoc_flag = 0;
 		if (curr->heredoc_num)
@@ -96,6 +109,13 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
+	// if (!ft_strcmp(curr->cmd[0], "/bin")) // /bin의 exit_status 설정하기
+	// 	{
+	// 		g_vars.exit_status = 126;
+	// 	}
+	// else
+      g_vars.exit_status = WEXITSTATUS(status);
+	dup2(tmp_fd, STDIN_FILENO);
 	g_vars.exit_status = WEXITSTATUS(status);
 	dup2(tmp_fd1, STDIN_FILENO);
 }

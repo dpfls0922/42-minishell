@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_stream.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/22 10:31:19 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 22:01:52 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,13 @@ void	infile_to_pipe(t_cmd *cmd)
 void	pipe_to_pipe(t_cmd *cmd)
 {
 	close(cmd->pipe_fd[0]);
-	dup2(cmd->pipe_fd[1], STDOUT_FILENO);
+	if (cmd->prev)
+	{
+		if (cmd->prev->fd_in < 0)
+			dup2(-1, STDOUT_FILENO);
+	}
+	else
+		dup2(cmd->pipe_fd[1], STDOUT_FILENO);
 	close(cmd->pipe_fd[1]);
 	write(1, "pipe to pipe\n", 13);
 }
@@ -38,7 +44,16 @@ void	pipe_to_outfile(t_cmd *cmd)
 	write(1, "pipe to outfile\n", 16);
 	printf("cmd->val : %s, cmd->fd_in : %d, cmd->fd_out : %d\n", cmd->cmd[0], cmd->fd_in, cmd->fd_out);
 	close(cmd->pipe_fd[1]);
-	dup2(cmd->fd_out, STDOUT_FILENO);
+	if (cmd->prev)
+	{
+		if (cmd->prev->fd_in < 0)
+		{
+			printf("prev fd_in is invalid!\n\n");
+			dup2(-1, STDOUT_FILENO);
+		}
+	}
+	else
+		dup2(cmd->fd_out, STDOUT_FILENO);
 	if (cmd->fd_out != 1)
 		close(cmd->fd_out);
 }

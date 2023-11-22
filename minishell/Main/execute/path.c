@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:26:57 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/21 22:00:54 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ char	*get_cmd_path(char **path, char *cmd)
 	free(path_cmd);
 	if (!access(cmd, F_OK))
 		print_error("permission denied\n");
-	print_error("command not found\n");
+	cmd_not_found_error(cmd);
 	return (NULL);
 }
