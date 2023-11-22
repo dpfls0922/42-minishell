@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/21 22:04:30 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/22 21:04:09 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,12 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
-		if (!cmd->cmd[0]) // "" (빈 문자열) 입력 시 에러 처리
-		{
-			// printf("cmd.cmd: 1%s2\n", cmd->cmd[0]);
+		// printf("cmd: 1%s3\n", cmd->cmd[0]);
+		if (cmd->cmd[0] == NULL) // "" (빈 문자열) 입력 시 에러 처리
 			cmd_not_found_error("");
-		}
-		if (!ft_strcmp(cmd->cmd[0], "/bin")) // /bin 입력 시 에러 처리
-		{
-			printf("/bin: is a directory\n");
-			return (cmd->pid);
-		}
+		if (!ft_strcmp(cmd->cmd[0], "/bin")
+			|| !ft_strcmp(cmd->cmd[0], "/usr/bin"))
+			is_a_dir_error(cmd->cmd[0]);
 		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
 		{
 			if (cmd->fd_in != 0)
@@ -55,11 +51,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		{
 			if (execve(get_cmd_path(cmd->path, cmd->cmd[0]),
 					cmd->cmd, data->env) == -1)
-			{
-				printf("%s: No such file or directory\n", cmd->cmd[0]);
-				g_vars.exit_status = 127;
-				exit(127);
-			}
+				cmd_not_found_error(cmd->cmd[0]);
 		}
 	}
 	else
@@ -82,9 +74,6 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	tmp_fd1 = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
-		printf("cmd.fd_in: %d\n", curr->fd_in);
-		printf("cmd.fd_out: %d\n", curr->fd_out);
-		tmp_fd = dup(0);
 		tmp_fd2 = dup(0);
 		heredoc_flag = 0;
 		if (curr->heredoc_num)
@@ -106,16 +95,23 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 		if (heredoc_flag)
 			dup2(tmp_fd2, STDIN_FILENO);
 	}
-	waitpid(cur_pid, &status, 0);
-	while (wait(0) != -1)
+	//첫 번째 cmd가 cat이고 인자가 없음, pipe 있음
+	if (!ft_strcmp(data->cmd_list->cmd[0], "cat")
+		&& !data->cmd_list->cmd[1] && data->pipe_flag)
+	{
 		;
+	}
+	else
+	{
+		waitpid(cur_pid, &status, 0);
+		while (wait(0) != -1)
+			;
+	}
 	// if (!ft_strcmp(curr->cmd[0], "/bin")) // /bin의 exit_status 설정하기
 	// 	{
 	// 		g_vars.exit_status = 126;
 	// 	}
 	// else
-      g_vars.exit_status = WEXITSTATUS(status);
-	dup2(tmp_fd, STDIN_FILENO);
 	g_vars.exit_status = WEXITSTATUS(status);
 	dup2(tmp_fd1, STDIN_FILENO);
 }
