@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/22 00:22:22 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 10:31:19 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	infile_to_pipe(t_cmd *cmd)
 {
 	if (cmd->fd_in < 0)
-		print_error("fd_in error\n"); //에러 메세지 수정
+		print_error("fd_in error\n");
 	write(1, "infile to pipe\n", 15);
 	close(cmd->pipe_fd[0]);
 	dup2(cmd->fd_in, STDIN_FILENO);
