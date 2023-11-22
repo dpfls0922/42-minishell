@@ -19,7 +19,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 	cmd->pid = fork();
 	// printf("pid: %d\n", cmd->pid);
 	// sleep(30);
-	if (cmd->fd_in < 0)
+	if (cmd->fd_in < 0 && data->pipe_flag == 0)
 	{
 		g_vars.exit_status = 1;
 		return (g_vars.exit_status);
@@ -69,22 +69,31 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 
 void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 {
-	int		tmp_fd;
+	int		tmp_fd1;
+	int		tmp_fd2;
 	int		cur_pid;
 	int		status;
 	int		cnt;
+	int		heredoc_flag;
 	t_cmd	*curr;
 
 	cnt = 0;
 	curr = data->cmd_list;
-	tmp_fd = dup(0);
+	tmp_fd1 = dup(0);
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
 		printf("cmd.fd_in: %d\n", curr->fd_in);
 		printf("cmd.fd_out: %d\n", curr->fd_out);
 		tmp_fd = dup(0);
+		tmp_fd2 = dup(0);
+		heredoc_flag = 0;
 		if (curr->heredoc_num)
+		{
 			run_heredoc(data, data->end[cnt]);
+			tmp_fd2 = dup(0);
+			heredoc_flag = 1;
+		}
+		printf("[heredoc_flag] : %d]\n", heredoc_flag);
 		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
 			;
 		else
@@ -94,7 +103,8 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 		}
 		curr = curr->next;
 		cnt++;
-		dup2(tmp_fd, STDIN_FILENO);
+		if (heredoc_flag)
+			dup2(tmp_fd2, STDIN_FILENO);
 	}
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
@@ -104,8 +114,10 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	// 		g_vars.exit_status = 126;
 	// 	}
 	// else
-		g_vars.exit_status = WEXITSTATUS(status);
+      g_vars.exit_status = WEXITSTATUS(status);
 	dup2(tmp_fd, STDIN_FILENO);
+	g_vars.exit_status = WEXITSTATUS(status);
+	dup2(tmp_fd1, STDIN_FILENO);
 }
 
 void	executing(t_data *data)

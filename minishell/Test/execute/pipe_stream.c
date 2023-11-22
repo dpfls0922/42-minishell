@@ -15,7 +15,7 @@
 void	infile_to_pipe(t_cmd *cmd)
 {
 	if (cmd->fd_in < 0)
-		print_error("fd_in error"); //에러 메세지 수정
+		print_error("fd_in error\n");
 	write(1, "infile to pipe\n", 15);
 	close(cmd->pipe_fd[0]);
 	dup2(cmd->fd_in, STDIN_FILENO);
@@ -42,6 +42,7 @@ void	pipe_to_pipe(t_cmd *cmd)
 void	pipe_to_outfile(t_cmd *cmd)
 {
 	write(1, "pipe to outfile\n", 16);
+	printf("cmd->val : %s, cmd->fd_in : %d, cmd->fd_out : %d\n", cmd->cmd[0], cmd->fd_in, cmd->fd_out);
 	close(cmd->pipe_fd[1]);
 	if (cmd->prev)
 	{
