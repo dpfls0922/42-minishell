@@ -257,7 +257,7 @@ void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
 
 /* builtin */
-void	builtin_env(t_data *data);
+void	builtin_env(t_data *data, char **line);
 void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
 void	builtin_echo(char **line);
@@ -269,6 +269,8 @@ int		is_builtin(char **line, t_data *data);
 void	ft_error(char *str);
 void	print_error(char *err_msg);
 void	cmd_not_found_error(char *cmd);
+void	no_such_file_error(char *cmd, int error_flag);
+void	is_a_dir_error(char *cmd);
 
 /* exec_start */
 void	executing(t_data *data);
