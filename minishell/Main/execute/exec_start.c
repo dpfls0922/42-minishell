@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/22 10:01:12 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/22 10:02:55 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	run_exec(char **temp, t_data *data)
 	while (wait(0) != -1)
 		;
 	g_vars.exit_status = WEXITSTATUS(status);
-	up2(tmp_fd1, STDIN_FILENO);
+	dup2(tmp_fd1, STDIN_FILENO);
 }
 
 void	executing(t_data *data)
