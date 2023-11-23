@@ -21,7 +21,7 @@ void	setting_env(t_data *data)
 		i = 0;
 		while (data->env[i])
 		{
-			data->env_list = add_env_to_list(data->env_list, data->env[i]);
+			data->env_list = add_env_to_list(data, data->env[i], i);
 			i++;
 		}
 	}

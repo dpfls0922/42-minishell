@@ -32,7 +32,7 @@ t_env	*new_env_node(char *str)
 	return (node);
 }
 
-t_env	*add_env_to_list(t_env *env, char *str)
+t_env	*add_env_to_list(t_data *data, char *str, int i)
 {
 	t_env	*node;
 	t_env	*curr;
@@ -42,14 +42,14 @@ t_env	*add_env_to_list(t_env *env, char *str)
 	node = new_env_node(str);
 	if (!node)
 		exit(1);
-	if (!env)
+	if (i == 0)
 		return (node);
-	curr = env;
+	curr = data->env_list;
 	while (curr->next != NULL)
 		curr = curr->next;
 	curr->next = node;
 	node->prev = curr;
-	return (env);
+	return (data->env_list);
 }
 
 void	ft_free_env(t_env *env)
