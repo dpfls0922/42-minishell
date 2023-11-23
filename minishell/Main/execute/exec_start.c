@@ -6,13 +6,13 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/22 21:04:29 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/23 21:29:35 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
+int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
@@ -26,6 +26,8 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
+		char	*path;
+		path = get_cmd_path(cmd->path, cmd->cmd[0]);
 		if (!ft_strcmp(cmd->cmd[0], "/bin")
 			|| !ft_strcmp(cmd->cmd[0], "/usr/bin"))
 			is_a_dir_error(cmd->cmd[0]);
@@ -42,19 +44,17 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 			pipe_to_outfile(cmd);
 		else
 			pipe_to_pipe(cmd);
-		if (is_builtin(temp, data) == 0)
-		{
-			if (execve(get_cmd_path(cmd->path, cmd->cmd[0]),
-					cmd->cmd, data->env) == -1)
-				cmd_not_found_error(cmd->cmd[0]);
-		}
+		if (is_builtin(cmd->cmd, data))
+			exit(0);
+		else
+			execve(path, cmd->cmd, data->env);
 	}
 	else
 		parent_work(data->cmd_list);
 	return (cmd->pid);
 }
 
-void	run_exec(char **temp, t_data *data)
+void	run_exec(t_data *data)
 {
 	int		tmp_fd1;
 	int		tmp_fd2;
@@ -77,12 +77,8 @@ void	run_exec(char **temp, t_data *data)
 			tmp_fd2 = dup(0);
 			heredoc_flag = 1;
 		}
-		if (data->pipe_flag == 0 && is_builtin(temp, data))
-			;
-		else
-		{
-			cur_pid = run_fork(curr, data, temp, cnt);
-		}
+		if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data)))
+			cur_pid = run_fork(curr, data, cnt);
 		curr = curr->next;
 		cnt++;
 		if (heredoc_flag)
@@ -118,5 +114,5 @@ void	executing(t_data *data)
 		}
 	}
 	else
-		run_exec(data->cmd_list->cmd, data);
+		run_exec(data);
 }

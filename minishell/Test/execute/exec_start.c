@@ -6,13 +6,13 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/23 19:06:34 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/23 21:28:37 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
+int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	write(1, "in run fork\n", 12);
 	if (pipe(cmd->pipe_fd) < 0)
@@ -40,14 +40,7 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 		if (!ft_strcmp(cmd->cmd[0], "/bin")
 			|| !ft_strcmp(cmd->cmd[0], "/usr/bin"))
 			is_a_dir_error(cmd->cmd[0]);
-		if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
-		{
-			if (cmd->fd_in != 0)
-				dup2(cmd->fd_in, STDIN_FILENO);
-			if (cmd->fd_out != 1)
-				dup2(cmd->fd_out, STDOUT_FILENO);
-		}
-		else
+		if (data->pipe_flag)
 		{
 			if(cnt == 0)
 				infile_to_pipe(cmd);
@@ -56,19 +49,33 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 			else
 				pipe_to_pipe(cmd);
 		}
-		(void) temp;
-		if (!is_builtin(cmd->cmd, data))
-		{
-			printf("is builtin!\n");
+		// if (data->pipe_flag == 0) //if cmd.heredoc 존재하면 조건 추가하기
+		// {
+		// 	if (cmd->fd_in != 0)
+		// 		dup2(cmd->fd_in, STDIN_FILENO);
+		// 	if (cmd->fd_out != 1)
+		// 		dup2(cmd->fd_out, STDOUT_FILENO);
+		// }
+		// else
+		// {
+		// 	if(cnt == 0)
+		// 		infile_to_pipe(cmd);
+		// 	else if (cnt == data->pipe_flag)
+		// 		pipe_to_outfile(cmd);
+		// 	else
+		// 		pipe_to_pipe(cmd);
+		// }
+		if (is_builtin(cmd->cmd, data))
+			exit(0);
+		else
 			execve(path, cmd->cmd, data->env);
-		}
 	}
 	else
 		parent_work(data->cmd_list);
 	return (cmd->pid);
 }
 
-void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
+void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 {
 	int		tmp_fd1;
 	int		tmp_fd2;
@@ -81,20 +88,8 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	cnt = 0;
 	curr = data->cmd_list;
 	tmp_fd1 = dup(0);
-	write(1, curr->cmd[0], ft_strlen(curr->cmd[0]));
-
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
-		write(1, "hereeeee\n", 10);
-
-
-		if (curr->fd_in != 0)
-			dup2(curr->fd_in, STDIN_FILENO);
-		if (curr->fd_out != 1)
-			dup2(curr->fd_out, STDOUT_FILENO);
-
-
-
 		tmp_fd2 = dup(0);
 		heredoc_flag = 0;
 		if (curr->heredoc_num)
@@ -103,9 +98,8 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 			tmp_fd2 = dup(0);
 			heredoc_flag = 1;
 		}
-		if (!(data->pipe_flag == 0 && is_builtin(temp, data))) //!(pipe 없음 && builtin 함수임)
-			cur_pid = run_fork(curr, data, temp, cnt);
-		write(1, curr->cmd[0], ft_strlen(curr->cmd[0]));
+		if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data))) //!(pipe 없음 && builtin 함수임)
+			cur_pid = run_fork(curr, data, cnt);
 		curr = curr->next;
 		cnt++;
 		if (heredoc_flag)
@@ -155,5 +149,5 @@ void	executing(t_data *data)
 		}
 	}
 	else
-		run_exec(data->cmd_list->cmd, data);
+		run_exec(data);
 }
