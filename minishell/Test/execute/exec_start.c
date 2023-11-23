@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/23 17:56:49 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/23 19:06:34 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 {
+	write(1, "in run fork\n", 12);
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
+	// set_signal(DEFAUL T, DEFAULT);
 	cmd->pid = fork();
 	// printf("pid: %d\n", cmd->pid);
 	// sleep(30);
@@ -45,14 +47,21 @@ int	run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt)
 			if (cmd->fd_out != 1)
 				dup2(cmd->fd_out, STDOUT_FILENO);
 		}
-		else if (cnt == 0)
-			infile_to_pipe(cmd);
-		else if (cnt == data->pipe_flag)
-			pipe_to_outfile(cmd);
 		else
-			pipe_to_pipe(cmd);
-		if (is_builtin(temp, data) == 0)
+		{
+			if(cnt == 0)
+				infile_to_pipe(cmd);
+			else if (cnt == data->pipe_flag)
+				pipe_to_outfile(cmd);
+			else
+				pipe_to_pipe(cmd);
+		}
+		(void) temp;
+		if (!is_builtin(cmd->cmd, data))
+		{
+			printf("is builtin!\n");
 			execve(path, cmd->cmd, data->env);
+		}
 	}
 	else
 		parent_work(data->cmd_list);
@@ -72,8 +81,20 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 	cnt = 0;
 	curr = data->cmd_list;
 	tmp_fd1 = dup(0);
+	write(1, curr->cmd[0], ft_strlen(curr->cmd[0]));
+
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
+		write(1, "hereeeee\n", 10);
+
+
+		if (curr->fd_in != 0)
+			dup2(curr->fd_in, STDIN_FILENO);
+		if (curr->fd_out != 1)
+			dup2(curr->fd_out, STDOUT_FILENO);
+
+
+
 		tmp_fd2 = dup(0);
 		heredoc_flag = 0;
 		if (curr->heredoc_num)
@@ -82,14 +103,9 @@ void	run_exec(char **temp, t_data *data) //temp == data.cmd_list.cmd
 			tmp_fd2 = dup(0);
 			heredoc_flag = 1;
 		}
-		printf("[heredoc_flag] : %d]\n", heredoc_flag);
-		if (data->pipe_flag == 0 && is_builtin(temp, data)) //pipe 없음 && builtin 함수임
-			;
-		else
-		{
-			// if (!is_builtin(temp, data)) //builtin 함수가 아니라면 자식 프로세스 실행
+		if (!(data->pipe_flag == 0 && is_builtin(temp, data))) //!(pipe 없음 && builtin 함수임)
 			cur_pid = run_fork(curr, data, temp, cnt);
-		}
+		write(1, curr->cmd[0], ft_strlen(curr->cmd[0]));
 		curr = curr->next;
 		cnt++;
 		if (heredoc_flag)
