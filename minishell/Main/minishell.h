@@ -270,8 +270,8 @@ void	is_a_dir_error(char *cmd);
 
 /* exec_start */
 void	executing(t_data *data);
-int		run_fork(t_cmd *cmd, t_data *data, char **temp, int cnt);
-void	run_exec(char **temp, t_data *data);
+int		run_fork(t_cmd *cmd, t_data *data, int cnt);
+void	run_exec(t_data *data);
 
 /* export */
 void	print_export(t_data *data);
