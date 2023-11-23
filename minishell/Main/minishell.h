@@ -107,6 +107,7 @@ typedef struct s_data
 	t_lexer	*lexer_list;
 	t_env	*env_list;
 	t_cmd	*cmd_list;
+	int		*fd;
 }	t_data;
 
 char	*readline(const char *prompt);
@@ -175,7 +176,7 @@ int		check_command_after_redirection(t_lexer *lexer);
 
 /* env */
 t_env	*new_env_node(char *str);
-t_env	*add_env_to_list(t_env *env, char *str);
+t_env	*add_env_to_list(t_data *data, char *str, int i);
 void	ft_free_env(t_env *env);
 
 /* expanding */
@@ -269,6 +270,8 @@ void	no_such_file_error(char *cmd, int error_flag);
 void	is_a_dir_error(char *cmd);
 
 /* exec_start */
+int		*dup_fd(void);
+void	redirect_fd(int *fd);
 void	executing(t_data *data);
 int		run_fork(t_cmd *cmd, t_data *data, int cnt);
 void	run_exec(t_data *data);
