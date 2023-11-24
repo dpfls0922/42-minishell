@@ -6,13 +6,13 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/17 23:27:38 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/24 17:29:46 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	run_heredoc(t_data *data, char *limiter)
+void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter)
 {
 	char	*gnl;
 
@@ -22,10 +22,14 @@ void	run_heredoc(t_data *data, char *limiter)
 		write(1, "> ", 2);
 		gnl = get_next_line(0);
 		// printf("limiter : %s, gnl : %s\n", limiter, gnl);
+		if (!limiter)
+			break ;
 		if (!ft_strncmp_gnl(limiter, gnl, ft_strlen(limiter)))
 		{
-			data->cmd_list->heredoc_num--;
-			printf("heredoc_nom : %d\n", data->cmd_list->heredoc_num);
+			cmd->heredoc_num--;
+			data->heredoc_num--;
+			// printf("cmd.heredoc_nom : %d\n", data->cmd_list->heredoc_num);
+			// printf("data.heredoc_nom : %d\n", data->heredoc_num);
 			break ;
 		}
 		write(data->cmd_list->fd_in, gnl, ft_strlen(gnl));

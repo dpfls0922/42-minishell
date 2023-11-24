@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/23 23:09:50 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/24 17:37:21 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	redirect_fd(int *fd)
 
 int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
-	write(1, "in run fork\n", 12);
+	char	*path;
+
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
@@ -47,12 +48,10 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
-		char	*path;
-		path = get_cmd_path(cmd->path, cmd->cmd[0]);
-		if (!path)
-			cmd_not_found_error(cmd->cmd[0]);
-		if (cmd->cmd[0] == NULL) // "" (빈 문자열) 입력 시 에러 처리
-			cmd_not_found_error("");
+		if (cmd->cmd[0] == NULL)
+			exit(0);
+		// if (ft_strcmp(cmd->cmd[0], "")) // "" (빈 문자열) 입력 시 에러 처리
+		// 	cmd_not_found_error("");
 		if (!ft_strcmp(cmd->cmd[0], "/bin")
 			|| !ft_strcmp(cmd->cmd[0], "/usr/bin"))
 			is_a_dir_error(cmd->cmd[0]);
@@ -67,6 +66,9 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 			else
 				pipe_to_pipe(cmd);
 		}
+		path = get_cmd_path(cmd->path, cmd->cmd[0]);
+		if (!path)
+			cmd_not_found_error(cmd->cmd[0]);
 		if (is_builtin(cmd->cmd, data))
 			exit(0);
 		else
@@ -88,8 +90,6 @@ void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 	curr = data->cmd_list;
 	while (curr) //cmd 갯수만큼 반복 (pipe + 1 개)
 	{
-		if (curr->heredoc_num)
-			run_heredoc(data, data->end[cnt]);
 		if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data))) //!(pipe 없음 && builtin 함수임)
 			cur_pid = run_fork(curr, data, cnt);
 		curr = curr->next;
@@ -113,18 +113,15 @@ void	executing(t_data *data)
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-	if (!data->cmd_list->cmd[0] && !data->pipe_flag)
+	i = -1;
+	curr = data->cmd_list;
+	while (data->heredoc_num)
 	{
-		i = -1;
-		curr = data->cmd_list;
 		while (curr->heredoc_num)
-		{
-			run_heredoc(data, data->end[++i]);
-			if (curr->next)
-				curr = curr->next;
-		}
+			run_heredoc(data, curr, data->end[++i]);
+		if (curr->next)
+			curr = curr->next;
 	}
-	else
-		run_exec(data);
+	run_exec(data);
 	redirect_fd(data->fd);
 }
