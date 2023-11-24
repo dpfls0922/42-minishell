@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/24 18:37:08 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/24 21:59:49 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,11 @@ void	run_exec(t_data *data)
 	curr = data->cmd_list;
 	while (curr)
 	{
-		if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data)))
-			cur_pid = run_fork(curr, data, cnt);
+		if (curr->fd_in != -2 && curr->fd_out != -2)
+		{
+			if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data)))
+				cur_pid = run_fork(curr, data, cnt);
+		}
 		curr = curr->next;
 		cnt++;
 	}
