@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/17 21:18:33 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/24 22:11:04 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ int	main(int argc, char **argv, char **env)
 	t_data			data;
 	struct termios	term;
 
-	(void)argv;
+	if (argc >= 2)
+	{
+		printf("%s : argv error\n", argv[1]);
+		exit(127);
+	}
 	tcgetattr(STDIN_FILENO, &term);
 	init_minishell();
 	if (!init_data1(&data, argc, env))
