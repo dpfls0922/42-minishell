@@ -290,7 +290,7 @@ int		check_valid_arg(char *str);
 void	builtin_export(t_data *data, char **line);
 
 /* heredoc */
-void	run_heredoc(t_data *data, char *limiter);
+void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter);
 
 /* get_path_envp */
 void	get_path_envp(t_cmd *cmd, char **envp);
