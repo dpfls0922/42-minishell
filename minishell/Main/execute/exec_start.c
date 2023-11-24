@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/24 17:37:50 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/24 18:37:08 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	{
 		if (cmd->cmd[0] == NULL)
 			exit(0);
-		// if (ft_strcmp(cmd->cmd[0], "")) // "" (빈 문자열) 입력 시 에러 처리
-		// 	cmd_not_found_error("");
-		if (!ft_strcmp(cmd->cmd[0], "/bin")
-			|| !ft_strcmp(cmd->cmd[0], "/usr/bin"))
-			is_a_dir_error(cmd->cmd[0]);
+		path = get_cmd_path(cmd->path, cmd->cmd[0]);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		if (data->pipe_flag)
@@ -66,9 +62,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 			else
 				pipe_to_pipe(cmd);
 		}
-		path = get_cmd_path(cmd->path, cmd->cmd[0]);
-		if (!path)
-			cmd_not_found_error(cmd->cmd[0]);
 		if (is_builtin(cmd->cmd, data))
 			exit(0);
 		else
