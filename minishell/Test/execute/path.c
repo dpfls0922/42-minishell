@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/22 21:33:55 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/24 18:40:26 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,14 @@ char	*get_cmd_path(char **path, char *cmd)
 	char	*path_cmd;
 	char	*tmp;
 
-	if (!access(cmd, X_OK))
+	if (access(cmd, X_OK) == 0)
+	{
+		if (opendir(cmd))
+			is_a_dir_error(cmd);
 		return (ft_strdup(cmd));
+	}
+	if (!ft_strcmp(cmd, ""))
+		cmd_not_found_error(cmd);
 	path_cmd = ft_strjoin_exec("/", cmd);
 	while (*path)
 	{
@@ -39,10 +45,12 @@ char	*get_cmd_path(char **path, char *cmd)
 		path++;
 	}
 	free(path_cmd);
-	if (!access(cmd, F_OK))
-		print_error("permission denied\n");
 	if (ft_strchr(cmd, '/'))
-		no_such_file_error(cmd, 1);
+	{
+		if (access(cmd, F_OK))
+			no_such_file_error(cmd, 1);
+		is_a_dir_error(cmd);
+	}
 	else
 		cmd_not_found_error(cmd);
 	return (NULL);
