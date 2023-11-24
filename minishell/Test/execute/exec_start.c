@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/24 17:31:16 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/24 17:37:21 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,9 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 			else
 				pipe_to_pipe(cmd);
 		}
-		if(!cmd->heredoc_num)
-		{
-			path = get_cmd_path(cmd->path, cmd->cmd[0]);
-			if (!path)
-				cmd_not_found_error(cmd->cmd[0]);
-		}
+		path = get_cmd_path(cmd->path, cmd->cmd[0]);
+		if (!path)
+			cmd_not_found_error(cmd->cmd[0]);
 		if (is_builtin(cmd->cmd, data))
 			exit(0);
 		else
