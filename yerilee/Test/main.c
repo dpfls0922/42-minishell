@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/08 17:00:21 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/26 01:39:12 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 
-	(void)argv;
+	if (argc >= 2)
+	{
+		printf("%s : argv error\n", argv[1]);
+		exit(127);
+	}
 	if (!init_data1(&data, argc, env))
 		exit(1);
 	if (!minishell(&data))
