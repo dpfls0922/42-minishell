@@ -36,6 +36,7 @@ SRCS = main.c\
 		Libft/ft_trim.c \
 		cmd_list_utils.c \
 		delete_quotes.c \
+		delete_quotes_utils.c \
 		env_list_utils.c \
 		exit_status.c \
 		expanding_env.c \

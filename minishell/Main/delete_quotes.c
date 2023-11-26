@@ -6,74 +6,35 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 18:52:16 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/17 21:07:27 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 01:33:54 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
-int	has_quotes(char *value)
-{
-	int	i;
-
-	i = 0;
-	while (value && value[i])
-	{
-		if (value[i] == '\"' || value[i] == '\'')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*get_new_string(char *s, int position)
+char	*ft_delete_quotes(char *s)
 {
 	int		i;
-	int		j;
+	int		len;
+	int		quotes_len;
+	int		*quotes_index;
 	char	*new_str;
 
-	new_str = malloc(sizeof(char) * ft_strlen(s));
+	quotes_index = get_quotes_index(s);
+	quotes_len = get_quotes_len(s);
+	new_str = malloc(ft_strlen(s) - quotes_len + 1);
 	if (!new_str)
 		exit (1);
 	i = 0;
-	j = 0;
-	while (s && s[i])
+	len = 0;
+	while (s[i])
 	{
-		if (i != position)
-			new_str[j++] = s[i];
+		if (!is_quotes(i, quotes_index, quotes_len))
+			new_str[len++] = s[i];
 		i++;
 	}
-	new_str[j] = 0;
-	return (new_str);
-}
-
-char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag)
-{
-	char	*temp;
-	char	*new_str;
-
-	new_str = NULL;
-	temp = ft_substr(s, 0, ft_strlen(s));
-	while (temp && temp[i])
-	{
-		if (temp[i] == '\"' && single_flag == 0)
-		{
-			double_flag = !double_flag;
-			new_str = get_new_string(temp, i);
-			free(temp);
-			temp = ft_substr(new_str, 0, ft_strlen(new_str));
-		}
-		if (temp[i] == '\'' && double_flag == 0)
-		{
-			single_flag = !single_flag;
-			new_str = get_new_string(temp, i);
-			free(temp);
-			temp = ft_substr(new_str, 0, ft_strlen(new_str));
-		}
-		if (ft_strlen(temp) != 1 && !(temp[i] && temp[i] == '"'))
-			i++;
-	}
-	free(temp);
+	new_str[len] = '\0';
+	free(quotes_index);
 	return (new_str);
 }
 
@@ -88,7 +49,7 @@ char	*delete_quotes_in_str(char *str)
 	{
 		old = ft_substr(str, 0, ft_strlen(str));
 		free(str);
-		new = ft_delete_quotes(old, 0, 0, 0);
+		new = ft_delete_quotes(old);
 		free(old);
 	}
 	else

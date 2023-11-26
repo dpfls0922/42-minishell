@@ -208,11 +208,16 @@ void	delete_redirection_and_filename(t_data *data, int position, int flag);
 void	delete_redirection(t_data *data);
 
 /* delete_quotes */
-int		has_quotes(char *value);
-char	*get_new_string(char *s, int position);
-char	*ft_delete_quotes(char *s, int i, int double_flag, int single_flag);
+char	*ft_delete_quotes(char *s);
 char	*delete_quotes_in_str(char *str);
 void	delete_quotes_in_list(t_cmd *cmd_list);
+
+/* delete_quotes_utils */
+int		has_quotes(char *value);
+int		is_quotes(int i, int *quotes_index, int quotes_len);
+int		get_quotes_len(char *cmd);
+int		*set_quotes_index(int *index, char *cmd);
+int		*get_quotes_index(char *s);
 
 /* exit_status */
 void	handle_exit_status(t_data *data);
