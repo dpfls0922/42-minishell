@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:33:32 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/26 02:46:29 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 17:19:20 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ char	*get_file_name(char *value)
 	if (has_quotes(tmp))
 		file_name = delete_quotes_in_str(tmp);
 	else
+	{
 		file_name = ft_substr(tmp, 0, ft_strlen(tmp));
+		free(tmp);
+	}
 	// printf("after, filename : %s\n", file_name);
 	return (file_name);
 }
