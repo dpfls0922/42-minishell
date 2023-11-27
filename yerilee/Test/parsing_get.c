@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 16:33:32 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/29 18:37:51 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/26 02:46:29 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ int	get_red_num(t_data *data)
 char	*get_file_name(char *value)
 {
 	char	*file_name;
+	char	*tmp;
 
+	tmp = ft_substr(value, 0, ft_strlen(value));
 	// printf("before, filename : %s\n", value);
-	if (has_quotes(value))
-		file_name = delete_quotes_in_str(value);
+	if (has_quotes(tmp))
+		file_name = delete_quotes_in_str(tmp);
 	else
-		file_name = ft_substr(value, 0, ft_strlen(value));
+		file_name = ft_substr(tmp, 0, ft_strlen(tmp));
 	// printf("after, filename : %s\n", file_name);
 	return (file_name);
 }
