@@ -6,11 +6,20 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/24 17:34:39 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 20:39:16 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_free_str(char *s)
+{
+	if (s)
+	{
+		free(s);
+		s = 0;
+	}
+}
 
 void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter)
 {
@@ -31,14 +40,9 @@ void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter)
 			break ;
 		}
 		write(data->cmd_list->fd_in, gnl, ft_strlen(gnl));
-		free(gnl);
-		gnl = 0;
+		ft_free_str(gnl);
 	}
-	if (gnl)
-	{
-		free(gnl);
-		gnl = 0;
-	}
+	ft_free_str(gnl);
 	close(data->cmd_list->fd_in);
 	data->cmd_list->fd_in = open("/tmp/.infile", O_RDONLY, 0644);
 }

@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 21:33:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:25:45 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 20:43:37 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_strncmp_equal(const char *s1, const char *s2, size_t n)
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	if (s1[i]) //ex) key: abcd, str: abc
+	if (s1[i])
 		return (1);
-	return (0); //s1 == s2
+	return (0);
 }
