@@ -260,10 +260,10 @@ void	init_exit(t_data *data, t_exit *exit, char *value);
 void	builtin_env(t_data *data, char **line);
 void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
-void	builtin_echo(char **line);
+void	builtin_echo(t_cmd *cmd);
 void	builtin_cd(char *path);
 void	builtin_exit(char **line);
-int		is_builtin(char **line, t_data *data);
+int		is_builtin(t_cmd *cmd, t_data *data);
 
 /* error */
 void	ft_error(char *str);
