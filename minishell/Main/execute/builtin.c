@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 20:47:31 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/27 21:36:02 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,27 @@ int	check_option_n(char *token)
 	return (1);
 }
 
-void	builtin_echo(char **line)
+void	builtin_echo(t_cmd *cmd)
 {
 	int	i;
 	int	new_line;
 
 	i = 1;
 	new_line = 1;
-	while (line[i] && check_option_n(line[i]))
+	while (cmd->cmd[i] && check_option_n(cmd->cmd[i]))
 	{
 		new_line = 0;
 		i++;
 	}
-	while (line[i])
+	while (cmd->cmd[i])
 	{
-		write(1, line[i], ft_strlen(line[i]));
-		if (line[i + 1])
-			write(1, " ", 1);
+		write(cmd->fd_out, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
+		if (cmd->cmd[i + 1])
+			write(cmd->fd_out, " ", 1);
 		i++;
 	}
 	if (new_line)
-		write(1, "\n", 1);
+		write(cmd->fd_out, "\n", 1);
 }
 
 void	builtin_cd(char *path)
@@ -127,27 +127,27 @@ void	builtin_exit(char **line)
 	}
 }
 
-int	is_builtin(char **line, t_data *data)
+int	is_builtin(t_cmd *cmd, t_data *data)
 {
 	char	*builtin;
 
-	builtin = line[0];
+	builtin = cmd->cmd[0];
 	if (!data->cmd_list->cmd[0])
 		return (2);
 	if (!ft_strncmp_exec(builtin, "env", 4))
-		builtin_env(data, line);
+		builtin_env(data, cmd->cmd);
 	else if (!ft_strncmp_exec(builtin, "pwd", 4))
 		builtin_pwd(data);
 	else if (!ft_strncmp_exec(builtin, "echo", 5))
-		builtin_echo(line);
+		builtin_echo(cmd);
 	else if (!ft_strncmp_exec(builtin, "cd", 3))
-		builtin_cd(line[1]);
+		builtin_cd(cmd->cmd[1]);
 	else if (!ft_strncmp_exec(builtin, "export", 7))
-		builtin_export(data, line);
+		builtin_export(data, cmd->cmd);
 	else if (!ft_strncmp_exec(builtin, "exit", 5))
-		builtin_exit(line);
+		builtin_exit(cmd->cmd);
 	else if (!ft_strncmp_exec(builtin, "unset", 6))
-		builtin_unset(data->env_list, line);
+		builtin_unset(data->env_list, cmd->cmd);
 	else
 		return (0);
 	return (1);

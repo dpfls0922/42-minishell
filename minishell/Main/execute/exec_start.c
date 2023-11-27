@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 20:49:24 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 21:08:08 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/27 21:34:13 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 			else
 				pipe_to_pipe(cmd);
 		}
-		if (is_builtin(cmd->cmd, data))
+		if (is_builtin(cmd, data))
 			exit(0);
 		else
 		{
@@ -87,7 +87,7 @@ void	run_exec(t_data *data)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
-			if (data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data))
+			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
 			else
 				cur_pid = run_fork(curr, data, cnt);
