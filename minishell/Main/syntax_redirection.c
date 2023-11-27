@@ -22,8 +22,8 @@ int	check_redirection_end(t_lexer *lexer)
 	if (curr->type == REDIRECTION)
 	{
 		printf("syntax error near unexpected token `newline'\n");
-		g_vars.exit_status = 258;
-		return (g_vars.exit_status);
+		g_exit_status = 258;
+		return (g_exit_status);
 	}
 	return (0);
 }
@@ -38,8 +38,8 @@ int	check_redirection_len(t_lexer *lexer)
 		if (curr->type == REDIRECTION && ft_strlen(curr->val) > 2)
 		{
 			printf("syntax error near unexpected token `%s'\n", curr->val);
-			g_vars.exit_status = 258;
-			return (g_vars.exit_status);
+			g_exit_status = 258;
+			return (g_exit_status);
 		}
 		curr = curr->next;
 	}
@@ -59,8 +59,8 @@ int	check_command_after_redirection(t_lexer *lexer)
 			if (curr->next && (curr->type == PIPE || curr->type == REDIRECTION))
 			{
 				printf("syntax error near unexpected token `%s'\n", curr->val);
-				g_vars.exit_status = 258;
-				return (g_vars.exit_status);
+				g_exit_status = 258;
+				return (g_exit_status);
 			}
 		}
 		curr = curr->next;
@@ -72,6 +72,6 @@ int	check_redirection(t_lexer *lexer)
 {
 	if (check_redirection_len(lexer) || check_redirection_end(lexer)
 		|| check_command_after_redirection(lexer))
-		return (g_vars.exit_status);
+		return (g_exit_status);
 	return (0);
 }

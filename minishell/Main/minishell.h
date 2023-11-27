@@ -40,12 +40,7 @@
 # define IGNORE 102
 # define HEREDOC 103
 
-typedef struct s_gvar
-{
-	int	exit_status;
-}	t_gvar;
-
-t_gvar	g_vars;
+int	g_exit_status;
 
 typedef struct s_lexer
 {

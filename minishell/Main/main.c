@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 21:36:07 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/24 22:10:29 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 19:40:35 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	minishell(t_data *data)
 			if (check_syntax(data->lexer_list))
 			{
 				ft_free_lexer(data->lexer_list);
-				data->prev_exit_status = g_vars.exit_status;
+				data->prev_exit_status = g_exit_status;
 				continue ;
 			}
 			expanding(data);
@@ -56,7 +56,7 @@ int	minishell(t_data *data)
 			executing(data);
 			ft_free_data(data);
 		}
-		data->prev_exit_status = g_vars.exit_status;
+		data->prev_exit_status = g_exit_status;
 	}
 	rl_clear_history();
 	ft_free_env(data->env_list);

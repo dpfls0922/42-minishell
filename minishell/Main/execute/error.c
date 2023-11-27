@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/22 21:36:00 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/27 19:42:53 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	no_such_file_error(char *cmd, int error_flag)
 	unlink("/tmp/.infile");
 	if (error_flag)
 		exit(127);
-	g_vars.exit_status = 127;
+	g_exit_status = 127;
 }
 
 void	is_a_dir_error(char *cmd)

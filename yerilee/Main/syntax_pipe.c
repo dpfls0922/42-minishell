@@ -20,16 +20,16 @@ int	check_pipe_start_end(t_lexer *lexer)
 	if (curr->type == PIPE)
 	{
 		printf("syntax error: near unexpected token `|'.\n");
-		g_vars.exit_status = 258;
-		return (g_vars.exit_status);
+		g_exit_status = 258;
+		return (g_exit_status);
 	}
 	while (curr->next)
 		curr = curr->next;
 	if (curr->type == PIPE)
 	{
 		printf("syntax error: near unexpected token `|'.\n");
-		g_vars.exit_status = 258;
-		return (g_vars.exit_status);
+		g_exit_status = 258;
+		return (g_exit_status);
 	}
 	return (0);
 }
@@ -44,8 +44,8 @@ int	check_pipe_len(t_lexer *lexer)
 		if (curr->type == PIPE && ft_strlen(curr->val) > 1)
 		{
 			printf("syntax error near unexpected token `|'.\n");
-			g_vars.exit_status = 258;
-			return (g_vars.exit_status);
+			g_exit_status = 258;
+			return (g_exit_status);
 		}
 		curr = curr->next;
 	}
@@ -71,8 +71,8 @@ int	check_command_between_pipes(t_lexer *lexer, int cmd_num)
 			if (cmd_num == 0 && curr->type == PIPE)
 			{
 				printf("syntax error: near unexpected token `|'.\n");
-				g_vars.exit_status = 258;
-				return (g_vars.exit_status);
+				g_exit_status = 258;
+				return (g_exit_status);
 			}
 		}
 		if (curr && curr->type != PIPE)
@@ -85,6 +85,6 @@ int	check_pipe(t_lexer *lexer)
 {
 	if (check_pipe_start_end(lexer) || check_pipe_len(lexer)
 		|| check_command_between_pipes(lexer, 0))
-		return (g_vars.exit_status);
+		return (g_exit_status);
 	return (0);
 }

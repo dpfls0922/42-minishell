@@ -23,8 +23,8 @@ int	check_token_start(t_lexer *lexer)
 	{
 		c = curr->val[0];
 		printf("Syntax error near unexpected token `%c'\n", c);
-		g_vars.exit_status = 258;
-		return (g_vars.exit_status);
+		g_exit_status = 258;
+		return (g_exit_status);
 	}
 	return (0);
 }
@@ -35,6 +35,6 @@ int	check_syntax(t_lexer *lexer)
 		return (1);
 	if (check_token_start(lexer) || check_quotes(lexer) || check_pipe(lexer)
 		|| check_redirection(lexer))
-		return (g_vars.exit_status);
+		return (g_exit_status);
 	return (0);
 }
