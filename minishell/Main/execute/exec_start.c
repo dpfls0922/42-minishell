@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 17:17:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 19:43:02 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/27 20:49:24 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/27 21:08:08 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	{
 		if (cmd->cmd[0] == NULL)
 			exit(0);
-		path = get_cmd_path(cmd->path, cmd->cmd[0]);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		if (data->pipe_flag)
@@ -65,7 +64,10 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		if (is_builtin(cmd->cmd, data))
 			exit(0);
 		else
+		{
+			path = get_cmd_path(cmd->path, cmd->cmd[0]);
 			execve(path, cmd->cmd, data->env);
+		}
 	}
 	else
 		parent_work(data->cmd_list);
@@ -85,7 +87,9 @@ void	run_exec(t_data *data)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
-			if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data)))
+			if (data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data))
+				return ;
+			else
 				cur_pid = run_fork(curr, data, cnt);
 		}
 		curr = curr->next;

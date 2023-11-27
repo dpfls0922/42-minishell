@@ -109,7 +109,7 @@ typedef struct s_data
 char	*readline(const char *prompt);
 
 /* Libft */
-int		check_numeric(const char *str, int i);
+void	check_numeric(const char *str, int i);
 int		ft_atoi(const char *str);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
