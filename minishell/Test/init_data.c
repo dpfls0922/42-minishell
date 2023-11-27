@@ -43,7 +43,7 @@ void	init_data2(t_data *data)
 	data->pipe_flag = 0;
 	data->lexer_list = NULL;
 	data->cmd_list = NULL;
-	g_vars.exit_status = 0;
+	g_exit_status = 0;
 }
 
 void	init_split(t_split *split, char *s, char c)

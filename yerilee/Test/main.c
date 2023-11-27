@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 16:34:27 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/26 01:39:12 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	minishell(t_data *data)
 			if (check_syntax(data->lexer_list))
 			{
 				ft_free_lexer(data->lexer_list);
-				data->prev_exit_status = g_vars.exit_status;
+				data->prev_exit_status = g_exit_status;
 				printf("[syntax] prev_exit_status : %d\n", data->prev_exit_status);
 				continue ;
 			}
@@ -48,7 +48,7 @@ int	minishell(t_data *data)
 			// execution
 			ft_free_data(data);
 		}
-		data->prev_exit_status = g_vars.exit_status;
+		data->prev_exit_status = g_exit_status;
 	}
 	rl_clear_history();
 	ft_free_env(data->env_list);

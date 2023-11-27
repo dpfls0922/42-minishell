@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/24 22:01:41 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	cmd->pid = fork();
 	if (cmd->fd_in < 0 && data->pipe_flag == 0)
 	{
-		g_vars.exit_status = 1;
-		return (g_vars.exit_status);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	if (cmd->pid == -1)
 		print_error("fork error\n");
@@ -94,7 +94,7 @@ void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 	waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
-	g_vars.exit_status = WEXITSTATUS(status);
+	g_exit_status = WEXITSTATUS(status);
 }
 
 void	executing(t_data *data)

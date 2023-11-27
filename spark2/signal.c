@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/17 19:48:14 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_signal(int signo)
 		{
 			ft_putstr_fd("\n", 1);
 			show_prompt();
-			g_vars.exit_status = 1;
+			g_exit_status = 1;
 		}
 		else
 			ft_putchar_fd('\n', 1);
