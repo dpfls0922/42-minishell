@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 19:42:44 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 20:47:31 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,22 @@ void	builtin_env(t_data *data, char **line)
 	curr = data->env_list;
 	if (line[1])
 		no_such_file_error(line[1], 0);
-	if (!curr || !curr->val)
+	else
 	{
-		printf("env: No such file or directory\n");
-		g_exit_status = 127;
-		return ;
-	}
-	while (curr)
-	{
-		if (!curr->val)
-			break ;
-		else
-			printf("%s=%s\n", curr->key, curr->val);
-		curr = curr->next;
+		if (!curr || !curr->val)
+		{
+			printf("env: No such file or directory\n");
+			g_exit_status = 127;
+			return ;
+		}
+		while (curr)
+		{
+			if (!curr->val)
+				break ;
+			else
+				printf("%s=%s\n", curr->key, curr->val);
+			curr = curr->next;
+		}
 	}
 }
 
@@ -117,11 +120,6 @@ void	builtin_exit(char **line)
 	else
 	{
 		exit_code = ft_atoi(line[1]);
-		if (exit_code == -1)
-		{
-			printf("exit: %s: numeric argument required\n", line[1]);
-			exit (255);
-		}
 		if (line[2])
 			ft_error("exit: too many arguments\n");
 		else
