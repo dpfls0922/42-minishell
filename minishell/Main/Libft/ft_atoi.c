@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 14:54:08 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:25:12 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 17:37:16 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	check_numeric(const char *str, int i)
+void	check_numeric(const char *str, int i)
 {
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
-			return (0);
+		{
+			printf("exit: %s: numeric argument required\n", str);
+			exit(255);
+		}
 		i++;
 	}
-	return (1);
 }
 
 int	ft_atoi(const char *str)
@@ -40,8 +42,7 @@ int	ft_atoi(const char *str)
 			sign = -1;
 		i++;
 	}
-	if (!check_numeric(str, i))
-		return (-1);
+	check_numeric(str, i);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		res = res * 10 + str[i] - '0';
