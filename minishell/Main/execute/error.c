@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 19:42:53 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/27 20:49:12 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/27 20:49:13 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	ft_error(char *str)
 {
 	write(1, str, ft_strlen(str));
+	g_exit_status = 1;
 }
 
 void	print_error(char *err_msg)
@@ -33,7 +34,7 @@ void	cmd_not_found_error(char *cmd)
 
 void	no_such_file_error(char *cmd, int error_flag)
 {
-	printf("%s: No such file or directory\n", cmd);
+	printf("env: %s: No such file or directory\n", cmd);
 	unlink("/tmp/.infile");
 	if (error_flag)
 		exit(127);
