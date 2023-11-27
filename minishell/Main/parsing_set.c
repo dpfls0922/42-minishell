@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:00:28 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 19:41:11 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/27 20:28:20 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	set_fd(char *filename, int red_type, int flag)
 		if (red_type == 2)
 			fd = open(filename, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0664);
 		if (red_type == 3)
-			fd = open(filename, O_RDWR | O_CREAT | O_APPEND | O_CLOEXEC, 0664);	
+			fd = open(filename, O_RDWR | O_CREAT | O_APPEND | O_CLOEXEC, 0664);
 	}
 	if (fd == -1 || fd == -2)
 	{
