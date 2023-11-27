@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 21:46:41 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/20 16:53:12 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/27 20:48:56 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	print_export(t_data *data)
 			printf("%s=\"%s\"\n", curr->key, curr->val);
 		curr = curr->next;
 	}
+	g_exit_status = 0;
 }
 
 int	check_env_exist(t_env *env, char *str)
@@ -73,6 +74,7 @@ void	modify_env_value(t_data *data, char *str)
 			free(cur_env->val);
 		cur_env->val = ft_strdup(str + equal_idx + 1);
 	}
+	g_exit_status = 0;
 }
 
 t_env	*new_env_node_no_value(char *str)
@@ -114,14 +116,18 @@ void	add_env(t_data *data, char *str)
 	new_node = new_env_node_no_value(str);
 	cur_env->next = new_node;
 	new_node->prev = cur_env;
+	g_exit_status = 0;
 }
 
 int	check_valid_arg(char *str)
 {
-	if ((str[0] >= '0' && str[0] <= '9') || str[0] == '='
-		|| str[0] == '?' || str[0] == '/')
+	if (((str[0] >= '0' && str[0] <= '9') || str[0] == '='
+		|| str[0] == '?' || str[0] == '/') || !ft_strcmp(str, "") || !ft_strcmp(str, " "))
 	{
-		printf("export: '%s': not a valid identifier\n", str);
+		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		g_exit_status = 1;
 		return (0);
 	}
 	else
