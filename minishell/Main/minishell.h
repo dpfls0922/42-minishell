@@ -309,8 +309,8 @@ void	set_signal(int sig_int, int sig_quit);
 
 /* unset */
 void	free_node(t_env *node);
-void	remove_env(t_env *env, char *remove_str);
-void	builtin_unset(t_env *env, char **str);
+void	remove_env(t_data *data, char *remove_str);
+void	builtin_unset(t_data *data, char **str);
 
 /* utils */
 char	**ft_strjoin_2d(char **s1, char *s2);
