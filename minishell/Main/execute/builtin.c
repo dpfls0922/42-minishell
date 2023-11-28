@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 21:36:02 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/28 17:22:31 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int	is_builtin(t_cmd *cmd, t_data *data)
 	else if (!ft_strncmp_exec(builtin, "exit", 5))
 		builtin_exit(cmd->cmd);
 	else if (!ft_strncmp_exec(builtin, "unset", 6))
-		builtin_unset(data->env_list, cmd->cmd);
+		builtin_unset(data, cmd->cmd);
 	else
 		return (0);
 	return (1);

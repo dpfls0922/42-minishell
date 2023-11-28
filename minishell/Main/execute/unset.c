@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/28 16:48:53 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:24:13 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,34 @@ void	free_node(t_env *node)
 	}
 }
 
-void	remove_env(t_env *env, char *remove_str)
+void    remove_env(t_data *data, char *remove_str)
 {
-	t_env	*cur_node;
-	t_env	*prev_node;
-	t_env	*next_node;
+    t_env   *curr;
 
-	cur_node = env;
-	while (cur_node)
-	{
-		if (!ft_strcmp_exec(cur_node->key, remove_str))
-			break ;
-		cur_node = cur_node->next;
-	}
-	if (cur_node->prev)
-	{
-		prev_node = cur_node->prev;
-		prev_node->next = cur_node->next;
-	}
-	if (cur_node->next)
-	{
-		next_node = cur_node->next;
-		next_node->prev = cur_node->prev;
-	}
-	free_node(cur_node);
+	if (!ft_strcmp_exec(data->env_list->key, remove_str))
+    {
+        curr = data->env_list;
+        data->env_list = data->env_list->next;
+        free_node(curr);
+        return;
+    }
+    curr = data->env_list;
+    while (curr)
+    {
+        if (!ft_strcmp_exec(curr->key, remove_str))
+            break ;
+        curr = curr->next;
+    }
+    if (!curr)
+        return ;
+    if (curr->prev)
+        curr->prev->next = curr->next;
+    if (curr->next)
+        curr->next->prev = curr->prev;
+    free_node(curr);
 }
 
-void	builtin_unset(t_env *env, char **str)
+void	builtin_unset(t_data *data, char **str)
 {
 	int	i;
 	int	env_idx;
@@ -66,14 +67,14 @@ void	builtin_unset(t_env *env, char **str)
 	{
 		if (!check_valid_arg(str[i]))
 			continue ;
-		env_idx = check_env_exist(env, str[i]);
-		if (env_idx == -2)
+		env_idx = check_env_exist(data->env_list, str[i]);
+		if (env_idx == -2) // !data->env_list로 바꾼다면?
 		{
 			printf("env: No such file or directory\n");
 			g_exit_status = 127;
 			break ;
 		}
 		if (env_idx != -1)
-			remove_env(env, str[i]);
+			remove_env(data, str[i]);
 	}
 }
