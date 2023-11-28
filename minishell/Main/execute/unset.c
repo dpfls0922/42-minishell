@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 19:43:12 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/28 16:48:53 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 void	free_node(t_env *node)
 {
-	free(node->key);
-	node->key = 0;
-	if (node->val)
+	if (node)
 	{
-		free(node->val);
-		node->val = 0;
+		if (node->key)
+		{
+			free(node->key);
+			node->key = 0;
+		}
+		if (node->val)
+		{
+			free(node->val);
+			node->val = 0;
+		}
+		free(node);
 	}
 }
 
