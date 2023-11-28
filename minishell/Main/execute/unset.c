@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/28 17:24:13 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/28 17:46:01 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,20 @@ void    remove_env(t_data *data, char *remove_str)
 void	builtin_unset(t_data *data, char **str)
 {
 	int	i;
-	int	env_idx;
 
+	if (!data->cmd_list->cmd[1])
+		return ;
 	i = 0;
 	while (str[++i])
 	{
 		if (!check_valid_arg(str[i]))
 			continue ;
-		env_idx = check_env_exist(data->env_list, str[i]);
-		if (env_idx == -2) // !data->env_list로 바꾼다면?
+		if (!data->env_list)
 		{
 			printf("env: No such file or directory\n");
 			g_exit_status = 127;
 			break ;
 		}
-		if (env_idx != -1)
-			remove_env(data, str[i]);
+		remove_env(data, str[i]);
 	}
 }
