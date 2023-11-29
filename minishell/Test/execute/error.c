@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 20:45:21 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 21:24:52 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	print_error(char *err_msg)
 
 void	cmd_not_found_error(char *cmd)
 {
-	printf("%s: command not found\n", cmd);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, " : command not found\n", 22);
 	unlink("/tmp/.infile");
 	exit(127);
 }
