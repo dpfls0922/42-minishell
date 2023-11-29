@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:03 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/29 16:26:49 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 16:54:39 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,32 @@ void	builtin_echo(char **line)
 		write(1, "\n", 1);
 }
 
+int		check_env_home_exist(t_env *env_list)
+{
+	t_env	*curr;
+
+	curr = env_list;
+	while (curr)
+	{
+		if (!ft_strcmp("HOME", curr->key))
+			return (1);
+		curr = curr->next;
+	}
+	return (0);
+}
+
 void	builtin_cd(char *path) //홈 디렉토리가 env에서 제거되었을 경우 처리 필요
 {
 	if (!path)
-		chdir(getenv("HOME"));
+	{
+		if (check_env_home_exist(data->env_list))
+			chdir(getenv("HOME"));
+		else
+		{
+			printf("cd: HOME not set\n");
+			g_exit_status = 1;
+		}
+	}
 	else if (path[0] == '~')
 	{
 		if (!ft_strncmp_exec(path, "~", 2))
