@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:03 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 16:26:49 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,46 @@ void	builtin_env(t_data *data, char **line)
 	}
 }
 
+char	*get_minishell_env(char *env_val, t_env *env_list)
+{
+	t_env	*curr;
+	char	*pwd;
+
+	curr = env_list;
+	pwd = NULL;
+	while (curr)
+	{
+		if (!ft_strcmp(env_val, curr->val))
+		{
+			pwd = ft_substr(curr->val, 0, ft_strlen(curr->val));
+			break ;
+		}
+		else
+			curr = curr->next;
+	}
+	return (pwd);
+}
+
 void	builtin_pwd(t_data *data)
 {
 	char	*buf;
 
 	buf = getcwd(0, 4096); //buf 사이즈 수정?
 	// printf("buf: %s\n", buf);
-	write(data->cmd_list->fd_out, buf, ft_strlen(buf));
-	write(data->cmd_list->fd_out, "\n", 1);
-	free(buf);
+	if (buf == NULL)
+	{
+		buf = get_minishell_env("PWD", data->env_list);
+		if (!buf)
+			buf = getenv("PWD");
+		write(data->cmd_list->fd_out, buf, ft_strlen(buf));
+		write(data->cmd_list->fd_out, "\n", 1);
+	}
+	else
+	{
+		write(data->cmd_list->fd_out, buf, ft_strlen(buf));
+		write(data->cmd_list->fd_out, "\n", 1);
+		free(buf);
+	}
 }
 
 int	check_option_n(char *token)
