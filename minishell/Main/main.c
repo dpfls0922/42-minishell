@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 21:36:07 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 20:33:44 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/29 21:56:12 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/29 21:56:13 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	minishell(t_data *data)
 {
 	while (1)
 	{
+		set_signal(SHELL, SHELL);
 		init_data2(data);
 		data->cmd = readline("minishell $ ");
 		if (!data->cmd)

@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/29 18:41:15 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/29 22:00:04 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 		curr = curr->next;
 		cnt++;
 	}
-	if (waitpid(-1, &status, 0) > 0)
+	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status)) //자식 프로세스가 정상 종료됨
 			g_exit_status = WEXITSTATUS(status);
@@ -107,14 +107,16 @@ void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 			{
 				g_exit_status = 131;
 				printf("QUIT: 3\n");
-				printf("SIGQUIT received for PID %d\n", cur_pid);
 			}
 			else if (WTERMSIG(status) == 2) //자식 프로세스가 시그널 2(sigint)로 종료됨
-			g_exit_status = 130;
+			{
+				g_exit_status = 130;
+				printf("^C\n");
+			}
 		}
 	}
-	while (wait(0) != -1)
-		;
+	// while (wait(0) != -1)
+	// 	;
 }
 
 void	executing(t_data *data)
