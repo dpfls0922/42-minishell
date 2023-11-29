@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 18:34:17 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,30 @@
 
 void	handle_signal(int signo)
 {
+	pid_t	pid;
+	int		status;
+
+	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		write(1, "\n", 1);
-		rl_on_new_line(); //minishell $ 출력
-		rl_replace_line("", 0); //버퍼 초기화
-		rl_redisplay(); //없어도 일단 실행 됨
-		g_exit_status = 1;
+		if (pid == -1)
+		{
+			write(1, "\n", 1);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			g_exit_status = 1;
+		}
 	}
 	if (signo == SIGQUIT)
 	{
-		rl_on_new_line();
-		rl_redisplay();
+		if (pid == -1)
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
+		else
+			kill(pid, SIGQUIT);
 	}
 }
 
