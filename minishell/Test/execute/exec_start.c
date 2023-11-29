@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/29 17:19:57 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 18:41:15 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		else
 		{
 			path = get_cmd_path(cmd->path, cmd->cmd[0]);
-			execve(path, cmd->cmd, data->env);
+			if (execve(path, cmd->cmd, data->env) == -1)
+				g_exit_status = 127;
 		}
 	}
 	else
@@ -95,10 +96,25 @@ void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 		curr = curr->next;
 		cnt++;
 	}
-	waitpid(cur_pid, &status, 0);
+	if (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status)) //자식 프로세스가 정상 종료됨
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			// 자식 프로세스가 시그널을 받아 종료됨
+			if (WTERMSIG(status) == SIGQUIT)
+			{
+				g_exit_status = 131;
+				printf("QUIT: 3\n");
+				printf("SIGQUIT received for PID %d\n", cur_pid);
+			}
+			else if (WTERMSIG(status) == 2) //자식 프로세스가 시그널 2(sigint)로 종료됨
+			g_exit_status = 130;
+		}
+	}
 	while (wait(0) != -1)
 		;
-	g_exit_status = WEXITSTATUS(status);
 }
 
 void	executing(t_data *data)

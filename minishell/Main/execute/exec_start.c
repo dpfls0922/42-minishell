@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/27 20:49:24 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 18:21:45 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/29 18:39:17 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/29 18:40:55 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,20 +100,20 @@ void	run_exec(t_data *data)
 	{
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
-		else if (WTERMSIG(status) == 2)
-			g_exit_status = 130;
-		else if (WTERMSIG(status) == 3)
+		else if (WIFSIGNALED(status))
 		{
-			g_exit_status = 131;
-			printf("QUIT: 3\n");
+			if (WTERMSIG(status) == SIGQUIT)
+			{
+				g_exit_status = 131;
+				printf("QUIT: 3\n");
+				printf("SIGQUIT received for PID %d\n", cur_pid);
+			}
+			else if (WTERMSIG(status) == 2)
+			g_exit_status = 130;
 		}
 	}
-	// waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
-	// printf("exit code: %d\n", g_exit_status);
-	// g_exit_status = WEXITSTATUS(status);
-	// printf("exit code: %d\n", g_exit_status);
 }
 
 void	executing(t_data *data)

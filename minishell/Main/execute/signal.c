@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/28 20:46:40 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/29 18:29:29 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handle_signal(int signo)
 			rl_redisplay();
 		}
 		else
-			write(1, "\n", 1);
+			kill(pid, SIGQUIT);
 	}
 }
 

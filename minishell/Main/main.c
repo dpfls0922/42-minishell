@@ -1,12 +1,12 @@
-/* ************************************************************************** */
+s/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 21:36:07 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 19:40:35 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 18:29:02 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	init_minishell(void)
 	tcgetattr(STDIN_FILENO, &term);
 	term.c_lflag &= ~(ECHOCTL);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
-	set_signal(SHELL, IGNORE);
+	set_signal(SHELL, SHELL);
 }
 
 void	ft_free_data(t_data *data)
