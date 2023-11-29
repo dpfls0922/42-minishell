@@ -263,11 +263,11 @@ void	builtin_env(t_data *data, char **line);
 char	*get_minishell_env(char *env_val, t_env *env_list);
 void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
-void	builtin_echo(char **line);
+void	builtin_echo(t_cmd *cmd);
 int		check_env_home_exist(t_env *env_list);
 void	builtin_cd(t_data *data, char *path);
 void	builtin_exit(char **line);
-int		is_builtin(char **line, t_data *data);
+int		is_builtin(t_cmd *cmd, t_data *data);
 
 /* error */
 void	ft_error(char *str);
@@ -312,8 +312,8 @@ void	set_signal(int sig_int, int sig_quit);
 
 /* unset */
 void	free_node(t_env *node);
-void	remove_env(t_env *env, char *remove_str);
-void	builtin_unset(t_env *env, char **str);
+void	remove_env(t_data *data, char *remove_str);
+void	builtin_unset(t_data *data, char **str);
 
 /* utils */
 char	**ft_strjoin_2d(char **s1, char *s2);
