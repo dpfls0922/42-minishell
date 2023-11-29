@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 20:49:24 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 21:34:13 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:34:39 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		else
 		{
 			path = get_cmd_path(cmd->path, cmd->cmd[0]);
-			execve(path, cmd->cmd, data->env);
+			printf("exit status: %d\n", g_exit_status);
+			if (execve(path, cmd->cmd, data->env) == -1)
+				g_exit_status = 127;
 		}
 	}
 	else
@@ -95,10 +97,24 @@ void	run_exec(t_data *data)
 		curr = curr->next;
 		cnt++;
 	}
-	waitpid(cur_pid, &status, 0);
+	if (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WTERMSIG(status) == 2)
+			g_exit_status = 130;
+		else if (WTERMSIG(status) == 3)
+		{
+			g_exit_status = 131;
+			printf("QUIT: 3\n");
+		}
+	}
+	// waitpid(cur_pid, &status, 0);
 	while (wait(0) != -1)
 		;
-	g_exit_status = WEXITSTATUS(status);
+	// printf("exit code: %d\n", g_exit_status);
+	// g_exit_status = WEXITSTATUS(status);
+	// printf("exit code: %d\n", g_exit_status);
 }
 
 void	executing(t_data *data)

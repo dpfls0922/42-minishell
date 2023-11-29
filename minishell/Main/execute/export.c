@@ -6,26 +6,113 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 21:46:41 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 20:48:56 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/29 17:32:42 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_export(t_data *data)
+void	ft_swap(char **a, char **b)
+{
+	char	*temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void	sorting_ascending_order(t_env *env)
 {
 	t_env	*curr;
+	int		j;
+	int		cnt;
 
-	curr = data->env_list;
+	j = 1;
+	cnt = 0;
+	curr = env;
 	while (curr)
 	{
-		if (!curr->val)
-			printf("%s\n", curr->key);
-		else
-			printf("%s=\"%s\"\n", curr->key, curr->val);
+		cnt++;
 		curr = curr->next;
 	}
-	g_exit_status = 0;
+	while (j < cnt)
+	{
+		curr = env;
+		while (curr->next)
+		{
+			if (ft_strcmp(curr->key, curr->next->key) > 0)
+				ft_swap(&(curr->key), &(curr->next->key));
+			curr = curr->next;
+		}
+		j++;
+	}
+}
+
+int	get_env_list_size(t_env *node)
+{
+	int	count;
+
+	count = 0;
+	while (node)
+	{
+		count++;
+		node = node->next;
+	}
+	return (count);
+}
+
+char	**convert_env_list_to_export(t_env *node)
+{
+	int		i;
+	char	*temp;
+	char	**env;
+
+	i = 0;
+	env = (char **)malloc(sizeof(char *) * (get_env_list_size(node)) + 1);
+	if (!env)
+		return (NULL);
+	while (node)
+	{
+		temp = ft_strdup(node->key);
+		if (node->val)
+		{
+			temp = ft_strjoin(temp, "=\"");
+			temp = ft_strjoin(temp, node->val);
+			temp = ft_strjoin(temp, "\"");
+		}
+		env[i] = temp;
+		node = node->next;
+		temp = 0;
+		i++;
+	}
+	env[i] = 0;
+	return (env);
+}
+
+void	print_export(t_data *data)
+{
+	int		i;
+	int		j;
+	char	**splited_key1;
+	char	**splited_key2;
+	char	**env_strs;
+
+	i = -1;
+	env_strs = convert_env_list_to_export(data->env_list);
+	while (env_strs[++i])
+	{
+		j = -1;
+		while (env_strs[++j + 1])
+		{
+			splited_key1 = ft_split(env_strs[j], '=');
+			splited_key2 = ft_split(env_strs[j + 1], '=');
+			if (ft_strcmp(splited_key1[0], splited_key2[0]) > 0)
+				ft_swap(&env_strs[j], &env_strs[j + 1]);
+		}
+	}
+	i = 0;
+	while (env_strs[i])
+		ft_printf("declare -x %s\n", env_strs[i++]);
 }
 
 int	check_env_exist(t_env *env, char *str)
@@ -38,15 +125,15 @@ int	check_env_exist(t_env *env, char *str)
 	while (curr)
 	{
 		if (!env || !env->val)
-			return (-2);
+			return (-2); //env 자체가 없을 경우
 		if (equal_idx == -1
 			&& !ft_strncmp_equal(curr->key, str, ft_strlen(str)))
-			return (0);
+			return (0); //str에 '='가 없으며, key가 env에 존재
 		else if (!ft_strncmp_equal(curr->key, str, equal_idx))
 			return (ft_strlen(str) - 1);
-		curr = curr->next;
+		curr = curr->next; //str에 '=' 존재, key가 env에 존재
 	}
-	return (-1);
+	return (-1); //env에 찾고자 하는 key 없음
 }
 
 void	modify_env_value(t_data *data, char *str)
