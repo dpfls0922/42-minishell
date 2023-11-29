@@ -262,7 +262,8 @@ char	*get_minishell_env(char *env_val, t_env *env_list);;
 void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
 void	builtin_echo(t_cmd *cmd);
-void	builtin_cd(char *path);
+int		check_env_home_exist(t_env *env_list);
+void	builtin_cd(t_data *data, char *path);
 void	builtin_exit(char **line);
 int		is_builtin(t_cmd *cmd, t_data *data);
 
