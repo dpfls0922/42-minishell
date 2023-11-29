@@ -260,6 +260,7 @@ void	init_exit(t_data *data, t_exit *exit, char *value);
 
 /* builtin */
 void	builtin_env(t_data *data, char **line);
+char	*get_minishell_env(char *env_val, t_env *env_list);
 void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
 void	builtin_echo(char **line);
