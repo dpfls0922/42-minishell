@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 17:19:57 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	{
 		if (cmd->cmd[0] == NULL)
 			exit(0);
-		path = get_cmd_path(cmd->path, cmd->cmd[0]);
 		dup2(cmd->fd_in, STDIN_FILENO);
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		if (data->pipe_flag)
@@ -62,10 +61,13 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 			else
 				pipe_to_pipe(cmd);
 		}
-		if (is_builtin(cmd->cmd, data))
+		if (is_builtin(cmd, data))
 			exit(0);
 		else
+		{
+			path = get_cmd_path(cmd->path, cmd->cmd[0]);
 			execve(path, cmd->cmd, data->env);
+		}
 	}
 	else
 		parent_work(data->cmd_list);
@@ -85,7 +87,9 @@ void	run_exec(t_data *data) //temp == data.cmd_list.cmd
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
-			if (!(data->pipe_flag == 0 && is_builtin(data->cmd_list->cmd, data)))
+			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
+				return ;
+			else
 				cur_pid = run_fork(curr, data, cnt);
 		}
 		curr = curr->next;
