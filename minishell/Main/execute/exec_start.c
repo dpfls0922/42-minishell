@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:39:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 18:40:55 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/29 20:54:23 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	char	*path;
 
+	set_signal(DEFAULT, DEFAULT);
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
@@ -71,7 +72,10 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		}
 	}
 	else
+	{
 		parent_work(data->cmd_list);
+		set_signal(IGNORE, IGNORE);
+	}
 	return (cmd->pid);
 }
 
@@ -96,7 +100,7 @@ void	run_exec(t_data *data)
 		curr = curr->next;
 		cnt++;
 	}
-	if (waitpid(-1, &status, 0) > 0)
+	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
@@ -105,15 +109,17 @@ void	run_exec(t_data *data)
 			if (WTERMSIG(status) == SIGQUIT)
 			{
 				g_exit_status = 131;
-				printf("QUIT: 3\n");
-				printf("SIGQUIT received for PID %d\n", cur_pid);
+				printf("^\\Quit: 3\n");
 			}
 			else if (WTERMSIG(status) == 2)
-			g_exit_status = 130;
+			{
+				g_exit_status = 130;
+				printf("^C\n");
+			}
 		}
 	}
-	while (wait(0) != -1)
-		;
+	// while (wait(0) != -1)
+	// 	;
 }
 
 void	executing(t_data *data)
