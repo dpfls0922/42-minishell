@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 18:13:20 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/27 19:46:35 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 20:45:21 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_error(char *err_msg)
 {
 	write(2, err_msg, ft_strlen(err_msg));
 	unlink("/tmp/.infile");
-	exit(127);
+	exit(1);
 }
 
 void	cmd_not_found_error(char *cmd)
