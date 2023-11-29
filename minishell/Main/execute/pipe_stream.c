@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/23 22:27:50 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/29 20:49:22 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	infile_to_pipe(t_cmd *cmd)
 {
 	if (cmd->fd_in < 0)
-		return ;
+	{
+		unlink("/tmp/.infile");
+		exit(1);
+	}
 	close(cmd->pipe_fd[0]);
 	dup2(cmd->pipe_fd[1], STDOUT_FILENO);
 	if (cmd->fd_in != 0)
