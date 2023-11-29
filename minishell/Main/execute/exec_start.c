@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 20:49:24 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 17:34:39 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/29 18:21:45 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		else
 		{
 			path = get_cmd_path(cmd->path, cmd->cmd[0]);
-			printf("exit status: %d\n", g_exit_status);
 			if (execve(path, cmd->cmd, data->env) == -1)
 				g_exit_status = 127;
 		}
