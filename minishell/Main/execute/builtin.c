@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/29 16:27:55 by yerilee          ###   ########.fr       */
+/*   Created: 2023/11/29 17:09:02 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/29 17:09:03 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ void	builtin_env(t_data *data, char **line)
 		}
 		while (curr)
 		{
-			if (!curr->val)
-				break ;
-			else
+			if (curr->val)
 				printf("%s=%s\n", curr->key, curr->val);
 			curr = curr->next;
 		}
 	}
+	g_exit_status = 0;
 }
 
 char	*get_minishell_env(char *env_val, t_env *env_list)
