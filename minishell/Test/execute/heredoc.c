@@ -55,8 +55,8 @@ void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter)
 		}
 		exit(0);
 	}
-	waitpid(pid, &status, 0);
-	set_signal(SHELL, IGNORE);
+  waitpid(pid, &status, 0);
+  set_signal(SHELL, IGNORE);
 	ft_free_str(gnl);
 	close(data->cmd_list->fd_in);
 	data->cmd_list->fd_in = open("/tmp/.infile", O_RDONLY, 0644);

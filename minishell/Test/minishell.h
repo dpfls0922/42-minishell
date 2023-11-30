@@ -267,7 +267,7 @@ void	builtin_echo(t_cmd *cmd);
 int		check_env_home_exist(t_env *env_list);
 void	builtin_cd(t_data *data, char *path);
 void	builtin_exit(char **line);
-int		is_builtin(t_cmd *cmd, t_data *data);
+int		is_builtin(t_cmd *cmd, t_data *data, int here_flag);
 
 /* error */
 void	ft_error(char *str);
@@ -280,8 +280,8 @@ void	is_a_dir_error(char *cmd);
 int		*dup_fd(void);
 void	redirect_fd(int *fd);
 void	executing(t_data *data);
-int		run_fork(t_cmd *cmd, t_data *data, int cnt);
-void	run_exec(t_data *data);
+int		run_fork(t_cmd *cmd, t_data *data, int cnt, int here_flag);
+void	run_exec(t_data *data, int here_flag);
 
 /* export */
 void	print_export(t_data *data);
@@ -293,6 +293,7 @@ int		check_valid_arg(char *str);
 void	builtin_export(t_data *data, char **line);
 
 /* heredoc */
+void	ft_free_str(char *s);
 void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter);
 
 /* get_path_envp */
