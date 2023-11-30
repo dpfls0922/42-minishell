@@ -123,6 +123,7 @@ int		ft_strchr_idx(char *s, int c);
 char	*ft_strchr(const char *s, int c);
 int		ft_strcmp_exec(const char *s1, const char *s2);
 char	*ft_strjoin_exec(char const *s1, char const *s2);
+char	*ft_strjoin_no_free(char *s1, char *s2);
 int		ft_strncmp_equal(const char *s1, const char *s2, size_t n);
 int		ft_strncmp_exec(const char *s1, const char *s2, size_t n);
 char	*ft_itoa(int nbr, int len);
@@ -294,7 +295,7 @@ void	builtin_export(t_data *data, char **line);
 
 /* heredoc */
 void	ft_free_str(char *s);
-void	run_heredoc(t_data *data, char *limiter);
+void	run_heredoc(t_cmd *cmd, char *limiter, int cnt);
 
 /* get_path_envp */
 void	get_path_envp(t_cmd *cmd, char **envp);

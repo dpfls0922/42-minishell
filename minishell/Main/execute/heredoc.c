@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/30 17:44:45 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/30 18:53:20 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,19 @@ void	ft_free_str(char *s)
 	}
 }
 
-void	run_heredoc(t_data *data, char *limiter)
+void	run_heredoc(t_cmd *cmd, char *limiter, int cnt)
 {
 	pid_t	pid;
 	int		status;
 	char	*gnl;
+	char	*cnt_str;
+	char	*here_doc_org;
+	char	*here_doc_str;
 
-	data->cmd_list->fd_in = open("/tmp/.infile",
+	cnt_str = ft_itoa(cnt, 0);
+	here_doc_org = "/tmp/.infile";
+	here_doc_str = ft_strjoin_no_free(here_doc_org, cnt_str);
+	cmd->fd_in = open(here_doc_str,
 			O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	set_signal(IGNORE, IGNORE);
 	pid = fork();
@@ -48,7 +54,7 @@ void	run_heredoc(t_data *data, char *limiter)
 				g_exit_status = 1;
 				break ;
 			}
-			write(data->cmd_list->fd_in, gnl, ft_strlen(gnl));
+			write(cmd->fd_in, gnl, ft_strlen(gnl));
 			ft_free_str(gnl);
 			gnl = 0;
 		}
@@ -57,6 +63,6 @@ void	run_heredoc(t_data *data, char *limiter)
 	waitpid(pid, &status, 0);
 	set_signal(SHELL, IGNORE);
 	ft_free_str(gnl);
-	close(data->cmd_list->fd_in);
-	data->cmd_list->fd_in = open("/tmp/.infile", O_RDONLY, 0644);
+	close(cmd->fd_in);
+	cmd->fd_in = open(here_doc_str, O_RDONLY, 0644);
 }

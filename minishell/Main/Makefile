@@ -28,6 +28,7 @@ SRCS = main.c\
 		Libft/ft_strchr.c \
 		Libft/ft_strcmp_exec.c \
 		Libft/ft_strcmp.c \
+		Libft/ft_strjoin_no_free.c \
 		Libft/ft_strjoin_exec.c \
 		Libft/ft_strjoin.c \
 		Libft/ft_strncmp_equal.c \

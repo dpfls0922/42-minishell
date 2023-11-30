@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/30 18:07:41 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/30 18:56:55 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	executing(t_data *data)
 	{
 		j = -1;
 		while (++j < curr->heredoc_num)
-			run_heredoc(data, data->end[i]);
+			run_heredoc(curr, data->end[i], i);
 		if (curr->next)
 			curr = curr->next;
 	}
