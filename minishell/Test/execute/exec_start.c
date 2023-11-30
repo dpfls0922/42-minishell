@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/30 18:56:55 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 22:21:32 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,16 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	{
 		if (cmd->cmd[0] == NULL)
 			exit(0);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		dup2(cmd->fd_out, STDOUT_FILENO);
+		if (cmd->fd_in > 0)
+		{
+			dup2(cmd->fd_in, STDIN_FILENO);
+			close(cmd->fd_in);
+		}
+		if (cmd->fd_out > 1)
+		{
+			dup2(cmd->fd_out, STDOUT_FILENO);
+			close(cmd->fd_out);
+		}
 		if (data->pipe_flag)
 		{
 			if (cnt == 0)
@@ -121,6 +129,9 @@ void	run_exec(t_data *data)
 			else
 				cur_pid = run_fork(curr, data, cnt);
 		}
+		g_exit_status = get_status();
+		if (g_exit_status == 130 || g_exit_status == 131)
+			break ;
 		curr = curr->next;
 		cnt++;
 	}

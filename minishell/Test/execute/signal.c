@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 21:54:02 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/29 18:34:17 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 22:23:41 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,13 @@
 
 void	handle_signal(int signo)
 {
-	pid_t	pid;
-	int		status;
-
-	pid = waitpid(-1, &status, WNOHANG);
 	if (signo == SIGINT)
 	{
-		if (pid == -1)
-		{
-			write(1, "\n", 1);
-			rl_on_new_line();
-			rl_replace_line("", 0);
-			rl_redisplay();
-			g_exit_status = 1;
-		}
-	}
-	if (signo == SIGQUIT)
-	{
-		if (pid == -1)
-		{
-			rl_on_new_line();
-			rl_redisplay();
-		}
-		else
-			kill(pid, SIGQUIT);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_exit_status = 1;
 	}
 }
 
@@ -45,7 +28,10 @@ void	handle_heredoc_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		printf("\n");
 		exit(1);
 	}
 }
@@ -65,5 +51,5 @@ void	set_signal(int sig_int, int sig_quit)
 	if (sig_quit == DEFAULT)
 		signal(SIGQUIT, SIG_DFL);
 	if (sig_quit == SHELL)
-		signal(SIGQUIT, handle_signal);
+		signal(SIGQUIT, SIG_IGN);
 }
