@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:39:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/30 18:15:41 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 18:19:55 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,31 @@ void	redirect_fd(int *fd)
 	close(fd[1]);
 	free(fd);
 	fd = 0;
+}
+
+int	get_status(void)
+{
+	int	status;
+
+	while (waitpid(-1, &status, 0) > 0)
+	{
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGQUIT)
+			{
+				g_exit_status = 131;
+				printf("^\\Quit: 3\n");
+			}
+			else if (WTERMSIG(status) == 2)
+			{
+				g_exit_status = 130;
+				printf("^C\n");
+			}
+		}
+	}
+	return (g_exit_status);
 }
 
 int	run_fork(t_cmd *cmd, t_data *data, int cnt)
@@ -82,7 +107,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 void	run_exec(t_data *data)
 {
 	int		cur_pid;
-	int		status;
 	int		cnt;
 	t_cmd	*curr;
 
@@ -100,24 +124,7 @@ void	run_exec(t_data *data)
 		curr = curr->next;
 		cnt++;
 	}
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGQUIT)
-			{
-				g_exit_status = 131;
-				printf("^\\Quit: 3\n");
-			}
-			else if (WTERMSIG(status) == 2)
-			{
-				g_exit_status = 130;
-				printf("^C\n");
-			}
-		}
-	}
+	g_exit_status = get_status();
 }
 
 void	executing(t_data *data)
@@ -126,26 +133,22 @@ void	executing(t_data *data)
 	int		j;
 	t_cmd	*curr;
 
-	curr = data->cmd_list;
 	data->fd = dup_fd();
+	curr = data->cmd_list;
 	while (curr)
 	{
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-	i = 0;
+	i = -1;
 	curr = data->cmd_list;
-	while (i < data->heredoc_num)
+	while (++i < data->heredoc_num)
 	{
-		j = 0;
-		while (j < curr->heredoc_num)
-		{
+		j = -1;
+		while (++j < curr->heredoc_num)
 			run_heredoc(curr, data->end[i]);
-			j++;
-		}
 		if (curr->next)
 			curr = curr->next;
-		i++;
 	}
 	run_exec(data);
 	redirect_fd(data->fd);
