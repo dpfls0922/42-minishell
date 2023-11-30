@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/29 18:39:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/30 18:21:30 by spark2           ###   ########.fr       */
+/*   Created: 2023/11/30 18:23:00 by spark2            #+#    #+#             */
+/*   Updated: 2023/11/30 18:43:12 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	char	*path;
 
-	set_signal(DEFAULT, DEFAULT);
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
@@ -74,6 +73,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
+		set_signal(DEFAULT, DEFAULT);
 		if (cmd->cmd[0] == NULL)
 			exit(0);
 		dup2(cmd->fd_in, STDIN_FILENO);
@@ -146,7 +146,7 @@ void	executing(t_data *data)
 	{
 		j = -1;
 		while (++j < curr->heredoc_num)
-			run_heredoc(curr, data->end[i]);
+			run_heredoc(curr, data->end[i], i);
 		if (curr->next)
 			curr = curr->next;
 	}
