@@ -294,7 +294,7 @@ void	builtin_export(t_data *data, char **line);
 
 /* heredoc */
 void	ft_free_str(char *s);
-void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter);
+void	run_heredoc(t_data *data, char *limiter);
 
 /* get_path_envp */
 void	get_path_envp(t_cmd *cmd, char **envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/30 17:23:58 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 17:45:27 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ void	ft_free_str(char *s)
 	}
 }
 
-void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter)
+void	run_heredoc(t_data *data, char *limiter)
 {
 	pid_t	pid;
 	int		status;
 	char	*gnl;
 
-	(void) cmd;
 	data->cmd_list->fd_in = open("/tmp/.infile",
 			O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	set_signal(IGNORE, IGNORE);
@@ -55,8 +54,8 @@ void	run_heredoc(t_data *data, t_cmd *cmd, char *limiter)
 		}
 		exit(0);
 	}
-  waitpid(pid, &status, 0);
-  set_signal(SHELL, IGNORE);
+	waitpid(pid, &status, 0);
+	set_signal(SHELL, IGNORE);
 	ft_free_str(gnl);
 	close(data->cmd_list->fd_in);
 	data->cmd_list->fd_in = open("/tmp/.infile", O_RDONLY, 0644);

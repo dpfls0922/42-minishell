@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/30 17:42:30 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/30 17:45:15 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void	executing(t_data *data)
 		j = 0;
 		while (j < curr->heredoc_num)
 		{
-			run_heredoc(data, curr, data->end[i]);
+			run_heredoc(data, data->end[i]);
 			j++;
 		}
 		if (curr->next)
