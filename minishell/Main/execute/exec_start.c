@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:23:00 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/30 18:43:12 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 22:21:09 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	get_status(void)
 int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	char	*path;
+	// int status;
 
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
@@ -74,10 +75,16 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	else if (cmd->pid == 0)
 	{
 		set_signal(DEFAULT, DEFAULT);
-		if (cmd->cmd[0] == NULL)
-			exit(0);
-		dup2(cmd->fd_in, STDIN_FILENO);
-		dup2(cmd->fd_out, STDOUT_FILENO);
+		if (cmd->fd_in > 0)
+		{
+			dup2(cmd->fd_in, STDIN_FILENO);
+			close(cmd->fd_in);
+		}
+		if (cmd->fd_out > 1)
+		{
+			dup2(cmd->fd_out, STDOUT_FILENO);
+			close(cmd->fd_out);
+		}
 		if (data->pipe_flag)
 		{
 			if (cnt == 0)
@@ -98,8 +105,9 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	}
 	else
 	{
-		parent_work(data->cmd_list);
 		set_signal(IGNORE, IGNORE);
+		// waitpid(cmd->pid, &status, 0);
+		parent_work(data->cmd_list);
 	}
 	return (cmd->pid);
 }
@@ -121,6 +129,9 @@ void	run_exec(t_data *data)
 			else
 				cur_pid = run_fork(curr, data, cnt);
 		}
+		g_exit_status = get_status();
+		if (g_exit_status == 130 || g_exit_status == 131)
+			break ;
 		curr = curr->next;
 		cnt++;
 	}

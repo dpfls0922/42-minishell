@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/11/30 18:53:19 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 22:22:48 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,18 @@ void	run_heredoc(t_cmd *cmd, char *limiter, int cnt)
 		set_signal(HEREDOC, IGNORE);
 		while (1)
 		{
-			write(1, "> ", 2);
-			gnl = get_next_line(0);
+			gnl = readline("> ");
 			if (!gnl)
 				break ;
 			if (!limiter)
 				break ;
-			if (!ft_strncmp_gnl(limiter, gnl, ft_strlen(limiter)))
+			if (!ft_strcmp(limiter, gnl))
 			{
 				g_exit_status = 1;
 				break ;
 			}
 			write(cmd->fd_in, gnl, ft_strlen(gnl));
+			write(cmd->fd_in, "\n", 1);
 			ft_free_str(gnl);
 			gnl = 0;
 		}
