@@ -265,7 +265,7 @@ void	builtin_echo(t_cmd *cmd);
 int		check_env_home_exist(t_env *env_list);
 void	builtin_cd(t_data *data, char *path);
 void	builtin_exit(char **line);
-int		is_builtin(t_cmd *cmd, t_data *data, int here_flag);
+int		is_builtin(t_cmd *cmd, t_data *data);
 
 /* error */
 void	ft_error(char *str);
@@ -278,8 +278,8 @@ void	is_a_dir_error(char *cmd);
 int		*dup_fd(void);
 void	redirect_fd(int *fd);
 void	executing(t_data *data);
-int		run_fork(t_cmd *cmd, t_data *data, int cnt, int here_flag);
-void	run_exec(t_data *data, int here_flag);
+int		run_fork(t_cmd *cmd, t_data *data, int cnt);
+void	run_exec(t_data *data);
 
 /* export */
 void	print_export(t_data *data);
