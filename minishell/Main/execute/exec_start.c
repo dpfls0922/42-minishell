@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:39:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 20:54:23 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 17:21:36 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,12 @@ void	run_exec(t_data *data)
 			}
 		}
 	}
-	// while (wait(0) != -1)
-	// 	;
 }
 
 void	executing(t_data *data)
 {
 	int		i;
+	int		j;
 	t_cmd	*curr;
 
 	curr = data->cmd_list;
@@ -134,14 +133,19 @@ void	executing(t_data *data)
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-	i = -1;
+	i = 0;
 	curr = data->cmd_list;
-	while (data->heredoc_num)
+	while (i < data->heredoc_num)
 	{
-		while (curr->heredoc_num)
-			run_heredoc(data, curr, data->end[++i]);
+		j = 0;
+		while (j < curr->heredoc_num)
+		{
+			run_heredoc(data, curr, data->end[i]);
+			j++;
+		}
 		if (curr->next)
 			curr = curr->next;
+		i++;
 	}
 	run_exec(data);
 	redirect_fd(data->fd);
