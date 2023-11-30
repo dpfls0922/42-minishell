@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:03 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/30 15:44:49 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/11/30 17:41:29 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,13 +183,13 @@ void	builtin_exit(char **line)
 	}
 }
 
-int	is_builtin(t_cmd *cmd, t_data *data, int here_flag)
+int	is_builtin(t_cmd *cmd, t_data *data)
 {
 	char	*builtin;
 
 
 	builtin = cmd->cmd[0];
-	if (!data->cmd_list->cmd[0] && here_flag)
+	if (!data->cmd_list->cmd[0] && cmd->heredoc_num)
 		return (2);
 	if (!ft_strncmp_exec(builtin, "env", 4))
 		builtin_env(data, cmd->cmd);

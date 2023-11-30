@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 18:39:17 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/30 17:21:36 by spark2           ###   ########.fr       */
+/*   Updated: 2023/11/30 17:44:56 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	redirect_fd(int *fd)
 	fd = 0;
 }
 
-int	run_fork(t_cmd *cmd, t_data *data, int cnt, int here_flag)
+int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	char	*path;
 
@@ -62,7 +62,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt, int here_flag)
 			else
 				pipe_to_pipe(cmd);
 		}
-		if (is_builtin(cmd, data, here_flag))
+		if (is_builtin(cmd, data))
 			exit(0);
 		else
 		{
@@ -79,7 +79,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt, int here_flag)
 	return (cmd->pid);
 }
 
-void	run_exec(t_data *data, int here_flag)
+void	run_exec(t_data *data)
 {
 	int		cur_pid;
 	int		status;
@@ -92,10 +92,10 @@ void	run_exec(t_data *data, int here_flag)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
-			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data, here_flag))
+			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
 			else
-				cur_pid = run_fork(curr, data, cnt, here_flag);
+				cur_pid = run_fork(curr, data, cnt);
 		}
 		curr = curr->next;
 		cnt++;
@@ -124,7 +124,6 @@ void	executing(t_data *data)
 {
 	int		i;
 	int		j;
-	int		here_flag;
 	t_cmd	*curr;
 
 	curr = data->cmd_list;
@@ -134,23 +133,20 @@ void	executing(t_data *data)
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-
 	i = 0;
-	here_flag = 0;
 	curr = data->cmd_list;
 	while (i < data->heredoc_num)
 	{
 		j = 0;
 		while (j < curr->heredoc_num)
 		{
-			run_heredoc(data, curr, data->end[i]);
+			run_heredoc(data, data->end[i]);
 			j++;
 		}
 		if (curr->next)
 			curr = curr->next;
 		i++;
-		here_flag = 1;
 	}
-	run_exec(data, here_flag);
+	run_exec(data);
 	redirect_fd(data->fd);
 }
