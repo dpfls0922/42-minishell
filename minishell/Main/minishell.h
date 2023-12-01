@@ -24,7 +24,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "execute/get_next_line/get_next_line.h"
 # include "execute/ft_printf/ft_printf.h"
 
 # define WORD 1
@@ -130,6 +129,7 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, char *src, size_t dstsize);
 char	*ft_strtrim(char *s1, char *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *src);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strncmp(char *s1, char *s2, size_t n);
 char	*ft_strjoin(char *s1, char *s2);
