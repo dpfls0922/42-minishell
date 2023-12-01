@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 17:12:03 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/01 17:13:44 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void	run_exec(t_data *data)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
+			if (curr->cmd[0] == NULL)
+				return ;
 			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
 			else
