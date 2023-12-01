@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 19:18:42 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/01 19:31:46 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,25 +76,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	else if (cmd->pid == 0)
 	{
 		set_signal(DEFAULT, DEFAULT);
-		if (cmd->fd_in > 0)
-		{
-			dup2(cmd->fd_in, STDIN_FILENO);
-			close(cmd->fd_in);
-		}
-		if (cmd->fd_out > 1)
-		{
-			dup2(cmd->fd_out, STDOUT_FILENO);
-			close(cmd->fd_out);
-		}
-		if (data->pipe_flag)
-		{
-			if (cnt == 0)
-				infile_to_pipe(cmd);
-			else if (cnt == data->pipe_flag)
-				pipe_to_outfile(cmd);
-			else
-				pipe_to_pipe(cmd);
-		}
+		child_work(cmd, data, cnt);
 		if (is_builtin(cmd, data))
 			exit(0);
 		else
