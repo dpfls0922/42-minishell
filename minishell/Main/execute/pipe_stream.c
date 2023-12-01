@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_stream.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/30 18:58:15 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/01 19:29:31 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,27 @@ void	parent_work(t_cmd *cmd)
 	dup2(cmd->pipe_fd[0], STDIN_FILENO);
 	close(cmd->pipe_fd[1]);
 	close(cmd->pipe_fd[0]);
+}
+
+void	child_work(t_cmd *cmd, t_data *data, int cnt)
+{
+	if (cmd->fd_in > 0)
+	{
+		dup2(cmd->fd_in, STDIN_FILENO);
+		close(cmd->fd_in);
+	}
+	if (cmd->fd_out > 1)
+	{
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		close(cmd->fd_out);
+	}
+	if (data->pipe_flag)
+	{
+		if (cnt == 0)
+			infile_to_pipe(cmd);
+		else if (cnt == data->pipe_flag)
+			pipe_to_outfile(cmd);
+		else
+			pipe_to_pipe(cmd);
+	}
 }

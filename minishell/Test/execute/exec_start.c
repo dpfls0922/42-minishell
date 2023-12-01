@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 17:13:44 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/01 19:31:46 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,22 @@ void	redirect_fd(int *fd)
 
 int	get_status(void)
 {
+	int	i;
 	int	status;
 
+	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 		{
-			if (WTERMSIG(status) == SIGQUIT)
+			if (WTERMSIG(status) == SIGQUIT && i++ == 0)
 			{
 				g_exit_status = 131;
 				printf("^\\Quit: 3\n");
 			}
-			else if (WTERMSIG(status) == 2)
+			else if (WTERMSIG(status) == 2 && i++ == 0)
 			{
 				g_exit_status = 130;
 				printf("^C\n");
@@ -74,25 +76,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	else if (cmd->pid == 0)
 	{
 		set_signal(DEFAULT, DEFAULT);
-		if (cmd->fd_in > 0)
-		{
-			dup2(cmd->fd_in, STDIN_FILENO);
-			close(cmd->fd_in);
-		}
-		if (cmd->fd_out > 1)
-		{
-			dup2(cmd->fd_out, STDOUT_FILENO);
-			close(cmd->fd_out);
-		}
-		if (data->pipe_flag)
-		{
-			if (cnt == 0)
-				infile_to_pipe(cmd);
-			else if (cnt == data->pipe_flag)
-				pipe_to_outfile(cmd);
-			else
-				pipe_to_pipe(cmd);
-		}
+		child_work(cmd, data, cnt);
 		if (is_builtin(cmd, data))
 			exit(0);
 		else
@@ -129,9 +113,6 @@ void	run_exec(t_data *data)
 			else
 				cur_pid = run_fork(curr, data, cnt);
 		}
-		g_exit_status = get_status();
-		if (g_exit_status == 130 || g_exit_status == 131)
-			break ;
 		curr = curr->next;
 		cnt++;
 	}

@@ -306,6 +306,7 @@ void	infile_to_pipe(t_cmd *cmd);
 void	pipe_to_pipe(t_cmd *cmd);
 void	pipe_to_outfile(t_cmd *cmd);
 void	parent_work(t_cmd *cmd);
+void	child_work(t_cmd *cmd, t_data *data, int cnt);
 
 /* signal */
 void	show_prompt(void);
