@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:23:00 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/30 22:21:09 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/01 17:12:33 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ void	run_exec(t_data *data)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
+			if (curr->cmd[0] == NULL)
+				return ;
 			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
 			else

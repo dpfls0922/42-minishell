@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/30 22:21:32 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/01 17:13:44 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 {
 	char	*path;
 
-	set_signal(DEFAULT, DEFAULT);
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
@@ -74,8 +73,7 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
-		if (cmd->cmd[0] == NULL)
-			exit(0);
+		set_signal(DEFAULT, DEFAULT);
 		if (cmd->fd_in > 0)
 		{
 			dup2(cmd->fd_in, STDIN_FILENO);
@@ -106,8 +104,8 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	}
 	else
 	{
-		parent_work(data->cmd_list);
 		set_signal(IGNORE, IGNORE);
+		parent_work(data->cmd_list);
 	}
 	return (cmd->pid);
 }
@@ -124,6 +122,8 @@ void	run_exec(t_data *data)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
+			if (curr->cmd[0] == NULL)
+				return ;
 			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
 			else
