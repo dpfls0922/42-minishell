@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:03 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/30 17:41:29 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/01 22:03:29 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,56 @@ int		check_env_home_exist(t_env *env_list)
 	return (0);
 }
 
+char	*get_minishell_env_key(char *env_key, t_env *env_list)
+{
+	t_env	*curr;
+	char	*pwd;
+
+	curr = env_list;
+	pwd = NULL;
+	while (curr)
+	{
+		if (!ft_strcmp(env_key, curr->key))
+		{
+			pwd = ft_substr(curr->val, 0, ft_strlen(curr->val));
+			break ;
+		}
+		else
+			curr = curr->next;
+	}
+	return (pwd);
+}
+
+char	**make_pwd(char *str, char *arg_exist_flag)
+{
+	char	*pwd;
+	char	*pwd_export;
+	char	**pwd_export_2d;
+	char	*malloc_str;
+
+	pwd = ft_strdup(arg_exist_flag);
+	malloc_str = ft_strdup(str);
+	pwd_export = ft_strjoin(malloc_str, pwd);
+	pwd_export_2d = malloc(sizeof(char *) * 3);
+	pwd_export_2d[0] = ft_strdup("export");
+	pwd_export_2d[1] = ft_strdup(pwd_export);
+	pwd_export_2d[2] = 0;
+	ft_free_str(pwd);
+	ft_free_str(pwd_export);
+	return (pwd_export_2d);
+}
+
 void	builtin_cd(t_data *data, char *path)
 {
+	char	**old_pwd_export_2d;
+	char	**curr_pwd_export_2d;
+	char	*arg_exist_flag;
+
+	arg_exist_flag = getcwd(0, 4096);
+	if (arg_exist_flag)
+		old_pwd_export_2d = make_pwd("OLDPWD=", arg_exist_flag);
+	else
+		old_pwd_export_2d = make_pwd("OLDPWD=", get_minishell_env_key("PWD", data->env_list));
 	if (!path)
 	{
 		if (check_env_home_exist(data->env_list))
@@ -156,9 +204,16 @@ void	builtin_cd(t_data *data, char *path)
 		else
 			ft_error("No such file or directory\n");
 	}
+	else if (path[0] == '-')
+		chdir(get_minishell_env_key("OLDPWD", data->env_list));
 	else
 		if (chdir(path) == -1)
 			ft_error("No such file or directory\n");
+	curr_pwd_export_2d = make_pwd("PWD=", getcwd(0, 4096));
+	builtin_export(data, old_pwd_export_2d);
+	builtin_export(data, curr_pwd_export_2d);
+	ft_free_list(old_pwd_export_2d);
+	ft_free_list(curr_pwd_export_2d);
 }
 
 void	builtin_exit(char **line)
