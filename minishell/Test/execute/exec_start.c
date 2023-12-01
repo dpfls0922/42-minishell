@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 17:13:44 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/01 19:18:42 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,22 @@ void	redirect_fd(int *fd)
 
 int	get_status(void)
 {
+	int	i;
 	int	status;
 
+	i = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 		{
-			if (WTERMSIG(status) == SIGQUIT)
+			if (WTERMSIG(status) == SIGQUIT && i++ == 0)
 			{
 				g_exit_status = 131;
 				printf("^\\Quit: 3\n");
 			}
-			else if (WTERMSIG(status) == 2)
+			else if (WTERMSIG(status) == 2 && i++ == 0)
 			{
 				g_exit_status = 130;
 				printf("^C\n");
@@ -129,9 +131,6 @@ void	run_exec(t_data *data)
 			else
 				cur_pid = run_fork(curr, data, cnt);
 		}
-		g_exit_status = get_status();
-		if (g_exit_status == 130 || g_exit_status == 131)
-			break ;
 		curr = curr->next;
 		cnt++;
 	}
