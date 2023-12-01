@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 19:31:46 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/01 23:13:39 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	run_exec(t_data *data)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
-			if (curr->cmd[0] == NULL)
+			if (curr->cmd[0] == NULL && data->heredoc_num == 0)
 				return ;
 			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
