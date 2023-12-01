@@ -264,6 +264,8 @@ void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
 void	builtin_echo(t_cmd *cmd);
 int		check_env_home_exist(t_env *env_list);
+char	*get_minishell_env_key(char *env_key, t_env *env_list);
+char	**make_pwd(char *str, char *arg_exist_flag);
 void	builtin_cd(t_data *data, char *path);
 void	builtin_exit(char **line);
 int		is_builtin(t_cmd *cmd, t_data *data);
