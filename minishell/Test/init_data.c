@@ -43,6 +43,7 @@ void	init_data2(t_data *data)
 	data->pipe_flag = 0;
 	data->lexer_list = NULL;
 	data->cmd_list = NULL;
+	data->prev_exit_status = 0;
 	g_exit_status = 0;
 }
 
