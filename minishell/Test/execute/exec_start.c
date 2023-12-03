@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 23:13:39 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/03 19:56:04 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,16 @@ void	executing(t_data *data)
 		get_path_envp(curr, data->env);
 		curr = curr->next;
 	}
-	i = -1;
+	i = 0;
 	curr = data->cmd_list;
-	while (++i < data->heredoc_num)
+	while (i < data->heredoc_num)
 	{
 		j = -1;
 		while (++j < curr->heredoc_num)
-			run_heredoc(curr, data->end[i], i);
+		{
+			run_heredoc(curr, data->end[j], j);
+			i++;
+		}
 		if (curr->next)
 			curr = curr->next;
 	}
