@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 21:46:41 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/20 16:42:19 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/04 01:51:38 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,39 @@ void	add_env(t_data *data, char *str)
 	new_node->prev = cur_env;
 }
 
-int	check_valid_arg(char *str)
+char	*ft_strnchr(char *s, int c, int n)
 {
-	if ((str[0] >= '0' && str[0] <= '9') || str[0] == '='
-		|| str[0] == '?' || str[0] == '/')
+	while (*s && n)
 	{
-		printf("export: '%s': not a valid identifier\n", str);
-		return (0);
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+		n--;
 	}
+	return (0);
+}
+
+int	check_valid_arg(char *cmd, char *str)
+{
+	int	i;
+	int	equal_idx;
+	
+	i = 0;
+	equal_idx = ft_strchr_idx(str, '=');
+	if (equal_idx == 0)
+		return (print_export_unset_error(cmd, str));
+	if (equal_idx == -1)
+		equal_idx = ft_strlen(str) - 1;
+	while (i <= equal_idx && str[i] != '=')
+		{
+			if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]))
+				return (print_export_unset_error(cmd, str));
+			i++;
+		}
+	if (((str[0] >= '0' && str[0] <= '9') || str[0] == '='
+		|| str[0] == '?' || str[0] == '/') || !ft_strcmp(str, "")
+		)
+		return (print_export_unset_error(cmd, str));
 	else
 		return (1);
 }
@@ -140,7 +165,7 @@ void	builtin_export(t_data *data, char **line)
 		while (line[++i])
 		{
 			equal_idx = check_env_exist(data->env_list, line[i]);
-			if (!check_valid_arg(line[i]))
+			if (!check_valid_arg("export", line[i]))
 				;
 			else if (equal_idx != -1) //이미 존재하는 key라면 -> value 수정
 				modify_env_value(data, line[i]);

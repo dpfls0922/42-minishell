@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 18:04:18 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 01:52:37 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void    builtin_unset(t_data *data, char **str)
 	i = 0;
 	while (str[++i])
 	{
-		if (!check_valid_arg(str[i]))
+		if (!check_valid_arg("unset", str[i]))
 			continue ;
 		if (!data->env_list)
 		{
