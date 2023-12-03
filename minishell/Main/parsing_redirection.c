@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:01:10 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/14 16:05:16 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/03 21:59:01 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	delete_node(t_data *data, int position)
 		if (curr && curr->prev)
 			curr->prev->next = curr->next;
 		temp = curr->next;
+		free(curr->val);
 		free(curr);
 		curr = temp;
 	}
@@ -69,12 +70,12 @@ void	delete_redirection_and_filename(t_data *data, int position, int flag)
 				position--;
 				curr = curr->prev;
 			}
-			free(curr->val);
 			delete_node(data, position);
 		}
 		if (flag == 0)
 			position++;
-		curr = curr->next;
+		if (curr)
+			curr = curr->next;
 	}
 }
 
