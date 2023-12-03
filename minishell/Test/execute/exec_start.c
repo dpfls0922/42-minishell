@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:20 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/03 19:56:04 by sujin            ###   ########.fr       */
+/*   Updated: 2023/12/03 20:06:17 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 
 void	run_exec(t_data *data)
 {
-	int		cur_pid;
 	int		cnt;
 	t_cmd	*curr;
 
@@ -111,7 +110,7 @@ void	run_exec(t_data *data)
 			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
 				return ;
 			else
-				cur_pid = run_fork(curr, data, cnt);
+				run_fork(curr, data, cnt);
 		}
 		curr = curr->next;
 		cnt++;
