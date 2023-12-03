@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 20:49:12 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 21:40:01 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 01:50:31 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,32 @@ void	print_error(char *err_msg)
 void	cmd_not_found_error(char *cmd)
 {
 	write(2, cmd, ft_strlen(cmd));
-	write(2, " : command not found\n", 22);
+	write(2, ": command not found\n", 22);
 	unlink("/tmp/.infile");
 	exit(127);
 }
 
-void	no_such_file_error(char *cmd, int error_flag)
+void	no_such_file_error(char *cmd, char *str, int exit_code, int error_flag)
 {
-	printf("env: %s: No such file or directory\n", cmd);
+	if (cmd)
+		printf("%s: ", cmd);
+	printf("%s: No such file or directory\n", str);
 	unlink("/tmp/.infile");
 	if (error_flag)
-		exit(127);
-	g_exit_status = 127;
+		exit(exit_code);
+	g_exit_status = exit_code;
 }
 
 void	is_a_dir_error(char *cmd)
 {
 	printf("%s: is a directory\n", cmd);
 	exit(126);
+}
+
+int	print_export_unset_error(char *cmd, char *str)
+{
+	printf("%s: ", cmd);
+	printf("`%s': not a valid identifier\n", str);
+	g_exit_status = 1;
+	return (0);
 }
