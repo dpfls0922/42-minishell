@@ -30,6 +30,7 @@ void	setting_env(t_data *data)
 int	init_data1(t_data *data, int argc, char **env)
 {
 	data->ac = argc;
+	data->prev_exit_status = 0;
 	if (env && env[0])
 		data->env = env;
 	setting_env(data);
@@ -43,7 +44,6 @@ void	init_data2(t_data *data)
 	data->pipe_flag = 0;
 	data->lexer_list = NULL;
 	data->cmd_list = NULL;
-	data->prev_exit_status = 0;
 	g_exit_status = 0;
 }
 
@@ -63,8 +63,7 @@ void	init_exit(t_data *data, t_exit *exit, char *value)
 {
 	exit->i = 0;
 	exit->j = 0;
-	exit->d_flag = 0;
-	exit->s_flag = 0;
+	data->flag_d = 0;
 	exit->value = value;
 	exit->prev_exit = ft_itoa(data->prev_exit_status, 0);
 	exit->new_val = allocate_new_val(exit->prev_exit, value);
