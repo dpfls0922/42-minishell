@@ -63,7 +63,8 @@ void	init_exit(t_data *data, t_exit *exit, char *value)
 {
 	exit->i = 0;
 	exit->j = 0;
-	data->flag_d = 0;
+	exit->d_flag = 0;
+	exit->s_flag = 0;
 	exit->value = value;
 	exit->prev_exit = ft_itoa(data->prev_exit_status, 0);
 	exit->new_val = allocate_new_val(exit->prev_exit, value);
