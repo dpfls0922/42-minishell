@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/24 18:40:26 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 01:52:12 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*get_cmd_path(char **path, char *cmd)
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, F_OK))
-			no_such_file_error(cmd, 1);
+			no_such_file_error("", cmd, 127, 1);
 		is_a_dir_error(cmd);
 	}
 	else

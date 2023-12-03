@@ -110,6 +110,8 @@ char	*readline(const char *prompt);
 /* Libft */
 void	check_numeric(const char *str, int i);
 int		ft_atoi(const char *str);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	*ft_free(char **ptr, int i);
@@ -274,8 +276,9 @@ int		is_builtin(t_cmd *cmd, t_data *data);
 void	ft_error(char *str);
 void	print_error(char *err_msg);
 void	cmd_not_found_error(char *cmd);
-void	no_such_file_error(char *cmd, int error_flag);
+void	no_such_file_error(char *cmd, char *str, int exit_code, int error_flag);
 void	is_a_dir_error(char *cmd);
+int		print_export_unset_error(char *cmd, char *str);
 
 /* exec_start */
 int		*dup_fd(void);
@@ -291,7 +294,7 @@ int		check_env_exist(t_env *env, char *str);
 void	modify_env_value(t_data *data, char *str);
 t_env	*new_env_node_no_value(char *str);
 void	add_env(t_data *data, char *str);
-int		check_valid_arg(char *str);
+int		check_valid_arg(char *cmd, char *str);
 void	builtin_export(t_data *data, char **line);
 
 /* heredoc */

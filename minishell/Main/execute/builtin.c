@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/03 21:10:22 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 00:48:05 by sujin            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	builtin_env(t_data *data, char **line)
 
 	curr = data->env_list;
 	if (line[1])
-		no_such_file_error(line[1], 0);
+		no_such_file_error("env", line[1], 127, 0);
 	else
 	{
 		if (!curr || !curr->val)
@@ -163,6 +163,7 @@ void	builtin_cd(t_data *data, char *path)
 		{
 			printf("cd: HOME not set\n");
 			g_exit_status = 1;
+			return ;
 		}
 	}
 	else if (path[0] == '~')
@@ -174,7 +175,10 @@ void	builtin_cd(t_data *data, char *path)
 			chdir(getenv("HOME"));
 			if (path[2])
 				if (chdir(path) == -1)
-					ft_error("No such file or directory\n");
+				{
+					no_such_file_error("cd", path, 1, 0);
+					return ;
+				}
 		}
 		else
 			ft_error("No such file or directory\n");
@@ -183,7 +187,10 @@ void	builtin_cd(t_data *data, char *path)
 		chdir(get_minishell_env_key("OLDPWD", data->env_list));
 	else
 		if (chdir(path) == -1)
-			ft_error("No such file or directory\n");
+		{
+			no_such_file_error("cd", path, 1, 0);
+			return ;
+		}
 	curr_pwd_export_2d = make_pwd("PWD=", getcwd(0, 4096));
 	builtin_export(data, old_pwd_export_2d);
 	builtin_export(data, curr_pwd_export_2d);
