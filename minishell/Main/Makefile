@@ -19,6 +19,8 @@ SRCS = main.c\
 		$(wildcard execute/*.c) \
 		$(wildcard execute/ft_printf/*.c) \
 		Libft/ft_atoi.c \
+		Libft/ft_isalpha.c \
+		Libft/ft_isdigit.c \
 		Libft/ft_itoa.c \
 		Libft/ft_putchar_fd.c \
 		Libft/ft_putstr_fd.c \
@@ -70,10 +72,10 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/opt/homebrew/opt/readline/lib
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I/opt/homebrew/opt/readline/include -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
