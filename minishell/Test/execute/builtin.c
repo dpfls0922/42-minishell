@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/20 18:47:03 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/01 23:14:25 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/03 21:11:35 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	check_option_n(char *token)
 	return (1);
 }
 
-void	builtin_echo(t_cmd *cmd)
+void	builtin_echo(t_cmd *cmd, int fd)
 {
 	int	i;
 	int	new_line;
@@ -115,13 +115,13 @@ void	builtin_echo(t_cmd *cmd)
 	}
 	while (cmd->cmd[i])
 	{
-		write(cmd->fd_out, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
+		write(fd, cmd->cmd[i], ft_strlen(cmd->cmd[i]));
 		if (cmd->cmd[i + 1])
-			write(cmd->fd_out, " ", 1);
+			write(fd, " ", 1);
 		i++;
 	}
 	if (new_line)
-		write(cmd->fd_out, "\n", 1);
+		write(fd, "\n", 1);
 }
 
 int		check_env_home_exist(t_env *env_list)
@@ -248,18 +248,22 @@ void	builtin_exit(char **line)
 
 int	is_builtin(t_cmd *cmd, t_data *data)
 {
+	int		fd;
 	char	*builtin;
-
 
 	builtin = cmd->cmd[0];
 	if (!data->cmd_list->cmd[0] && cmd->heredoc_num)
 		return (2);
+	if (data->pipe_flag != 0)
+		fd = 1;
+	else
+		fd = cmd->fd_out;
 	if (!ft_strncmp_exec(builtin, "env", 4))
 		builtin_env(data, cmd->cmd);
 	else if (!ft_strncmp_exec(builtin, "pwd", 4))
 		builtin_pwd(data);
 	else if (!ft_strncmp_exec(builtin, "echo", 5))
-		builtin_echo(cmd);
+		builtin_echo(cmd, fd);
 	else if (!ft_strncmp_exec(builtin, "cd", 3))
 		builtin_cd(data, cmd->cmd[1]);
 	else if (!ft_strncmp_exec(builtin, "export", 7))
