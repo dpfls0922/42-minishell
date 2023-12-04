@@ -260,26 +260,43 @@ void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
 
-/* builtin */
-void	builtin_env(t_data *data, char **line);
-char	*get_minishell_env(char *env_val, t_env *env_list);;
-void	builtin_pwd(t_data *data);
-int		check_option_n(char *token);
-void	builtin_echo(t_cmd *cmd, int fd);
+/* builtin_cd1 */
+char	**before_cd(t_data *data, char **old_pwd_export_2d);
+void	after_cd(t_data *data, char **old_pwd, char **curr_pwd);
+int		do_cd(t_data *data, char *path);
+void	builtin_cd(t_data *data, char *path);
+
+/* builtin_cd2 */
 int		check_env_home_exist(t_env *env_list);
 char	*get_minishell_env_key(char *env_key, t_env *env_list);
 char	**make_pwd(char *str, char *arg_exist_flag);
-void	builtin_cd(t_data *data, char *path);
+int		cd_none_path(t_data *data);
+int		cd_wave_path(char *path);
+
+/* builtin_env_pwd_echo_exit */
+void	builtin_env(t_data *data, char **line);
+void	builtin_pwd(t_data *data);
+int		check_option_n(char *token);
+void	builtin_echo(t_cmd *cmd, int fd);
 void	builtin_exit(char **line);
+
+/* builtin */
 int		is_builtin(t_cmd *cmd, t_data *data);
 
-/* error */
+/* error1 */
 void	ft_error(char *str);
 void	print_error(char *err_msg);
 void	cmd_not_found_error(char *cmd);
+
+/* error2 */
 void	no_such_file_error(char *cmd, char *str, int exit_code, int error_flag);
 void	is_a_dir_error(char *cmd);
 int		print_export_unset_error(char *cmd, char *str);
+
+/* exec_set */
+int		*dup_fd(void);
+void	redirect_fd(int *fd);
+void	set_cmd_path(t_data *data);
 
 /* exec_start */
 int		*dup_fd(void);
@@ -289,14 +306,15 @@ int		run_fork(t_cmd *cmd, t_data *data, int cnt);
 void	run_exec(t_data *data);
 int		get_status(void);
 
-/* export */
+/* export1 */
 void	print_export(t_data *data);
+void	builtin_export(t_data *data, char **line);
+
+/* export2 */
+char	**convert_env_list_to_export(t_env *node);
 int		check_env_exist(t_env *env, char *str);
 void	modify_env_value(t_data *data, char *str);
-t_env	*new_env_node_no_value(char *str);
 void	add_env(t_data *data, char *str);
-int		check_valid_arg(char *cmd, char *str);
-void	builtin_export(t_data *data, char **line);
 
 /* heredoc */
 void	ft_free_str(char *s);
@@ -321,11 +339,15 @@ void	set_signal(int sig_int, int sig_quit);
 /* unset */
 void	free_node(t_env *node);
 void	remove_env(t_data *data, char *remove_str);
+int		check_valid_arg(char *cmd, char *str);
 void	builtin_unset(t_data *data, char **str);
 
 /* utils */
 char	**ft_strjoin_2d(char **s1, char *s2);
 char	*ft_strndup(const char *src, int n);
+void	ft_swap(char **a, char **b);
+int		get_env_list_size(t_env *node);
+t_env	*new_env_node_no_value(char *str);
 
 /* main */
 void	ft_free_data(t_data *data);

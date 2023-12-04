@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_stream.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 16:30:44 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/01 19:29:31 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:29:05 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	pipe_to_outfile(t_cmd *cmd)
 
 void	parent_work(t_cmd *cmd)
 {
+	set_signal(IGNORE, IGNORE);
 	dup2(cmd->pipe_fd[0], STDIN_FILENO);
 	close(cmd->pipe_fd[1]);
 	close(cmd->pipe_fd[0]);

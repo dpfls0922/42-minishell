@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/09 19:11:35 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 01:30:33 by sujin            ###   ########.fr       */
+/*   Updated: 2023/12/04 16:40:24 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,31 @@ void	remove_env(t_data *data, char *remove_str)
 	if (curr->next)
 		curr->next->prev = curr->prev;
 	free_node(curr);
+}
+
+int	check_valid_arg(char *cmd, char *str)
+{
+	int	i;
+	int	equal_idx;
+
+	i = 0;
+	equal_idx = ft_strchr_idx(str, '=');
+	if (equal_idx == 0)
+		return (print_export_unset_error(cmd, str));
+	if (equal_idx == -1)
+		equal_idx = ft_strlen(str) - 1;
+	while (i <= equal_idx && str[i] != '=')
+	{
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]))
+			return (print_export_unset_error(cmd, str));
+		i++;
+	}
+	if (((str[0] >= '0' && str[0] <= '9') || str[0] == '='
+			|| str[0] == '?' || str[0] == '/') || !ft_strcmp(str, "")
+	)
+		return (print_export_unset_error(cmd, str));
+	else
+		return (1);
 }
 
 void	builtin_unset(t_data *data, char **str)
