@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_start.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:23:00 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 19:00:34 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/04 23:08:36 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,16 @@ int	get_status(void)
 void	run_cmd(t_data *data, t_cmd *cmd)
 {
 	char	*path;
-
 	if (is_builtin(cmd, data))
 		exit(0);
 	else
 	{
 		path = get_cmd_path(cmd->path, cmd->cmd[0]);
+		// ft_free_list(cmd->path);
 		if (execve(path, cmd->cmd, data->env) == -1)
+		{
 			g_exit_status = 127;
+		}
 	}
 }
 
@@ -58,15 +60,12 @@ int	run_fork(t_cmd *cmd, t_data *data, int cnt)
 	if (pipe(cmd->pipe_fd) < 0)
 		print_error("pipe error\n");
 	cmd->pid = fork();
-	if (cmd->fd_in < 0 && data->pipe_flag == 0)
-	{
-		g_exit_status = 1;
-		return (g_exit_status);
-	}
 	if (cmd->pid == -1)
 		print_error("fork error\n");
 	else if (cmd->pid == 0)
 	{
+		if (cmd->fd_in < 0 && data->pipe_flag == 0)
+			exit(1);
 		set_signal(DEFAULT, DEFAULT);
 		child_work(cmd, data, cnt);
 		run_cmd(data, cmd);
@@ -86,17 +85,25 @@ void	run_exec(t_data *data)
 
 	cnt = 0;
 	curr = data->cmd_list;
+	set_cmd_path(data);
 	while (curr)
 	{
 		if (curr->fd_in != -2 && curr->fd_out != -2)
 		{
 			if (curr->cmd[0] == NULL && data->heredoc_num == 0)
+			{
+				ft_free_list(curr->path);
 				return ;
+			}
 			if (data->pipe_flag == 0 && is_builtin(data->cmd_list, data))
+			{
+				ft_free_list(curr->path);
 				return ;
+			}
 			else
 				run_fork(curr, data, cnt);
 		}
+		ft_free_list(curr->path);
 		curr = curr->next;
 		cnt++;
 	}
@@ -110,7 +117,6 @@ void	executing(t_data *data)
 	t_cmd	*curr;
 
 	data->fd = dup_fd();
-	set_cmd_path(data);
 	i = 0;
 	curr = data->cmd_list;
 	while (i < data->heredoc_num)
