@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:00:28 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/27 20:28:20 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:21:23 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,38 @@ int	*set_red_type(t_data *data, int red_num)
 	return (red_type);
 }
 
-int	set_fd(char *filename, int red_type, int flag)
+void	fd_error(int fd, char *filename)
 {
-	int	fd;
-
-	if (!ft_strcmp(filename, ""))
-		fd = -2;
-	else
-	{
-		if (red_type == 1)
-			fd = open(filename, O_RDONLY | O_CLOEXEC);
-		if (flag < 0)
-			return (-1);
-		if (red_type == 2)
-			fd = open(filename, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0664);
-		if (red_type == 3)
-			fd = open(filename, O_RDWR | O_CREAT | O_APPEND | O_CLOEXEC, 0664);
-	}
 	if (fd == -1 || fd == -2)
 	{
 		printf("%s: No such file or directory\n", filename);
 		g_exit_status = 1;
 	}
+}
+
+int	set_fd(char *filename, int *red_type, int red, int i)
+{
+	int	fd;
+	int	flag;
+
+	if (i == 0)
+		flag = 0;
+	else
+		flag = red_type[i - 1];
+	if (!ft_strcmp(filename, ""))
+		fd = -2;
+	else
+	{
+		if (red == 1)
+			fd = open(filename, O_RDONLY | O_CLOEXEC);
+		if (flag < 0)
+			return (-1);
+		if (red == 2)
+			fd = open(filename, O_RDWR | O_CREAT | O_TRUNC | O_CLOEXEC, 0664);
+		if (red == 3)
+			fd = open(filename, O_RDWR | O_CREAT | O_APPEND | O_CLOEXEC, 0664);
+	}
+	fd_error(fd, filename);
 	return (fd);
 }
 

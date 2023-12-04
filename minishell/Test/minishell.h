@@ -221,7 +221,8 @@ char	*get_file_name(char *value);
 int		get_fd_in(int *fd, int *red_type, int red_num);
 int		get_fd_out(int *fd, int *red_type, int red_num);
 int		*set_red_type(t_data *data, int red_num);
-int		set_fd(char *filename, int red_type, int flag);
+void	fd_error(int fd, char *filename);
+int		set_fd(char *filename, int *red_type, int red, int i);
 char	*set_command(t_data *data);
 void	set_pipe_flag(t_data *data, t_lexer *lexer);
 

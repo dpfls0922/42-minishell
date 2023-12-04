@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:06:01 by yerilee           #+#    #+#             */
-/*   Updated: 2023/10/28 21:06:02 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:34:06 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,17 @@ void	ft_free_list(char **p)
 	int	i;
 
 	i = 0;
-	while (p[i])
+	while (p && p[i])
 	{
 		free(p[i]);
+		p[i] = 0;
 		i++;
 	}
-	free(p);
+	if (p)
+	{
+		free(p);
+		p = 0;
+	}
 }
 
 char	**split_command(char *s, char c)
