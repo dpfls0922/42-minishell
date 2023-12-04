@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/14 20:23:06 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 00:47:37 by sujin            ###   ########.fr       */
+/*   Updated: 2023/12/04 18:32:18 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@ void	get_path_envp(t_cmd *cmd, char **envp)
 	cmd->path = ft_split(*envp + 5, ':');
 }
 
-char	*get_cmd_path(char **path, char *cmd)
+void	check_slash_exist(char	*cmd)
 {
-	char	*path_cmd;
-	char	*tmp;
-
-	if (access(cmd, X_OK) == 0)
+	if (ft_strchr(cmd, '/'))
 	{
-		if (opendir(cmd))
-			is_a_dir_error(cmd);
-		return (ft_strdup(cmd));
+		if (access(cmd, F_OK))
+			no_such_file_error("", cmd, 127, 1);
+		is_a_dir_error(cmd);
 	}
-	if (!ft_strcmp(cmd, ""))
+	else
 		cmd_not_found_error(cmd);
-	path_cmd = ft_strjoin_exec("/", cmd);
+}
+
+char	*check_valid_path(char **path, char *path_cmd, char *tmp)
+{
 	while (*path)
 	{
 		tmp = ft_strjoin_exec(*path, path_cmd);
@@ -44,14 +44,28 @@ char	*get_cmd_path(char **path, char *cmd)
 		free(tmp);
 		path++;
 	}
-	free(path_cmd);
-	if (ft_strchr(cmd, '/'))
+	return (0);
+}
+
+char	*get_cmd_path(char **path, char *cmd)
+{
+	char	*tmp;
+	char	*path_cmd;
+
+	tmp = 0;
+	if (access(cmd, X_OK) == 0)
 	{
-		if (access(cmd, F_OK))
-			no_such_file_error("", cmd, 127, 1);
-		is_a_dir_error(cmd);
+		if (opendir(cmd))
+			is_a_dir_error(cmd);
+		return (ft_strdup(cmd));
 	}
-	else
+	if (!ft_strcmp(cmd, ""))
 		cmd_not_found_error(cmd);
+	path_cmd = ft_strjoin_exec("/", cmd);
+	tmp = check_valid_path(path, path_cmd, tmp);
+	if (tmp)
+		return (tmp);
+	free(path_cmd);
+	check_slash_exist(cmd);
 	return (NULL);
 }

@@ -3,46 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 19:21:38 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/15 16:27:10 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 16:51:49 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**ft_strjoin_2d(char **s1, char *s2)
-{
-	int		len;
-	int		i;
-	int		j;
-	char	**str;
-
-	i = 0;
-	j = 0;
-	while (s1[i])
-		i++;
-	len = i + 1;
-	str = malloc(sizeof(char *) * (len + 1));
-	if (!str)
-		return (0);
-	str[i] = malloc(sizeof(char) * (ft_strlen(s2) + 1));
-	i = 0;
-	while (*s1)
-	{
-		str[i] = ft_strdup(*s1++);
-		i++;
-	}
-	while (*s2)
-	{
-		str[i][j] = *s2++;
-		j++;
-	}
-	str[i][j] = 0;
-	str[i] = 0;
-	return (str);
-}
 
 char	*ft_strndup(const char *src, int n)
 {
@@ -61,4 +29,50 @@ char	*ft_strndup(const char *src, int n)
 	}
 	dst[i] = '\0';
 	return (dst);
+}
+
+void	ft_swap(char **a, char **b)
+{
+	char	*temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+int	get_env_list_size(t_env *node)
+{
+	int	count;
+
+	count = 0;
+	while (node)
+	{
+		count++;
+		node = node->next;
+	}
+	return (count);
+}
+
+t_env	*new_env_node_no_value(char *str)
+{
+	int		equal_idx;
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		exit(1);
+	equal_idx = ft_strchr_idx(str, '=');
+	if (equal_idx == -1)
+	{
+		node->key = ft_strdup(str);
+		node->val = NULL;
+	}
+	else
+	{
+		node->key = ft_strndup(str, equal_idx);
+		node->val = ft_strdup(str + equal_idx + 1);
+	}
+	node->next = NULL;
+	node->prev = NULL;
+	return (node);
 }
