@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 20:49:12 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 16:19:22 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/04 16:30:22 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	print_error(char *err_msg)
 
 void	cmd_not_found_error(char *cmd)
 {
-	printf("%s: command not found\n", cmd);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, ": command not found\n", 21);
 	unlink("/tmp/.infile");
 	exit(127);
 }
