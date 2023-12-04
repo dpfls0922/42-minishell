@@ -350,6 +350,7 @@ int		get_env_list_size(t_env *node);
 t_env	*new_env_node_no_value(char *str);
 
 /* main */
+void	ft_free_path(t_cmd *cmd);
 void	ft_free_data(t_data *data);
 int		minishell(t_data *data);
 

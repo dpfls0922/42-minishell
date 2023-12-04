@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export2.c                                          :+:      :+:    :+:   */
+/*   builtin_export2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 18:18:22 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 18:19:07 by spark2           ###   ########.fr       */
+/*   Created: 2023/12/04 23:12:17 by yerilee           #+#    #+#             */
+/*   Updated: 2023/12/04 23:12:18 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	**convert_env_list_to_export(t_env *node)
 		}
 		env[i] = temp;
 		node = node->next;
-		temp = 0;
 		i++;
 	}
 	env[i] = 0;
@@ -79,11 +78,11 @@ void	modify_env_value(t_data *data, char *str)
 			break ;
 		cur_env = cur_env->next;
 	}
-	free(new_key);
+	ft_free_str(new_key);
 	if (equal_idx != -1)
 	{
 		if (cur_env->val)
-			free(cur_env->val);
+			ft_free_str(cur_env->val);
 		cur_env->val = ft_strdup(str + equal_idx + 1);
 	}
 	g_exit_status = 0;

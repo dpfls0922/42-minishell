@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export1.c                                          :+:      :+:    :+:   */
+/*   builtin_export1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 18:19:26 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 18:19:27 by spark2           ###   ########.fr       */
+/*   Created: 2023/12/04 23:12:05 by yerilee           #+#    #+#             */
+/*   Updated: 2023/12/04 23:12:06 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ void	print_export(t_data *data)
 			splited_key2 = ft_split(env_strs[j + 1], '=');
 			if (ft_strcmp(splited_key1[0], splited_key2[0]) > 0)
 				ft_swap(&env_strs[j], &env_strs[j + 1]);
+			ft_free_list(splited_key1);
+			ft_free_list(splited_key2);
 		}
 	}
 	i = 0;
 	while (env_strs[i])
 		ft_printf("declare -x %s\n", env_strs[i++]);
+	ft_free_list(env_strs);
 }
 
 void	builtin_export(t_data *data, char **line)

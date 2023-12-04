@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:56:08 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 17:56:19 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/04 22:32:57 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ char	**make_pwd(char *str, char *arg_exist_flag)
 int	cd_none_path(t_data *data)
 {
 	if (check_env_home_exist(data->env_list))
-		return (chdir(getenv("HOME")));
+	{
+		chdir(getenv("HOME"));
+		return (1);
+	}
 	else
 	{
 		printf("cd: HOME not set\n");
