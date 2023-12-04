@@ -72,10 +72,10 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -fsanitize=address $(OBJS) -o $(NAME) -lreadline -L/opt/homebrew/opt/readline/lib
+	$(CC) $(CFLAGS) -fsanitize=address $(OBJS) -o $(NAME) -lreadline 
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I/opt/homebrew/opt/readline/include -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
