@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 20:45:36 by sujin             #+#    #+#             */
-/*   Updated: 2023/12/04 16:56:22 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/04 21:37:26 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,6 @@ void	run_heredoc(t_cmd *cmd, char *limiter, int cnt)
 	set_signal(SHELL, IGNORE);
 	close(cmd->fd_in);
 	cmd->fd_in = open(here_doc_str, O_RDONLY, 0644);
+	ft_free_str(cnt_str);
+	ft_free_str(here_doc_str);
 }

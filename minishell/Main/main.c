@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 21:56:12 by spark2            #+#    #+#             */
-/*   Updated: 2023/11/29 21:56:13 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/04 20:48:19 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,23 @@ void	ft_free_data(t_data *data)
 		ft_free_lexer(data->lexer_list);
 	if (data->cmd_list)
 		ft_free_cmd(data->cmd_list);
+}
+
+void	ft_free_path(t_cmd *cmd)
+{
+	t_cmd	*curr;
+	t_cmd	*next;
+
+	curr = cmd;
+	while (curr)
+	{
+		next = curr->next;
+		ft_free_list(curr->path);
+		free(curr);
+		curr = next;
+	}
+	curr = NULL;
+	next = NULL;
 }
 
 int	minishell(t_data *data)
@@ -60,6 +77,7 @@ int	minishell(t_data *data)
 		data->prev_exit_status = g_exit_status;
 	}
 	rl_clear_history();
+	ft_free_path(data->cmd_list);
 	ft_free_env(data->env_list);
 	return (0);
 }
