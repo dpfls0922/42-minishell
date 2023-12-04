@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sujin <sujin@student.42.fr>                +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 20:49:12 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 01:50:31 by sujin            ###   ########.fr       */
+/*   Updated: 2023/12/04 16:19:22 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	print_error(char *err_msg)
 
 void	cmd_not_found_error(char *cmd)
 {
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": command not found\n", 22);
+	printf("%s: command not found\n", cmd);
 	unlink("/tmp/.infile");
 	exit(127);
 }
