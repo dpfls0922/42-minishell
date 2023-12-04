@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:00:53 by yerilee           #+#    #+#             */
-/*   Updated: 2023/11/21 22:14:32 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:19:58 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 	int		*fd;
 	char	*filename;
 	int		i;
-	int		flag;
 	t_lexer	*curr;
 
 	filename = NULL;
@@ -25,7 +24,6 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 	if (!fd)
 		exit (1);
 	i = 0;
-	flag = 0;
 	curr = data->lexer_list;
 	while (curr && curr->type != PIPE)
 	{
@@ -33,8 +31,7 @@ void	make_command_list(t_data *data, int red_num, int *red_type)
 		{
 			curr = curr->next;
 			filename = get_file_name(curr->val);
-			fd[i] = set_fd(filename, red_type[i], flag);
-			flag = fd[i];
+			fd[i] = set_fd(filename, red_type, red_type[i], i);
 			i++;
 			free(filename);
 		}
