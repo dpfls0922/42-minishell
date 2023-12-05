@@ -32,7 +32,6 @@ SRCS = main.c\
 		execute/pipe_stream.c \
 		execute/signal.c \
 		execute/utils.c \
-		$(wildcard execute/ft_printf/*.c) \
 		Libft/ft_atoi.c \
 		Libft/ft_isalpha.c \
 		Libft/ft_isdigit.c \
