@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:55:16 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 22:37:13 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:36:44 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ char	**before_cd(t_data *data, char **old_pwd_export_2d)
 	return (old_pwd_export_2d);
 }
 
-void	after_cd(t_data *data, char **old_pwd, char **curr_pwd)
+void	after_cd(t_data *data, t_cmd *cmd, char **old_pwd, char **curr_pwd)
 {
 	char	*temp;
 
 	temp = getcwd(0, 4096);
 	curr_pwd = make_pwd("PWD=", temp);
-	builtin_export(data, old_pwd);
-	builtin_export(data, curr_pwd);
+	builtin_export(data, cmd, old_pwd);
+	builtin_export(data, cmd, curr_pwd);
 	ft_free_str(temp);
 	ft_free_list(old_pwd);
 	ft_free_list(curr_pwd);
@@ -74,7 +74,7 @@ int	do_cd(t_data *data, char *path)
 	return (1);
 }
 
-void	builtin_cd(t_data *data, char *path)
+void	builtin_cd(t_data *data, t_cmd *cmd, char *path)
 {
 	char	**old_pwd_export_2d;
 	char	**curr_pwd_export_2d;
@@ -88,5 +88,5 @@ void	builtin_cd(t_data *data, char *path)
 		ft_free_list(curr_pwd_export_2d);
 		return ;
 	}
-	after_cd(data, old_pwd_export_2d, curr_pwd_export_2d);
+	after_cd(data, cmd, old_pwd_export_2d, curr_pwd_export_2d);
 }

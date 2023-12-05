@@ -265,9 +265,9 @@ void	ft_free_data(t_data *data);
 
 /* builtin_cd1 */
 char	**before_cd(t_data *data, char **old_pwd_export_2d);
-void	after_cd(t_data *data, char **old_pwd, char **curr_pwd);
+void	after_cd(t_data *data, t_cmd *cmd, char **old_pwd, char **curr_pwd);
 int		do_cd(t_data *data, char *path);
-void	builtin_cd(t_data *data, char *path);
+void	builtin_cd(t_data *data, t_cmd *cmd, char *path);
 
 /* builtin_cd2 */
 int		check_env_home_exist(t_env *env_list);
