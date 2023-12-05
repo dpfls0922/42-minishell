@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:55:16 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/05 17:36:44 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/05 17:43:11 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,15 @@ void	after_cd(t_data *data, t_cmd *cmd, char **old_pwd, char **curr_pwd)
 	ft_free_list(curr_pwd);
 }
 
+void	go_to_oldpwd(t_data *data)
+{
+	char	*temp;
+
+	temp = get_minishell_env_key("OLDPWD", data->env_list);
+	chdir(temp);
+	ft_free_str(temp);
+}
+
 int	do_cd(t_data *data, char *path)
 {
 	if (!path)
@@ -57,10 +66,7 @@ int	do_cd(t_data *data, char *path)
 	}
 	else if (path[0] == '-')
 	{
-		char *temp;
-		temp = get_minishell_env_key("OLDPWD", data->env_list);
-		chdir(temp);
-		ft_free_str(temp);
+		go_to_oldpwd(data);
 		return (1);
 	}
 	else

@@ -224,7 +224,7 @@ void	set_pipe_flag(t_data *data, t_lexer *lexer);
 size_t	word_count(char *s, char c);
 void	word_len(t_split *split, char c, int flag);
 char	**ft_free_word(char	**p, int i);
-void	ft_free_list(char **p);
+int		ft_free_list(char **p);
 char	**split_command(char *s, char c);
 
 int		has_redirection_in_lexer(t_data *data);
@@ -306,11 +306,12 @@ int		*dup_fd(void);
 void	redirect_fd(int *fd);
 void	executing(t_data *data);
 int		run_fork(t_cmd *cmd, t_data *data, int cnt);
-void	run_exec(t_data *data);
+int		run_exec(t_data *data);
 int		get_status(void);
 
 /* export1 */
-void	print_export(t_data *data, t_cmd *cmd);
+void	print_export2(t_cmd *cmd, char **env_strs);
+void	print_export1(t_data *data, t_cmd *cmd);
 void	builtin_export(t_data *data, t_cmd *cmd, char **line);
 
 /* export2 */
