@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:12:05 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/04 23:12:06 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:30:41 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_export(t_data *data)
+void	print_export(t_data *data, t_cmd *cmd)
 {
 	int		i;
 	int		j;
@@ -37,18 +37,23 @@ void	print_export(t_data *data)
 	}
 	i = 0;
 	while (env_strs[i])
-		ft_printf("declare -x %s\n", env_strs[i++]);
+	{
+		write(cmd->fd_out, "declare -x ", 12);
+		write(cmd->fd_out, env_strs[i], ft_strlen(env_strs[i]));
+		write(cmd->fd_out, "\n", 1);
+		i++;
+	}
 	ft_free_list(env_strs);
 }
 
-void	builtin_export(t_data *data, char **line)
+void	builtin_export(t_data *data, t_cmd *cmd, char **line)
 {
 	int		i;
 	int		equal_idx;
 
 	i = 0;
 	if (!line[1])
-		print_export(data);
+		print_export(data, cmd);
 	else
 	{
 		while (line[++i])

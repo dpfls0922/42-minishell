@@ -6,7 +6,7 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/04 17:56:23 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/05 17:27:10 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	is_builtin(t_cmd *cmd, t_data *data)
 	else if (!ft_strncmp_exec(cmd->cmd[0], "cd", 3))
 		builtin_cd(data, cmd->cmd[1]);
 	else if (!ft_strncmp_exec(cmd->cmd[0], "export", 7))
-		builtin_export(data, cmd->cmd);
+		builtin_export(data, cmd, cmd->cmd);
 	else if (!ft_strncmp_exec(cmd->cmd[0], "exit", 5))
 		builtin_exit(cmd->cmd);
 	else if (!ft_strncmp_exec(cmd->cmd[0], "unset", 6))
