@@ -24,8 +24,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# include "execute/ft_printf/ft_printf.h"
-
 # define WORD 1
 # define PIPE 2
 # define AMPERSAND 3
@@ -312,8 +310,8 @@ void	run_exec(t_data *data);
 int		get_status(void);
 
 /* export1 */
-void	print_export(t_data *data);
-void	builtin_export(t_data *data, char **line);
+void	print_export(t_data *data, t_cmd *cmd);
+void	builtin_export(t_data *data, t_cmd *cmd, char **line);
 
 /* export2 */
 char	**convert_env_list_to_export(t_env *node);
