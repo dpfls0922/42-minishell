@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/30 18:23:00 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 23:08:36 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:05:49 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,14 @@ int	get_status(void)
 void	run_cmd(t_data *data, t_cmd *cmd)
 {
 	char	*path;
+
 	if (is_builtin(cmd, data))
 		exit(0);
 	else
 	{
 		path = get_cmd_path(cmd->path, cmd->cmd[0]);
-		// ft_free_list(cmd->path);
 		if (execve(path, cmd->cmd, data->env) == -1)
-		{
 			g_exit_status = 127;
-		}
 	}
 }
 

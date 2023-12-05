@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 20:19:24 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/04 21:45:04 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:03:58 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,20 @@ char	*change_exit_status(t_data *data, char *value)
 	return (exit.new_val);
 }
 
+void	ft_change(t_data *data, t_lexer *curr)
+{
+	char	*temp;
+
+	temp = change_exit_status(data, curr->val);
+	free(curr->val);
+	curr->val = temp;
+}
+
 void	handle_exit_status(t_data *data)
 {
 	int		i;
 	int		double_flag;
 	int		single_flag;
-	char	*temp;
 	t_lexer	*curr;
 
 	double_flag = 0;
@@ -73,11 +81,7 @@ void	handle_exit_status(t_data *data)
 				single_flag = !single_flag;
 			if (single_flag == 0
 				&& curr->val[i] == '$' && curr->val[i + 1] == '?')
-			{
-				temp = change_exit_status(data, curr->val);
-				free(curr->val);
-				curr->val = temp;
-			}
+				ft_change(data, curr);
 			i++;
 		}
 		curr = curr->next;

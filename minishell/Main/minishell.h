@@ -250,6 +250,7 @@ int		*get_quotes_index(char *s);
 
 /* exit_status */
 void	handle_exit_status(t_data *data);
+void	ft_change(t_data *data, t_lexer *curr);
 char	*change_exit_status(t_data *data, char *value);
 char	*allocate_new_val(char *prev_exit, char *value);
 
@@ -259,6 +260,10 @@ int		init_data1(t_data *data, int argc, char **env);
 void	init_data2(t_data *data);
 void	init_split(t_split *split, char *s, char c);
 void	init_exit(t_data *data, t_exit *exit, char *value);
+
+/* free_utils */
+void	ft_free_path(t_cmd *cmd);
+void	ft_free_data(t_data *data);
 
 /* builtin_cd1 */
 char	**before_cd(t_data *data, char **old_pwd_export_2d);
@@ -350,8 +355,9 @@ int		get_env_list_size(t_env *node);
 t_env	*new_env_node_no_value(char *str);
 
 /* main */
-void	ft_free_path(t_cmd *cmd);
-void	ft_free_data(t_data *data);
+void	init_minishell(void);
+void	run_miniehll(t_data *data);
+void	clear_and_free(t_data *data);
 int		minishell(t_data *data);
 
 #endif

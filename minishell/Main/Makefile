@@ -16,7 +16,22 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c\
-		$(wildcard execute/*.c) \
+		execute/builtin_cd1.c \
+		execute/builtin_cd2.c \
+		execute/builtin_env_pwd_echo_exit.c \
+		execute/builtin_export1.c \
+		execute/builtin_export2.c \
+		execute/builtin_unset.c \
+		execute/builtin.c \
+		execute/error1.c \
+		execute/error2.c \
+		execute/exec_set.c \
+		execute/exec_start.c \
+		execute/heredoc.c \
+		execute/path.c \
+		execute/pipe_stream.c \
+		execute/signal.c \
+		execute/utils.c \
 		$(wildcard execute/ft_printf/*.c) \
 		Libft/ft_atoi.c \
 		Libft/ft_isalpha.c \
@@ -46,6 +61,7 @@ SRCS = main.c\
 		expanding_len_loc.c \
 		expanding_str.c \
 		expanding.c \
+		free_utils.c \
 		init_data.c \
 		lexer_list_utils.c \
 		lexer_token_ampersand.c \

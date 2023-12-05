@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 21:56:12 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 20:48:19 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:07:11 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,19 @@ void	init_minishell(void)
 	set_signal(SHELL, SHELL);
 }
 
-void	ft_free_data(t_data *data)
+void	run_miniehll(t_data *data)
 {
-	if (data->heredoc_num)
-		ft_free_list(data->end);
-	if (data->lexer_list)
-		ft_free_lexer(data->lexer_list);
-	if (data->cmd_list)
-		ft_free_cmd(data->cmd_list);
+	expanding(data);
+	parsing(data);
+	executing(data);
+	ft_free_data(data);
 }
 
-void	ft_free_path(t_cmd *cmd)
+void	clear_and_free(t_data *data)
 {
-	t_cmd	*curr;
-	t_cmd	*next;
-
-	curr = cmd;
-	while (curr)
-	{
-		next = curr->next;
-		ft_free_list(curr->path);
-		free(curr);
-		curr = next;
-	}
-	curr = NULL;
-	next = NULL;
+	rl_clear_history();
+	ft_free_path(data->cmd_list);
+	ft_free_env(data->env_list);
 }
 
 int	minishell(t_data *data)
@@ -69,16 +57,11 @@ int	minishell(t_data *data)
 				data->prev_exit_status = g_exit_status;
 				continue ;
 			}
-			expanding(data);
-			parsing(data);
-			executing(data);
-			ft_free_data(data);
 		}
+		run_miniehll(data);
 		data->prev_exit_status = g_exit_status;
 	}
-	rl_clear_history();
-	ft_free_path(data->cmd_list);
-	ft_free_env(data->env_list);
+	clear_and_free(data);
 	return (0);
 }
 
