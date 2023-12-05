@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env_pwd_echo_exit.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 17:07:08 by spark2            #+#    #+#             */
-/*   Updated: 2023/12/04 17:59:56 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/05 18:09:58 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_env(t_data *data, char **line)
+void	builtin_env(t_data *data, t_cmd *cmd, char **line)
 {
 	t_env	*curr;
 
@@ -30,7 +30,12 @@ void	builtin_env(t_data *data, char **line)
 		while (curr)
 		{
 			if (curr->val)
-				printf("%s=%s\n", curr->key, curr->val);
+			{
+				write(cmd->fd_out, curr->key, ft_strlen(curr->key));
+				write(cmd->fd_out, "=", 1);
+				write(cmd->fd_out, curr->val, ft_strlen(curr->val));
+				write(cmd->fd_out, "\n", 1);
+			}
 			curr = curr->next;
 		}
 	}

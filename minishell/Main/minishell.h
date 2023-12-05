@@ -216,7 +216,7 @@ char	*get_file_name(char *value);
 int		get_fd_in(int *fd, int *red_type, int red_num);
 int		get_fd_out(int *fd, int *red_type, int red_num);
 void	fd_error(int fd, char *filename);
-int		set_fd(char *filename, int *red_type, int red, int i);
+int		set_fd(char *filename, int *fd_arr, int red, int i);
 int		*set_red_type(t_data *data, int red_num);
 char	*set_command(t_data *data);
 void	set_pipe_flag(t_data *data, t_lexer *lexer);
@@ -277,7 +277,7 @@ int		cd_none_path(t_data *data);
 int		cd_wave_path(char *path);
 
 /* builtin_env_pwd_echo_exit */
-void	builtin_env(t_data *data, char **line);
+void	builtin_env(t_data *data, t_cmd *cmd, char **line);
 void	builtin_pwd(t_data *data);
 int		check_option_n(char *token);
 void	builtin_echo(t_cmd *cmd, int fd);

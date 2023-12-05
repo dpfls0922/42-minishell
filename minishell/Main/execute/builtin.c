@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 17:16:58 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/05 17:36:51 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/05 18:09:01 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_builtin(t_cmd *cmd, t_data *data)
 	else
 		fd = cmd->fd_out;
 	if (!ft_strncmp_exec(cmd->cmd[0], "env", 4))
-		builtin_env(data, cmd->cmd);
+		builtin_env(data, cmd, cmd->cmd);
 	else if (!ft_strncmp_exec(cmd->cmd[0], "pwd", 4))
 		builtin_pwd(data);
 	else if (!ft_strncmp_exec(cmd->cmd[0], "echo", 5))
