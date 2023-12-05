@@ -6,7 +6,7 @@
 /*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 17:00:28 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/04 17:21:23 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 18:47:02 by yerilee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	fd_error(int fd, char *filename)
 	}
 }
 
-int	set_fd(char *filename, int *red_type, int red, int i)
+int	set_fd(char *filename, int *fd_arr, int red, int i)
 {
 	int	fd;
 	int	flag;
@@ -53,7 +53,7 @@ int	set_fd(char *filename, int *red_type, int red, int i)
 	if (i == 0)
 		flag = 0;
 	else
-		flag = red_type[i - 1];
+		flag = fd_arr[i - 1];
 	if (!ft_strcmp(filename, ""))
 		fd = -2;
 	else
