@@ -6,13 +6,27 @@
 /*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:12:05 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/05 17:30:41 by spark2           ###   ########.fr       */
+/*   Updated: 2023/12/05 17:45:20 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_export(t_data *data, t_cmd *cmd)
+void	print_export2(t_cmd *cmd, char **env_strs)
+{
+	int	i;
+
+	i = 0;
+	while (env_strs[i])
+	{
+		write(cmd->fd_out, "declare -x ", 12);
+		write(cmd->fd_out, env_strs[i], ft_strlen(env_strs[i]));
+		write(cmd->fd_out, "\n", 1);
+		i++;
+	}
+}
+
+void	print_export1(t_data *data, t_cmd *cmd)
 {
 	int		i;
 	int		j;
@@ -35,14 +49,7 @@ void	print_export(t_data *data, t_cmd *cmd)
 			ft_free_list(splited_key2);
 		}
 	}
-	i = 0;
-	while (env_strs[i])
-	{
-		write(cmd->fd_out, "declare -x ", 12);
-		write(cmd->fd_out, env_strs[i], ft_strlen(env_strs[i]));
-		write(cmd->fd_out, "\n", 1);
-		i++;
-	}
+	print_export2(cmd, env_strs);
 	ft_free_list(env_strs);
 }
 
@@ -53,7 +60,7 @@ void	builtin_export(t_data *data, t_cmd *cmd, char **line)
 
 	i = 0;
 	if (!line[1])
-		print_export(data, cmd);
+		print_export1(data, cmd);
 	else
 	{
 		while (line[++i])

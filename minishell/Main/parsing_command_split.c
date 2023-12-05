@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_command_split.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yerilee <yerilee@student.42.fr>            +#+  +:+       +#+        */
+/*   By: spark2 <spark2@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/28 21:06:01 by yerilee           #+#    #+#             */
-/*   Updated: 2023/12/04 17:34:06 by yerilee          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:48:02 by spark2           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**ft_free_word(char	**p, int i)
 	return (p);
 }
 
-void	ft_free_list(char **p)
+int	ft_free_list(char **p)
 {
 	int	i;
 
@@ -82,6 +82,7 @@ void	ft_free_list(char **p)
 		free(p);
 		p = 0;
 	}
+	return (0);
 }
 
 char	**split_command(char *s, char c)
