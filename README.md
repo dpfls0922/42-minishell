@@ -63,4 +63,7 @@
 > 
 > 
 > 의문점이 생긴다면 [bash](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/)를 참고하세요.
->
+
+
+## 미니쉘 평가
+<img width="829" alt="스크린샷 2024-10-11 오전 1 21 10" src="https://github.com/user-attachments/assets/623d1b24-8a3f-4d72-a45f-216453225b70">
